@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon-32x32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700"
+    />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/colors.css" />
+    <link rel="stylesheet" href="./css/structure.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Frontend Mentor | Kanban task management web app</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navigation">
+        <img class="navigation__item navigation__item--left navigation__logo" src='./assets/logo-mobile.svg' alt='logo-icon'/>
+        <div class="navigation__item navigation__item--left navigation__item--flex-grow">
+          <a class="board-selection board-selection--active">Platform Launch</a>
+          <!-- <ul class="board-selection__dropdown board-selection__dropdown--active"> -->
+          <ul class="board-selection__dropdown ">
+            <li class="board-selection__dropdown-item ">Platform Launch</li>
+            <li class="board-selection__dropdown-item ">Marketing Launch</li>
+          </ul>
+        </div>
+        <div class="navigation__item navigation__item--right">
+          <a class="navigation__button navigation__button--create navigation__button--create-disabled">&nbsp;</a>
+        </div>
+        <div class="navigation__item navigation__item--right">
+          <a class="navigation__more-info-button">&nbsp;</a>
+        </div>
+      </nav>
+      <div class="kanban-board kanban-board--active">
+        <!-- <div class="kanban-board__new-panel">
+          <p class="kanban-board__text">This board is empty. Create a new column to get started.</p>
+          <button class="kanban-board__button kanban-board__button--main">
+            + Add New Column
+          </button>
+        </div> -->
+          <div class="kanban__column">
+            <div class="kanban-status__name kanban-status__name--todo">
+              Todo (4)
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Build UI for onboarding flow</h2>
+              <p class="subtask__info">0 of 3 subtasks</p>
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Build UI for Search</h2>
+              <p class="subtask__info">1 of 3 subtasks</p>
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Create Template Structures</h2>
+              <p class="subtask__info">0 of 4 subtasks</p>
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">QA and test all major user journeys</h2>
+              <p class="subtask__info">0 subtasks</p>
+            </div>
+          </div>
+          <div class="kanban__column ">
+            <div class="kanban-status__name kanban-status__name--doing">
+              Doing (1)
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Design Navigation Bar</h2>
+              <p class="subtask__info">1 of 2 subtasks</p>
+            </div>
+          </div>
+          <div class="kanban__column ">
+            <div class="kanban-status__name kanban-status__name--done">
+              Done (3)
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Market Discovery</h2>
+              <p class="subtask__info">3 of 3 subtasks</p>
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Complete Wireframe Tests</h2>
+              <p class="subtask__info">2 of 2 subtasks</p>
+            </div>
+            <div class="kanban__task">
+              <h2 class="task__title">Formalise Client Brief</h2>
+              <p class="subtask__info"></p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

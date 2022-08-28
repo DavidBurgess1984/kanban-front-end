@@ -1,0 +1,18 @@
+:root {
+    --deep-purple: #635FC7;
+    --main-purple:#A8A4FF;
+    --dark-smoke-grey: #2B2C37;
+    --medium-smoke-grey: #3E3F4E;
+    --lighter-smoke-grey: #828FA3;
+    --black:#000112;
+    --dark-grey:#20212C;
+    --light-purple:#E4EBFA;
+    --light-grey:#F4F7FD;
+    --white:#FFFFFF;
+    --red: #EA5555;
+    --light-red:#FF9898;
+    --task-drop-shadow: rgb(130 130 130 / 9%);
+    --task-status-todo: #49C4E5;
+    --task-status-doing:#8471F2;
+    --task-status-done: #67E2AE;
+}
