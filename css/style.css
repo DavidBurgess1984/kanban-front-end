@@ -1,3 +1,5 @@
+
+
 body, html{
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;
     font-size:12px;
@@ -68,7 +70,7 @@ body, html{
     display: inline-block;
     border-radius: 24px;
     height: 32px;
-    width:48px;
+    
     cursor: pointer;
 }
 
@@ -77,6 +79,35 @@ body, html{
     background-color: var(--main-purple);
     background-repeat: no-repeat;
     background-position: center;
+    width:48px;
+}
+
+.navigation__button--secondary{
+    background-color: var(--main-purple-light);
+    background-repeat: no-repeat;
+    line-height: 40px;
+    padding: 0 24px;
+    width: 100%;
+    font-size: 13px;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: 700;
+    height: 40px;
+    color: var(--deep-purple);
+}
+
+.navigation__button--primary{
+    background-color: var(--deep-purple);
+    background-repeat: no-repeat;
+    line-height: 40px;
+    padding: 0 24px;
+    width: 100%;
+    font-size: 13px;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: 700;
+    height: 40px;
+    color: var(--white);
 }
 
 .navigation__more-info-button{
@@ -206,5 +237,215 @@ body, html{
 
 .subtask__info{
     font-weight: 700;
+    color: var(--lighter-smoke-grey);
+}
+
+.lightbox{
+    position: fixed;
+    background: var(--lightbox-bg);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+.lightbox__container{
+    margin: 16px;
+    background-color: var(--white);
+    width: 100%;
+    padding: 32px 24px;
+    border-radius: 6px;
+    z-index: 2;
+}
+
+.lightbox__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.lightbox__title{
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.lightbox__elipses{
+    background: url('../assets/icon-vertical-ellipsis.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 12px;
+    height:20px;
+    display:inline-block;
+    cursor:pointer;
+}
+
+.lightbox__description{
+    color: var(--lighter-smoke-grey);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 23px;
+    margin-bottom: 24px;
+}
+
+.subtask__status{
+    margin-bottom: 24px;
+}
+
+.subtasks{
+    margin-bottom: 16px;
+}
+
+.subtask__title{
+    font-weight: 700;
+    color:var(--lighter-smoke-grey);
+    margin-bottom: 16px;
+}
+
+.subtask__item{
+    border-radius: 4px;
+    margin-bottom: 8px;
+    background-color: var(--light-grey);
+    display: flex;
+    padding:15px 12px;
+    align-items: center;
+
+}
+
+.subtask__item--edit{
+    margin-bottom: 8px;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.subtask__remove{
+    background: url('../assets/icon-cross.svg');
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    width: 15px;
+    height:15px;
+    margin: 0 16px;
+    background-size: 15px;
+    flex-shrink: 0;
+}
+
+.subtask__checkbox{
+    display:none;
+}
+
+.subtask__label{
+    padding-left: 32px;
+    position: relative;
+    color: var(--black);
+    font-weight: 700;
+}
+
+.subtask__label:before{
+    content: "";
+    display: inline-block;
+    width:16px;
+    height:16px;
+    background-color: var(--white);
+    position: absolute;
+    border:1px solid var(--checkbox-border);
+    border-radius: 2px;
+    left:0;
+    top:-4px;
+}
+
+.subtask__checkbox:checked + *:before{
+    background: var(--deep-purple) url('../assets/icon-check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px ;
+}
+
+.subtask__checkbox:checked + *{
+    font-weight: 700;
+    color: var(--lighter-smoke-grey);
+    text-decoration: line-through;
+}
+
+.status__title{
+    font-weight: 700;
+    color:var(--lighter-smoke-grey);
+    margin-bottom: 16px;
+}
+
+.status__select{
+    width: 100%;
+    border:1px solid var(--checkbox-border);
+    padding:8px 16px;
+    color: black;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 4px;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    appearance: none;
+    position: relative;
+}
+
+
+.status__option{
+    padding: 16px;
+}
+
+.status__wrapper{
+    position: relative;
+}
+
+.status__wrapper:after{
+    content: "";
+    display: inline-block;
+    background: url('../assets/icon-chevron-down.svg');
+    background-repeat: no-repeat;
+    width:10px;
+    height:12px;
+    top:12px;
+    right:16px;
+    position: absolute;
+}
+
+
+.task__input{
+    margin-bottom: 24px;
+}
+
+.task__label{
+    font-weight: 700;
+    color:var(--lighter-smoke-grey);
+    margin-bottom: 16px;
+}
+
+
+.text__input{
+    width: 100%;
+    padding:8px 16px;
+    border-radius: 4px;
+    border:1px solid var(--checkbox-border);
+    color:var(--black);
+    font-weight: 500;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
+}
+
+.text__area{
+    width: 100%;
+    box-sizing: border-box;
+    
+    padding:8px 16px;
+    border-radius: 4px;
+    border:1px solid var(--checkbox-border);
+    color:var(--black);
+    font-weight: 500;
+    line-height: 23px;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
+    height:110px
+}
+
+.text__input::placeholder,.text__area::placeholder{
     color: var(--lighter-smoke-grey);
 }
