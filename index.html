@@ -21,96 +21,35 @@
     <title>Frontend Mentor | Kanban task management web app</title>
   </head>
   <body>
-    <div class="lightbox">
-      <div class="lightbox__container">
-        <!-- Add Task -->
-        <div class="lightbox__header">
-          <h2 class="lightbox__title">Add New Task</h2>
-        </div>
-        <div class="lightbox__content">
-          <div class="task__input">
-            <p class="task__label">Title</p>
-            <input type="text"  class="text__input" placeholder="eg Take coffee break"/>
-          </div>
-          <div class="task__input">
-            <p class="task__label">Description</p>
-            <textarea type="text"  class="text__area" placeholder="e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little."></textarea>
-          </div>
-          <div class="task__input">
-            <h3 class="subtask__title">Subtasks</h3>
-            <ul class="subtasks">
-              <li class="subtask__item--edit">
-                <input type="text"  class="text__input" placeholder="e.g. Make coffee"/>
-                <div class="subtask__remove"></div>
-              </li>
-              <li class="subtask__item--edit">
-                <input type="text"  class="text__input" placeholder="e.g. Drink coffee & smile"/>
-                <div class="subtask__remove"></div>
-              </li>
-              <li class="subtask__item--edit">
-                <a class="navigation__button navigation__button--secondary">+ Add New Subtask</a>
-              </li>
-            </ul>
-          </div>
-          <div class="subtask__status">
-            <p class="status__title">Status</p>
-            <div class="status__wrapper">
-              <select class="status__select">
-                <option class="status__option">Doing</option>
-                <option class="status__option">Done</option>
-                <option class="status__option">Todo</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <a class="navigation__button navigation__button--primary">Create Task</a>
-          </div>
-        </div>
-        <!-- View Task -->
-        <!-- <div class="lightbox__header">
-          <h2 class="lightbox__title">Research pricing points of various competitors and trial different business models</h2>
-          <div class="lightbox__elipses"></div>
-        </div>
-        <div class="lightbox__content">
-          <p class="lightbox__description">We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.</p>
-          <h3 class="subtask__title">Subtasks (2 of 3)</h3>
-          <ul class="subtasks">
-            <li class="subtask__item">
-              <input type="checkbox" class="subtask__checkbox"  id="subtask__checkbox--1"/>
-              <label for="subtask__checkbox--1" class="subtask__label">Research competitor pricing and business models</label>
-            </li>
-            <li class="subtask__item">
-              <input type="checkbox" class="subtask__checkbox"  id="subtask__checkbox--2"/>
-              <label for="subtask__checkbox--2" class="subtask__label">Outline a business model that works for our solution</label>
-            </li>
-            <li class="subtask__item">
-              <input type="checkbox" class="subtask__checkbox"  id="subtask__checkbox--3"/>
-              <label for="subtask__checkbox--3" class="subtask__label">Surveying and testing</label>
-            </li>
-          </ul>
-          <div class="subtask__status">
-            <p class="status__title">Current Status</p>
-            <div class="status__wrapper">
-              <select class="status__select">
-                <option class="status__option">Doing</option>
-                <option class="status__option">Done</option>
-                <option class="status__option">Todo</option>
-              </select>
-            </div>
-          </div>
-        </div> -->
-      </div>
-    </div>
+    
     <div class="container">
       <nav class="navigation">
         <img class="navigation__item navigation__item--left navigation__logo" src='./assets/logo-mobile.svg' alt='logo-icon'/>
         <div class="navigation__item navigation__item--left navigation__item--flex-grow">
           <a class="board-selection board-selection--active">Platform Launch</a>
+
           <!-- <ul class="board-selection__dropdown board-selection__dropdown--active"> -->
-          <ul class="board-selection__dropdown ">
-            <li class="board-selection__dropdown-item ">Platform Launch</li>
-            <li class="board-selection__dropdown-item ">Marketing Launch</li>
-          </ul>
+          <div class="board-selection__container">
+            <div class="board-selection__panel">
+            <h1 class="board-selection__title">All boards (3)</h1>
+            <ul class="board-selection__panel-list ">
+              <li class="board-selection__panel-item board-selection__panel-item--active">Platform Launch</li>
+              <li class="board-selection__panel-item ">Marketing Launch</li>
+              <li class="board-selection__panel-item  board-selection__panel-item--create">+ Create New Board</li>
+            </ul>
+            <div class="theme-toggle">
+              <div class="theme-toggle__container">
+                <div class="theme-toggle__image  theme-toggle__image--light">
+                </div>
+                <div class="switch switch--off">
+                  <a class="switch__dial switch_dial__off"></a>
+                </div>
+                <div class="theme-toggle__image  theme-toggle__image--dark">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
         <div class="navigation__item navigation__item--right">
           <a class="navigation__button navigation__button--create navigation__button--create-disabled">&nbsp;</a>
