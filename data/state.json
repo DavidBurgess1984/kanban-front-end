@@ -1,0 +1,64 @@
+{
+    "theme": "light",
+    "user" : {
+        "ref" : "ASd0202-1",
+        "name" : "David",
+        "permissions" : ["admin","user","manager"]
+    },
+    "tasks":[
+        {
+            "id":1,
+            "board_id":1,
+            "name" : "test",
+            "subtasks" : [
+                {
+                    "name" : "Finish chores",
+                    "complete" : false
+                },
+                {
+                    "name" : "Finish homework",
+                    "complete" : false
+                }
+            ]
+        },
+        {
+            "id":2,
+            "board_id":1,
+            "name" : "test",
+            "subtasks" : [
+                {
+                    "name" : "Finish chores",
+                    "complete" : false
+                },
+                {
+                    "name" : "Finish homework",
+                    "complete" : false
+                }
+            ]
+        }
+
+    ],
+    "boards": [
+        { 
+            "id":1,
+            "title":"marketing",
+            "columns": [
+            {
+                "name": "todo",
+                "tasks": [
+                    1,2
+                ]
+            },
+            {
+                "name" : "doing",
+                "tasks" :[]
+            },
+            {
+                "name" : "done",
+                "tasks" : []
+            }
+           ]
+    
+        }
+    ]
+}
