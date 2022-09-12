@@ -7,7 +7,11 @@ body, html{
     min-height: 100vh;
 }
 
-.navigation{
+a {
+    text-decoration: none;
+}
+
+.header{
     height: 64px;
     background-color: var(--white);
     display: flex;
@@ -15,11 +19,11 @@ body, html{
     padding:0 20px;
 }
 
-.navigation__item{
+.header__item{
     display: inline-block;
 }
 
-.navigation__item--flex-grow{
+.header__item--flex-grow{
     flex-grow: 1;
 }
 
@@ -27,12 +31,12 @@ body, html{
     cursor: pointer;
 }
 
-.navigation__item--left{
+.header__item--left{
     justify-self:flex-start;
     margin-right:16px;
 }
 
-.navigation__item--right{
+.header__item--right{
     justify-self:flex-end;
     margin-left:16px;
 }
@@ -49,6 +53,8 @@ body, html{
     background-repeat: no-repeat;
     background-position: center right;
     cursor: pointer;
+    text-decoration: none;
+    color: var(--black);
 }
 
 .board-selection__dropdown{
@@ -66,7 +72,7 @@ body, html{
     padding: 6px 12px;
 }
 
-.navigation__button{
+.header__button,.form__button{
     display: inline-block;
     border-radius: 24px;
     height: 32px;
@@ -74,7 +80,7 @@ body, html{
     cursor: pointer;
 }
 
-.navigation__button--create{
+.header__button--create,.form__button--create{
     background: url('../assets/icon-add-task-mobile.svg');
     background-color: var(--main-purple);
     background-repeat: no-repeat;
@@ -82,7 +88,7 @@ body, html{
     width:48px;
 }
 
-.navigation__button--secondary{
+.header__button--secondary,.form__button--secondary{
     background-color: var(--main-purple-light);
     background-repeat: no-repeat;
     line-height: 40px;
@@ -96,7 +102,7 @@ body, html{
     color: var(--deep-purple);
 }
 
-.navigation__button--primary{
+.header__button--primary,.form__button--primary{
     background-color: var(--deep-purple);
     background-repeat: no-repeat;
     line-height: 40px;
@@ -110,7 +116,7 @@ body, html{
     color: var(--white);
 }
 
-.navigation__button--danger{
+.header__button--danger{
     background-color: var(--red);
     background-repeat: no-repeat;
     line-height: 40px;
@@ -124,7 +130,7 @@ body, html{
     color: var(--white);
 }
 
-.navigation__more-info-button{
+.header__more-info-button{
     background: url('../assets/icon-vertical-ellipsis.svg');
     background-repeat: no-repeat;
     background-position: center;
@@ -239,6 +245,7 @@ body, html{
     box-shadow: 0px 4px 4px var(--task-drop-shadow);
     padding:16px;
     box-sizing: border-box;
+    cursor:pointer;
 }
 
 .task__title{
@@ -271,6 +278,9 @@ body, html{
     padding: 24px;
     border-radius: 6px;
     z-index: 2;
+    margin-top: auto;
+    margin-bottom: auto;
+    position: relative;
 }
 
 .lightbox__header{
@@ -481,6 +491,11 @@ body, html{
     left:0;
     top:0;
     z-index: 1;
+    display:none;
+}
+
+.board-selection__container--active{
+    display:block
 }
 
 .board-selection__panel{
@@ -578,4 +593,41 @@ body, html{
     border-radius: 14px;
     background-color: var(--white);
     display: inline-block;
+}
+
+.task__toggle-dropdown{
+    position: absolute;
+    right:8px;
+    top:50px;
+    width:192px;
+    box-shadow: 0px 4px 4px var(--task-drop-shadow);
+}
+
+
+
+.task__toggle-dropdown-list-item{
+    font-size:13px;
+    font-weight: 500;
+    color: var(--lighter-smoke-grey);
+    padding:16px;
+    cursor: pointer;
+}
+
+.task__toggle-dropdown-list-item:hover,
+.task__toggle-dropdown-list-item:focus,
+.task__toggle-dropdown-list-item:active
+{
+    background-color: var(--light-grey);
+}
+
+.task__toggle-dropdown-list-item--red{
+    color: var(--red);
+}
+
+@media (max-height:720px) {
+    .lightbox{
+        padding-top:10px;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+    }
 }

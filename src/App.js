@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import HeaderContainer from "./containers/header/header-container";
+import "../src/css/reset.css"
+import "../src/css/structure.css"
+import "../src/css/colors.css"
+import "../src/css/style.css"
+import BoardContainer from "./containers/board/board-container";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { initialiseTasks } from "./app/features/task/taskSlice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initialiseTasks())
+  },[dispatch])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div class="container">
+      <HeaderContainer />
+      <BoardContainer />
     </div>
   );
+
+  
 }
 
 export default App;
