@@ -4,7 +4,7 @@ import SubtaskItem from "./subtask-item"
 const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler}) => {
 
     let subtaskList = [];
-    console.log(subTasks);
+
     subTasks.map((subtask,i) => {
 
         let placeholderText = ""

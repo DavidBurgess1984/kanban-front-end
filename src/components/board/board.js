@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import ColumnHeaderContainer from "../../containers/board/column-header-container";
 import TaskContainer from "../../containers/board/task-item-container";
 import AddTaskContainer from "../../containers/lightbox/content/add-task-container";
+import DeleteTaskContainer from "../../containers/lightbox/content/delete-task-container";
 import ViewTaskContainer from "../../containers/lightbox/content/view-task-container";
 import LightboxContainer from "../../containers/lightbox/lightbox-container";
 
@@ -20,9 +21,12 @@ const Board = (props) => {
       case 'edit':
         lightboxView = <AddTaskContainer taskIdDisplaying={props.taskIdDisplaying} />
         break;
+      case 'delete':
+        lightboxView = <DeleteTaskContainer taskIdDisplaying={props.taskIdDisplaying} closeLightBox={(e) => props.closeLightBox(e)} />
+        break;
     }
     lightbox = (
-      <LightboxContainer /*closeLightBox={(e) => props.viewTask(-1)}*/ >
+      <LightboxContainer closeLightBox={(e) => props.closeLightBox(e)} >
         {lightboxView}
       </LightboxContainer>
     )
@@ -39,10 +43,11 @@ const Board = (props) => {
           </button>
         </div> --> */}
         {props.board.columns.map( (column,i) => {
-
+          
+          let taskCount = typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].length > 0 ? props.columnData[column.id].length : 0;
             return (
                 <div className="kanban__column">
-                    <ColumnHeaderContainer title={column.name} taskCount={4} type={column.name}/>
+                    <ColumnHeaderContainer title={column.name} taskCount={taskCount} type={column.name}/>
                     { typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].map((task) => {
                         return (
                             <TaskContainer task={task} viewTask={props.viewTask} closeLightBox={props.closeLightBox}/>

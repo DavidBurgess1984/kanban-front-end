@@ -116,7 +116,7 @@ a {
     color: var(--white);
 }
 
-.header__button--danger{
+.header__button--danger,.form__button--danger{
     background-color: var(--red);
     background-repeat: no-repeat;
     line-height: 40px;

@@ -16,16 +16,6 @@ const ViewTaskContainer = (props) => {
         (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
     )[0]
 
-    // const columnData = useSelector(
-    //     (state) => state.tasks.tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
-    //         if(typeof map[obj.column_id] === 'undefined' ){
-    //             map[obj.column_id] = []
-    //         }
-    //         map[obj.column_id].push(obj);
-    //         return map;
-    //     }, {})
-    // )
-
     const statusOptions = activeBoard.columns.map((column) => {
         return {
             name: column.name.charAt(0).toUpperCase() + column.name.slice(1),
@@ -45,6 +35,8 @@ const ViewTaskContainer = (props) => {
             }
 
         })
+
+
 
 
         dispatch(editSubtask({

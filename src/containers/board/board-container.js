@@ -24,32 +24,20 @@ const BoardContainer = () => {
         }, {})
     )
 
-    
-
-    // activeBoard.columns = columns
-    // console.log(activeBoard)
-    // // // console.log(task);
-    // task.tasks.forEach(task => {
-    //     if(task.board_id === activeBoard.id){
-    //         activeBoard.columns.forEach( (column,i )=> {
-               
-    //             if(column.id === task.column_id){
-    //                 let tasks = [...activeBoard.columns[i].tasks]
-    //                 tasks.push(task)
-    //                 activeBoard.columns[i].tasks = tasks;
-    //             }
-    //         })
-    //     }
-    // });
-
-    // console.log(activeBoard)
-
-    // const getTaskData = (taskIdDisplaying) => {
-        
-    // }
 
     const closeLightBox = (e) => {
-        viewTask(-1)
+
+        
+
+        if(e.target === e.currentTarget) {
+            e.preventDefault();
+            setTaskMode('view')
+            viewTask(-1)
+        }
+        
+
+        
+    
     }
 
     return (

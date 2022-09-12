@@ -18,6 +18,16 @@ export const taskStorage = {
 
         window.localStorage.setItem('tasks', JSON.stringify(tasks));
     },
+    delete:(taskId) => {
+        let tasks = taskStorage.getAll();
+        tasks.forEach((task,i) => {
+            if(task.id === taskId){
+                tasks.splice(i,1);
+            }
+        });
+
+        window.localStorage.setItem('tasks', JSON.stringify(tasks));
+    },
     init:(data) => {
         window.localStorage.setItem('tasks',JSON.stringify(data));
     },

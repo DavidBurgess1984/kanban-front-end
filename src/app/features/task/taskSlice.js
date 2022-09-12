@@ -20,17 +20,17 @@ export const taskSlice = createSlice({
             state.tasks.push(data)
             
         },
-        editTaskName:(state,action) => {
+        editTask:(state,action) => {
 
             let taskToUpdate = {}
             state.tasks.forEach((task,i) => {
-                if(task.id === action.payload.task_id){
-                    state.tasks[i].name = action.payload.name
+                if(task.id === action.payload.id){
+                    state.tasks[i] = action.payload
                     taskToUpdate = {...state.tasks[i]}
                 }
             })
 
-            taskStorage.update(action.payload.task_id,taskToUpdate) 
+            taskStorage.update(action.payload.id,taskToUpdate) 
         },
         editTaskColumn:(state,action) => {
 
@@ -38,7 +38,7 @@ export const taskSlice = createSlice({
 
             state.tasks.forEach((task,i) => {
                 if(task.id === action.payload.task_id){
-                    state.tasks[i].column_id = action.payload.column_id
+                    state.tasks[i].column_id = parseInt(action.payload.column_id)
                     taskToUpdate = {...state.tasks[i]}
                 }
             })
@@ -49,7 +49,7 @@ export const taskSlice = createSlice({
             let indexToDelete;
 
             state.tasks.forEach((task,i) => {
-                if(task.id === action.payload.task_id){
+                if(task.id === action.payload.id){
                     indexToDelete = i; 
                 }
             })
@@ -57,6 +57,8 @@ export const taskSlice = createSlice({
             if(typeof indexToDelete !== 'undefined'){
                 state.tasks.splice(indexToDelete,1);
             }
+
+            taskStorage.delete(action.payload.id)
             
         },
         createSubTask: (state,action) => {
@@ -123,7 +125,7 @@ function makeid(length) {
 
 export const {
     createTask, 
-    editTaskName, 
+    editTask, 
     deleteTask,
     createSubTask,
     editSubtask,

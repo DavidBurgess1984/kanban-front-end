@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { createTask } from "../../../app/features/task/taskSlice";
+import { createTask, editTask } from "../../../app/features/task/taskSlice";
 import AddTask from "../../../components/lightbox/content/add-task";
 
 const AddTaskContainer = (props) => {
 
     const dispatch = useDispatch()
-    
+
+    const [taskId,setTaskId] = useState(-1)
     const [title,setTitle] = useState("Add New Task")
     const [saveTaskButtonText,setSaveTaskButtonText] = useState("Create Task")
     const [taskTitle, setTaskTitle] = useState("")
@@ -20,8 +21,8 @@ const AddTaskContainer = (props) => {
     let activeBoard = {...board.boards[activeBoardIndex]};
 
     const task = useSelector(
-            (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
-        )[0]
+        (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
+    )[0]
 
 
 
@@ -33,6 +34,7 @@ const AddTaskContainer = (props) => {
             setStatus(task.column_id)
             setTitle("Edit Task")
             setSaveTaskButtonText("Save Changes")
+            setTaskId(task.id)
         }
         
     },[task])
@@ -77,7 +79,8 @@ const AddTaskContainer = (props) => {
         setSubTasks(newSubTasks)
     }
 
-    const createTaskHandler = (e) => {
+
+    const taskHandler = (e) => {
 
         let sortOrder = 9999;
 
@@ -93,7 +96,14 @@ const AddTaskContainer = (props) => {
             "name" : taskTitle,
             "subtasks" : subTasks
         }
-        dispatch(createTask(payload))
+
+        if(taskId !== -1){
+            payload.id = taskId
+            dispatch(editTask(payload))
+        } else {
+            dispatch(createTask(payload))
+         }
+        
     }
 
     return (
@@ -110,7 +120,7 @@ const AddTaskContainer = (props) => {
             addSubtask={addSubtask}
             editSubtask={editSubtask}
             deleteSubtask={deleteSubtask}
-            createTask={createTaskHandler}
+            taskHandler={taskHandler}
             title={title}
             saveTaskButtonText={saveTaskButtonText}
         />
