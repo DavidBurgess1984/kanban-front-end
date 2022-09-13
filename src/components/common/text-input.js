@@ -1,11 +1,12 @@
 import React from "react";
 
-const TextInput = ({placeholder,handleTextChange,value,title}) => {
+const TextInput = ({placeholder,handleTextChange,value,title,errors}) => {
 
     return (
         <div class="task__input">
             <p class="task__label">{title}</p>
-            <input type="text" value={value} onChange={handleTextChange}  class="text__input" placeholder={placeholder}/>
+            {typeof errors.title !== 'undefined' ? <p class="task__error-msg">{errors.title}</p> : null }
+            <input type="text" value={value} onChange={handleTextChange}  class={(typeof errors.title !== 'undefined') ? "text__input text__input--error": "text__input" } placeholder={placeholder}/>
         </div>
     )
 }

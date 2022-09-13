@@ -351,10 +351,24 @@ a {
     display: flex;
     flex-grow: 1;
     align-items: center;
+    position: relative;
 }
+
+
 
 .subtask__remove{
     background: url('../assets/icon-cross.svg');
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    width: 15px;
+    height:15px;
+    margin: 0 16px;
+    background-size: 15px;
+    flex-shrink: 0;
+}
+
+.subtask__remove--red{
+    background: url('../assets/icon-cross-red.svg');
     background-repeat: no-repeat;
     box-sizing: border-box;
     width: 15px;
@@ -444,6 +458,22 @@ a {
 
 .task__input{
     margin-bottom: 24px;
+    position: relative;
+}
+
+
+
+.task__error-msg{
+    font-weight: 500 ;
+    color: var(--red);
+    font-size: 13px;
+    position: absolute;
+    right:16px;
+    bottom:12px;
+}
+
+.task__error-msg--subtask{
+    right:60px
 }
 
 .task__label{
@@ -464,6 +494,10 @@ a {
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
 }
 
+.text__input--error{
+    border-color: var(--red);
+ }
+
 .text__area{
     width: 100%;
     box-sizing: border-box;
@@ -477,6 +511,10 @@ a {
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
     height:110px
 }
+
+.text__area--error{
+    border-color: var(--red);
+ }
 
 .text__input::placeholder,.text__area::placeholder{
     color: var(--lighter-smoke-grey);

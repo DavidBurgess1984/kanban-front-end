@@ -1,7 +1,7 @@
 import React from "react"
 import SubtaskItem from "./subtask-item"
 
-const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler}) => {
+const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler,errors}) => {
 
     let subtaskList = [];
 
@@ -15,7 +15,7 @@ const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler}) 
             placeholderText =  "e.g. Make coffee" 
         }
 
-        subtaskList.push(<SubtaskItem key={"subtask-item-"+i} placeholder={placeholderText} value={subtask.name} index={i} editSubtaskHandler={editSubtaskHandler} deleteSubtaskHandler={deleteSubtaskHandler} />)
+        subtaskList.push(<SubtaskItem key={"subtask-item-"+i} placeholder={placeholderText} value={subtask.name} index={i} editSubtaskHandler={editSubtaskHandler} deleteSubtaskHandler={deleteSubtaskHandler} errors={errors}/>)
     });
 
     return (

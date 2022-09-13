@@ -5,19 +5,63 @@ import { taskStorage } from '../../storage/localStorage'
 export const taskSlice = createSlice({
     name:'tasks',
     initialState:{
-        tasks:[]
+        tasks:[],
+        errors:{}
     },
     reducers:{
         createTask: (state,action) => {
 
+            state.errors = {}
+
             let data = {...action.payload}
+            let errorsFound = false
+
+            if(data.name.length === 0){
+                state.errors.title = "Can't be empty"
+                errorsFound = true
+            }
+            if(data.description.length === 0){
+                state.errors.description = "Can't be empty"
+                errorsFound = true
+            }
+
             data.id = makeid(10)
+
+            let subtaskErrors = {}
             data.subtasks.forEach( (_,i) => {
+                
+
+                if(data.subtasks[i].name.length === 0){
+                    subtaskErrors[i] = {}
+                    subtaskErrors[i] = "Can't be empty"
+                    
+                    errorsFound = true
+                }
                 data.subtasks[i].id = makeid(20);
+                
             })
 
-            taskStorage.create(data)
-            state.tasks.push(data)
+            if(errorsFound){
+                state.errors.subtasks = subtaskErrors
+            }
+
+
+            if(!errorsFound){
+                taskStorage.create(data)
+                state.tasks.push(data)
+            }
+            
+            
+        },
+        clearTaskError(state,action){
+            if(typeof action.payload.index !== 'undefined'){
+                if(typeof state.errors.subtasks !== 'undefined'){
+                    delete state.errors.subtasks[action.payload.index]
+                }
+                
+            } else {
+                delete state.errors[action.payload.error_type]
+            }
             
         },
         editTask:(state,action) => {
@@ -131,7 +175,8 @@ export const {
     editSubtask,
     deleteSubtask,
     initialiseTasks,
-    editTaskColumn
+    editTaskColumn,
+    clearTaskError
 } = taskSlice.actions
 
 export default taskSlice.reducer

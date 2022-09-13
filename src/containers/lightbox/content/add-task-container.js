@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { createTask, editTask } from "../../../app/features/task/taskSlice";
+import { clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
 import AddTask from "../../../components/lightbox/content/add-task";
 
 const AddTaskContainer = (props) => {
@@ -24,7 +24,7 @@ const AddTaskContainer = (props) => {
         (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
     )[0]
 
-
+    const errors = useSelector((state) => state.tasks.errors)
 
     useEffect(() => {
         if(typeof task !== 'undefined'){
@@ -38,6 +38,26 @@ const AddTaskContainer = (props) => {
         }
         
     },[task])
+
+    useEffect(() => {
+        if(taskTitle.length > 0){
+            dispatch(clearTaskError({error_type:'title'}))
+        }
+    },[taskTitle])
+
+    useEffect(() => {
+        if(taskDescription.length > 0){
+            dispatch(clearTaskError({error_type:'description'}))
+        }
+    },[taskDescription])
+
+    useEffect(() => {
+        subTasks.forEach((subtask, i) => {
+            if(subtask.name.length > 0){
+                dispatch(clearTaskError({error_type:'subtask',index: i}))
+            }
+        })
+    },[subTasks])
 
     const columnData = useSelector(
         (state) => state.tasks.tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
@@ -123,6 +143,7 @@ const AddTaskContainer = (props) => {
             taskHandler={taskHandler}
             title={title}
             saveTaskButtonText={saveTaskButtonText}
+            errors={errors}
         />
     )
 }
