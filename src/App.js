@@ -16,7 +16,7 @@ function App() {
   },[dispatch])
 
   return (
-    <div class="container">
+    <div className="container">
       <HeaderContainer />
       <BoardContainer />
     </div>

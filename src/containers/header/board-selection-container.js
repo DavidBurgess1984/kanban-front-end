@@ -5,6 +5,7 @@ const BoardSelectionContainer = (props) => {
     return <BoardSelection 
         navigationVisible={props.navigationVisible}
         toggleNavigationPanel={props.toggleNavigationPanel}
+        toggleAddBoardLightboxVisible={props.toggleAddBoardLightboxVisible}
     />
 }
 

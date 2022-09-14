@@ -1,7 +1,7 @@
 import React from "react"
 import SubtaskItem from "./subtask-item"
 
-const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler,errors}) => {
+const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler,errors,title,addSubtaskBtnTxt,type}) => {
 
     let subtaskList = [];
 
@@ -10,21 +10,30 @@ const Subtask = ({subTasks,addSubtask,editSubtaskHandler,deleteSubtaskHandler,er
         let placeholderText = ""
         
         if(i == 0){
-            placeholderText = "e.g. Drink coffee & smile";
+            if(typeof type !== "undefined" && type == 'columns'){
+                placeholderText = "e.g. In Backlog";
+            } else {
+                placeholderText = "e.g. Drink coffee & smile";
+            }
+            
         } else if (i == 1){
-            placeholderText =  "e.g. Make coffee" 
+            if(typeof type !== "undefined"  && type == 'columns'){
+                placeholderText = "e.g. Assigned";
+            } else {
+                placeholderText =  "e.g. Make coffee" 
+            }
         }
 
         subtaskList.push(<SubtaskItem key={"subtask-item-"+i} placeholder={placeholderText} value={subtask.name} index={i} editSubtaskHandler={editSubtaskHandler} deleteSubtaskHandler={deleteSubtaskHandler} errors={errors}/>)
     });
 
     return (
-        <div class="task__input">
-            <h3 class="subtask__title">Subtasks</h3>
-            <ul class="subtasks">
+        <div className="task__input">
+            <h3 className="subtask__title">{title}</h3>
+            <ul className="subtasks">
                 {subtaskList}
-                <li class="subtask__item--edit">
-                    <a class="form__button form__button--secondary" onClick={addSubtask}>+ Add New Subtask</a>
+                <li className="subtask__item--edit">
+                    <a className="form__button form__button--secondary" onClick={addSubtask}>+ {addSubtaskBtnTxt}</a>
                 </li>
             </ul>
         </div>

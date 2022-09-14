@@ -17,8 +17,8 @@ const SubtaskView = ({subtasks,toggleSubtaskStatus}) => {
 
     return (
         <Fragment>
-            <h3 class="subtask__title">{"Subtasks ("+subtaskCompletedCount+" of "+subtasks.length+")"}</h3>
-            <ul class="subtasks">
+            <h3 className="subtask__title">{"Subtasks ("+subtaskCompletedCount+" of "+subtasks.length+")"}</h3>
+            <ul className="subtasks">
                 {subtaskList}
             </ul>
         </Fragment>

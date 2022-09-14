@@ -9,10 +9,10 @@ const ViewTask = (props) => {
 
     if(props.taskDropdownOpen){
         taskViewDropdown = (
-        <div class="task__toggle-dropdown">
-            <ul class='task__toggle-dropdown-list'>
-                <li class="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskMode('edit')}>Edit Task</li>
-                <li class="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskMode('delete')}>Delete Task</li>
+        <div className="task__toggle-dropdown">
+            <ul className='task__toggle-dropdown-list'>
+                <li className="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskMode('edit')}>Edit Task</li>
+                <li className="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskMode('delete')}>Delete Task</li>
             </ul>
         </div>
         )
@@ -22,11 +22,11 @@ const ViewTask = (props) => {
     return (
         <Fragment>
             {taskViewDropdown}
-            <div class="lightbox__header">
-                <h2 class="lightbox__title">{props.task.name}</h2>
-                <a class="lightbox__elipses" onClick={(e) => props.setTaskDropdownOpen(!props.taskDropdownOpen)}></a>
+            <div className="lightbox__header">
+                <h2 className="lightbox__title">{props.task.name}</h2>
+                <a className="lightbox__elipses" onClick={(e) => props.setTaskDropdownOpen(!props.taskDropdownOpen)}></a>
             </div>
-            <div class="lightbox__content">
+            <div className="lightbox__content">
                 <Description text={props.task.description}/>
                 <SubtaskView subtasks={props.task.subtasks} toggleSubtaskStatus={props.toggleSubtaskStatus}/>
                 <Select title="Status" options={props.statusOptions} selected={props.task.column_id} handleChange={props.toggleTaskStatus} />

@@ -9,7 +9,7 @@ const BoardSelection = (props) => {
             <ul className="board-selection__panel-list ">
               <li className="board-selection__panel-item board-selection__panel-item--active">Platform Launch</li>
               <li className="board-selection__panel-item ">Marketing Launch</li>
-              <li className="board-selection__panel-item  board-selection__panel-item--create">+ Create New Board</li>
+              <li className="board-selection__panel-item  board-selection__panel-item--create" onClick={(e) => props.toggleAddBoardLightboxVisible(e)}>+ Create New Board</li>
             </ul>
             <ThemeToggleContainer />
           </div>

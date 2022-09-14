@@ -64,6 +64,9 @@ export const taskSlice = createSlice({
             }
             
         },
+        clearAllTaskErrors(state){
+            state.errors = {}
+        },
         editTask:(state,action) => {
 
             let taskToUpdate = {}
@@ -176,7 +179,8 @@ export const {
     deleteSubtask,
     initialiseTasks,
     editTaskColumn,
-    clearTaskError
+    clearTaskError,
+    clearAllTaskErrors
 } = taskSlice.actions
 
 export default taskSlice.reducer

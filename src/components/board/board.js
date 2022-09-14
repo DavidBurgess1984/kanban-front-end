@@ -35,10 +35,10 @@ const Board = (props) => {
     return (
       <Fragment>
         {lightbox}
-    <div class="kanban-board kanban-board--active">
-        {/* <!-- <div class="kanban-board__new-panel">
-          <p class="kanban-board__text">This board is empty. Create a new column to get started.</p>
-          <button class="kanban-board__button kanban-board__button--main">
+    <div className="kanban-board kanban-board--active">
+        {/* <!-- <divclassName="kanban-board__new-panel">
+          <pclassName="kanban-board__text">This board is empty. Create a new column to get started.</p>
+          <buttonclassName="kanban-board__button kanban-board__button--main">
             + Add New Column
           </button>
         </div> --> */}

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { clearAllTaskErrors, clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
+import AddBoard from "../../../components/lightbox/content/add-board";
 import AddTask from "../../../components/lightbox/content/add-task";
 
-const AddTaskContainer = (props) => {
+const AddBoardContainer = (props) => {
 
     const dispatch = useDispatch()
 
     const [taskId,setTaskId] = useState(-1)
-    const [title,setTitle] = useState("Add New Task")
-    const [saveTaskButtonText,setSaveTaskButtonText] = useState("Create Task")
-    const [taskTitle, setTaskTitle] = useState("")
+    const [title,setTitle] = useState("Add New Board")
+    const [saveBoardButtonText,setSaveBoardButtonText] = useState("Create Board")
+    const [boardTitle, setBoardTitle] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
     const [subTasks, setSubTasks] = useState([{name:"",complete:false},{name:"",complete:false}])
     const [status,setStatus] = useState(1)
@@ -28,22 +29,22 @@ const AddTaskContainer = (props) => {
 
     useEffect(() => {
         if(typeof task !== 'undefined'){
-            setTaskTitle(task.name)
+            setBoardTitle(task.name)
             setTaskDescription(task.description)
             setSubTasks(task.subtasks)
             setStatus(task.column_id)
-            setTitle("Edit Task")
-            setSaveTaskButtonText("Save Changes")
+            setTitle("Edit Board")
+            setSaveBoardButtonText("Save Changes")
             setTaskId(task.id)
         }
         
     },[task])
 
     useEffect(() => {
-        if(taskTitle.length > 0){
+        if(boardTitle.length > 0){
             dispatch(clearTaskError({error_type:'title'}))
         }
-    },[taskTitle])
+    },[boardTitle])
 
     useEffect(() => {
         if(taskDescription.length > 0){
@@ -61,7 +62,7 @@ const AddTaskContainer = (props) => {
 
     useEffect(() => {
         return () => {
-            return dispatch(clearAllTaskErrors());
+            dispatch(clearAllTaskErrors());
         }
     },[])
 
@@ -119,7 +120,7 @@ const AddTaskContainer = (props) => {
             "column_id":status,
             "description":taskDescription,
             "sort_order": sortOrder,
-            "name" : taskTitle,
+            "name" : boardTitle,
             "subtasks" : subTasks
         }
 
@@ -133,9 +134,9 @@ const AddTaskContainer = (props) => {
     }
 
     return (
-        <AddTask 
-            taskTitle={taskTitle}
-            setTaskTitle={setTaskTitle}
+        <AddBoard
+            boardTitle={boardTitle}
+            setBoardTitle={setBoardTitle}
             taskDescription={taskDescription}
             setTaskDescription={setTaskDescription}
             subTasks={subTasks}
@@ -148,10 +149,10 @@ const AddTaskContainer = (props) => {
             deleteSubtask={deleteSubtask}
             taskHandler={taskHandler}
             title={title}
-            saveTaskButtonText={saveTaskButtonText}
+            saveBoardButtonText={saveBoardButtonText}
             errors={errors}
         />
     )
 }
 
-export default AddTaskContainer
+export default AddBoardContainer
