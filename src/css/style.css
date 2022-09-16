@@ -256,7 +256,7 @@ a {
 
 }
 
-.subtask__info{
+.list__info{
     font-weight: 700;
     color: var(--lighter-smoke-grey);
 }
@@ -322,7 +322,7 @@ a {
     margin-bottom: 16px;
 }
 
-.subtask__status{
+.list__status{
     margin-bottom: 24px;
 }
 
@@ -330,13 +330,13 @@ a {
     margin-bottom: 16px;
 }
 
-.subtask__title{
+.list__title{
     font-weight: 700;
     color:var(--lighter-smoke-grey);
     margin-bottom: 16px;
 }
 
-.subtask__item{
+.list__item{
     border-radius: 4px;
     margin-bottom: 8px;
     background-color: var(--light-grey);
@@ -346,7 +346,7 @@ a {
 
 }
 
-.subtask__item--edit{
+.list__item--edit{
     margin-bottom: 8px;
     display: flex;
     flex-grow: 1;
@@ -356,7 +356,7 @@ a {
 
 
 
-.subtask__remove{
+.list__remove{
     background: url('../assets/icon-cross.svg');
     background-repeat: no-repeat;
     box-sizing: border-box;
@@ -367,7 +367,7 @@ a {
     flex-shrink: 0;
 }
 
-.subtask__remove--red{
+.list__remove--red{
     background: url('../assets/icon-cross-red.svg');
     background-repeat: no-repeat;
     box-sizing: border-box;
@@ -378,18 +378,18 @@ a {
     flex-shrink: 0;
 }
 
-.subtask__checkbox{
+.list__checkbox{
     display:none;
 }
 
-.subtask__label{
+.list__label{
     padding-left: 32px;
     position: relative;
     color: var(--black);
     font-weight: 700;
 }
 
-.subtask__label:before{
+.list__label:before{
     content: "";
     display: inline-block;
     width:16px;
@@ -402,14 +402,14 @@ a {
     top:-4px;
 }
 
-.subtask__checkbox:checked + *:before{
+.list__checkbox:checked + *:before{
     background: var(--deep-purple) url('../assets/icon-check.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 12px ;
 }
 
-.subtask__checkbox:checked + *{
+.list__checkbox:checked + *{
     font-weight: 700;
     color: var(--lighter-smoke-grey);
     text-decoration: line-through;

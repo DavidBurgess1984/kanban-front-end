@@ -3,7 +3,7 @@ import React from "react"
 const Select = ({title,options,handleChange,selected}) => {
    
    return (
-    <div className="subtask__status">
+    <div className="list__status">
         <p className="status__title">{title}</p>
         <div className="status__wrapper">
             <select className="status__select" onChange={(e) => handleChange(e.target.value)} value={selected}>

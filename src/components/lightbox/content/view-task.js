@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Description from "../../common/description";
 import Select from "../../common/select";
-import SubtaskView from "../../common/subtask-view";
+import ItemListView from "../../common/item-list-view";
 
 const ViewTask = (props) => {
 
@@ -9,7 +9,7 @@ const ViewTask = (props) => {
 
     if(props.taskDropdownOpen){
         taskViewDropdown = (
-        <div className="task__toggle-dropdown">
+        <div className="task__toggle-dropdown" ref={props.wrapperRef}>
             <ul className='task__toggle-dropdown-list'>
                 <li className="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskMode('edit')}>Edit Task</li>
                 <li className="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskMode('delete')}>Delete Task</li>
@@ -28,7 +28,7 @@ const ViewTask = (props) => {
             </div>
             <div className="lightbox__content">
                 <Description text={props.task.description}/>
-                <SubtaskView subtasks={props.task.subtasks} toggleSubtaskStatus={props.toggleSubtaskStatus}/>
+                <ItemListView subtasks={props.task.subtasks} toggleSubtaskStatus={props.toggleSubtaskStatus}/>
                 <Select title="Status" options={props.statusOptions} selected={props.task.column_id} handleChange={props.toggleTaskStatus} />
             </div>
       </Fragment>

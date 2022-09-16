@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 import Select from "../../common/select"
-import Subtask from "../../common/subtask"
+import ItemList from "../../common/item-list"
 import TextArea from "../../common/text-area"
 import TextInput from "../../common/text-input"
 
@@ -13,9 +13,9 @@ const AddBoard = (props) => {
             </div>
             <div className="lightbox__content">
                 <TextInput title="Board Name" value={props.boardTitle} handleTextChange={(e) => props.setBoardTitle(e.target.value)} placeholder="eg Web Design" errors={props.errors}/>
-                <Subtask type='columns' title='Column Names' addSubtaskBtnTxt='Add New Column' addSubtask={props.addSubtask} subTasks={props.subTasks} editSubtaskHandler={props.editSubtask} deleteSubtaskHandler={props.deleteSubtask} errors={props.errors}/>
+                <ItemList type='columns' title='Column Names' addItemBtnTxt='Add New Column' addItem={props.addColumn} items={props.columns} editItemHandler={props.editColumn} deleteItemHandler={props.deleteColumn} errors={props.errors}/>
                 <div>
-                    <a className="form__button form__button--primary" onClick={(e) => props.taskHandler(e)}>{props.saveBoardButtonText}</a>
+                    <a className="form__button form__button--primary" onClick={(e) => props.boardHandler(e)}>{props.saveBoardButtonText}</a>
                 </div>
             </div>
         </Fragment>

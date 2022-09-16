@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
+import { createBoard, editBoard } from "../../../app/features/board/boardSlice";
 import { clearAllTaskErrors, clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
 import AddBoard from "../../../components/lightbox/content/add-board";
 import AddTask from "../../../components/lightbox/content/add-task";
@@ -8,37 +9,37 @@ const AddBoardContainer = (props) => {
 
     const dispatch = useDispatch()
 
-    const [taskId,setTaskId] = useState(-1)
+    const [boardId,setBoardId] = useState(-1)
     const [title,setTitle] = useState("Add New Board")
     const [saveBoardButtonText,setSaveBoardButtonText] = useState("Create Board")
     const [boardTitle, setBoardTitle] = useState("")
-    const [taskDescription, setTaskDescription] = useState("")
-    const [subTasks, setSubTasks] = useState([{name:"",complete:false},{name:"",complete:false}])
-    const [status,setStatus] = useState(1)
+    const [columns, setColumns] = useState([{name:""},{name:""}])
+    // const [status,setStatus] = useState(1)
     
-    const activeBoardIndex = useSelector((state) => state.board.activeBoard);
+    const errors = useSelector((state) => state.board.errors);
 
-    const board = useSelector((state) => state.board)
-    let activeBoard = {...board.boards[activeBoardIndex]};
+    // const board = useSelector((state) => state.board)
+    // let activeBoard = {...board.boards[activeBoardIndex]};
 
-    const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
-    )[0]
+    // const task = useSelector(
+    //     (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
+    // )[0]
 
-    const errors = useSelector((state) => state.tasks.errors)
+    // const errors = useSelector((state) => state.tasks.errors)
+
+    console.log(errors)
 
     useEffect(() => {
-        if(typeof task !== 'undefined'){
-            setBoardTitle(task.name)
-            setTaskDescription(task.description)
-            setSubTasks(task.subtasks)
-            setStatus(task.column_id)
+
+        if(typeof props.activeBoard !== 'undefined'){
+            setBoardTitle(props.activeBoard.title)
+            setColumns(props.activeBoard.columns)
             setTitle("Edit Board")
             setSaveBoardButtonText("Save Changes")
-            setTaskId(task.id)
+            setBoardId(props.activeBoard.id)
         }
         
-    },[task])
+    },[props.activeBoard])
 
     useEffect(() => {
         if(boardTitle.length > 0){
@@ -46,19 +47,14 @@ const AddBoardContainer = (props) => {
         }
     },[boardTitle])
 
-    useEffect(() => {
-        if(taskDescription.length > 0){
-            dispatch(clearTaskError({error_type:'description'}))
-        }
-    },[taskDescription])
 
     useEffect(() => {
-        subTasks.forEach((subtask, i) => {
+        columns.forEach((subtask, i) => {
             if(subtask.name.length > 0){
                 dispatch(clearTaskError({error_type:'subtask',index: i}))
             }
         })
-    },[subTasks])
+    },[columns])
 
     useEffect(() => {
         return () => {
@@ -66,70 +62,49 @@ const AddBoardContainer = (props) => {
         }
     },[])
 
-    const columnData = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
-            if(typeof map[obj.column_id] === 'undefined' ){
-                map[obj.column_id] = []
-            }
-            map[obj.column_id].push(obj);
-            return map;
-        }, {})
-    )
 
-    const statusOptions = activeBoard.columns.map((column) => {
-        return {
-            name: column.name.charAt(0).toUpperCase() + column.name.slice(1),
-            value: column.id
-        }
-    })
 
-    const addSubtask = () => {
-        let newSubTasks = [...subTasks]
-        newSubTasks.push({name:"",complete:false})
-        setSubTasks(newSubTasks)
+    const addColumn = () => {
+        let newColumns = [...columns]
+        newColumns.push({name:""})
+        setColumns(newColumns)
     }
 
-    const editSubtask = (index,titleText) => {
-        let newSubTasks = [...subTasks]
-        newSubTasks[index].name = titleText
-        setSubTasks(newSubTasks)
+    const editColumn = (index,titleText) => {
+        let newColumns = [...columns]
+        newColumns[index].name = titleText
+        setColumns(newColumns)
     }
 
-    const deleteSubtask = (index) => {
-        var doDelete = window.confirm("Do you wish to delete this subtask?  This cannot be undone");
+    const deleteColumn = (index) => {
+        var doDelete = window.confirm("Do you wish to delete this column?  All task data will be lost if you save these changes");
 
         if(!doDelete){
             return false
         }
-        let newSubTasks = [...subTasks]
-        delete newSubTasks.splice(index,1)
-        setSubTasks(newSubTasks)
+        let newColumns = [...columns]
+        delete newColumns.splice(index,1)
+        setColumns(newColumns)
     }
 
 
-    const taskHandler = (e) => {
-
-        let sortOrder = 9999;
-
-        if(typeof columnData[status] !== 'undefined'){
-            sortOrder = columnData[status].length + 1
-        }
+    const boardHandler = (e) => {
 
         let payload = {
-            "board_id":activeBoard.id,
-            "column_id":status,
-            "description":taskDescription,
-            "sort_order": sortOrder,
-            "name" : boardTitle,
-            "subtasks" : subTasks
+            // "description":taskDescription,
+            "title":boardTitle,
+            "columns" : columns
         }
 
-        if(taskId !== -1){
-            payload.id = taskId
-            dispatch(editTask(payload))
+        if(boardId !== -1){
+            payload.id = boardId
+            dispatch(editBoard(payload))
         } else {
-            dispatch(createTask(payload))
+            dispatch(createBoard(payload))
+            
          }
+
+         
         
     }
 
@@ -137,17 +112,12 @@ const AddBoardContainer = (props) => {
         <AddBoard
             boardTitle={boardTitle}
             setBoardTitle={setBoardTitle}
-            taskDescription={taskDescription}
-            setTaskDescription={setTaskDescription}
-            subTasks={subTasks}
-            setSubTasks={setSubTasks}
-            status={status}
-            setStatus={setStatus}
-            statusOptions={statusOptions}
-            addSubtask={addSubtask}
-            editSubtask={editSubtask}
-            deleteSubtask={deleteSubtask}
-            taskHandler={taskHandler}
+            columns={columns}
+            setColumns={setColumns}
+            addColumn={addColumn}
+            editColumn={editColumn}
+            deleteColumn={deleteColumn}
+            boardHandler={boardHandler}
             title={title}
             saveBoardButtonText={saveBoardButtonText}
             errors={errors}

@@ -32,32 +32,43 @@ const Board = (props) => {
     )
   }
 
+  let boardContent = (
+    <div className="kanban-board__new-panel">
+      <p className="kanban-board__text">This board is empty. Create a new column to get started.</p>
+      <button className="kanban-board__button kanban-board__button--main">
+        + Add New Column
+      </button>
+    </div>
+  );
+
+  console.log(props.board)
+
+   if (typeof props.board !== 'undefined' && props.board !== {}){
+      boardContent =  (
+        props.board.columns.map( (column,i) => {
+                
+        let taskCount = typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].length > 0 ? props.columnData[column.id].length : 0;
+          return (
+              <div className="kanban__column">
+                  <ColumnHeaderContainer title={column.name} taskCount={taskCount} type={column.name}/>
+                  { typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].map((task) => {
+                      return (
+                          <TaskContainer task={task} viewTask={props.viewTask} closeLightBox={props.closeLightBox}/>
+                      )
+                  })
+
+                  }
+              </div>
+          )
+      }))
+  }
+
     return (
       <Fragment>
         {lightbox}
     <div className="kanban-board kanban-board--active">
-        {/* <!-- <divclassName="kanban-board__new-panel">
-          <pclassName="kanban-board__text">This board is empty. Create a new column to get started.</p>
-          <buttonclassName="kanban-board__button kanban-board__button--main">
-            + Add New Column
-          </button>
-        </div> --> */}
-        {props.board.columns.map( (column,i) => {
-          
-          let taskCount = typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].length > 0 ? props.columnData[column.id].length : 0;
-            return (
-                <div className="kanban__column">
-                    <ColumnHeaderContainer title={column.name} taskCount={taskCount} type={column.name}/>
-                    { typeof props.columnData[column.id] !== 'undefined' && props.columnData[column.id].map((task) => {
-                        return (
-                            <TaskContainer task={task} viewTask={props.viewTask} closeLightBox={props.closeLightBox}/>
-                        )
-                    })
-
-                    }
-                </div>
-            )
-        })}
+        {boardContent}
+       
         </div>
         </Fragment>
 

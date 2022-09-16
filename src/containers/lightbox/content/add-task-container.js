@@ -82,7 +82,7 @@ const AddTaskContainer = (props) => {
         }
     })
 
-    const addSubtask = () => {
+    const addItem = () => {
         let newSubTasks = [...subTasks]
         newSubTasks.push({name:"",complete:false})
         setSubTasks(newSubTasks)
@@ -95,7 +95,7 @@ const AddTaskContainer = (props) => {
     }
 
     const deleteSubtask = (index) => {
-        var doDelete = window.confirm("Do you wish to delete this subtask?  This cannot be undone");
+        var doDelete = window.confirm("Do you wish to delete this subtask?  This data will be removed if you choose to save these changes");
 
         if(!doDelete){
             return false
@@ -143,7 +143,7 @@ const AddTaskContainer = (props) => {
             status={status}
             setStatus={setStatus}
             statusOptions={statusOptions}
-            addSubtask={addSubtask}
+            addItem={addItem}
             editSubtask={editSubtask}
             deleteSubtask={deleteSubtask}
             taskHandler={taskHandler}

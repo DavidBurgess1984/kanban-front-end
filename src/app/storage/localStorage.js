@@ -35,3 +35,49 @@ export const taskStorage = {
         window.localStorage.removeItem('tasks');
     }
 }
+
+export const boardStorage = {
+    getAll:() => {
+        return JSON.parse(window.localStorage.getItem('boards'));
+    },
+    create:(value) => {
+        let boards = boardStorage.getAll();
+        boards.push(value)
+        window.localStorage.setItem('boards', JSON.stringify(boards));
+    },
+    update:(taskId,value) => {
+        let boards = boardStorage.getAll();
+        boards.forEach((task,i) => {
+            if(task.id === taskId){
+                boards[i] = value
+            }
+        });
+
+        window.localStorage.setItem('boards', JSON.stringify(boards));
+    },
+    delete:(boardId) => {
+        let boards = boardStorage.getAll();
+        boards.forEach((board,i) => {
+            if(board.id === boardId){
+                boards.splice(i,1);
+            }
+        });
+
+        window.localStorage.setItem('boards', JSON.stringify(boards));
+    },
+    init:(data) => {
+        window.localStorage.setItem('boards',JSON.stringify(data));
+    },
+    clear:() => {
+        window.localStorage.removeItem('boards');
+    }
+}
+
+export const activeBoardStorage = {
+    get:() => {
+        return window.localStorage.getItem('activeBoard');
+    },
+    set:(value) => {
+        window.localStorage.setItem('activeBoard',value);
+    }
+}

@@ -5,9 +5,16 @@ import Board from "../../components/board/board";
 const BoardContainer = () => {
 
     const board = useSelector((state) => state.board)
-    const activeBoardIndex = 0;
+    
+    let activeBoard
 
-    let activeBoard = {...board.boards[activeBoardIndex]};
+    board.boards.forEach((boardData) => {
+        if(boardData.id == board.activeBoard){
+            activeBoard = {...boardData}
+        }
+    })
+
+
 
     const [taskIdDisplaying, viewTask] = useState(-1);
     const [taskMode, setTaskMode] = useState('view');
@@ -15,7 +22,7 @@ const BoardContainer = () => {
 
     // let columns = [...activeBoard.columns]
     const columnData = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
+        (state) => state.tasks.tasks.filter(task =>typeof activeBoard !== 'undefined' && task.board_id === activeBoard.id).reduce(function(map, obj) {
             if(typeof map[obj.column_id] === 'undefined' ){
                 map[obj.column_id] = []
             }
@@ -23,6 +30,10 @@ const BoardContainer = () => {
             return map;
         }, {})
     )
+
+    // if(!board){
+    //     return null
+    // }
 
 
     const closeLightBox = (e) => {

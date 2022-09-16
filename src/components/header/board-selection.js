@@ -7,8 +7,12 @@ const BoardSelection = (props) => {
           <div className="board-selection__panel">
             <h2 className="board-selection__title">All boards (3)</h2>
             <ul className="board-selection__panel-list ">
-              <li className="board-selection__panel-item board-selection__panel-item--active">Platform Launch</li>
-              <li className="board-selection__panel-item ">Marketing Launch</li>
+              {typeof props.boards !== "undefined" && props.boards.length > 0 && props.boards.map((board) => {
+                return (
+                  <li className={board.id == props.activeBoard ? "board-selection__panel-item board-selection__panel-item--active" : "board-selection__panel-item"} onClick={(e) => props.toggleActiveBoard(e, board.id)}>{board.title}</li>
+                )
+              })}
+              
               <li className="board-selection__panel-item  board-selection__panel-item--create" onClick={(e) => props.toggleAddBoardLightboxVisible(e)}>+ Create New Board</li>
             </ul>
             <ThemeToggleContainer />

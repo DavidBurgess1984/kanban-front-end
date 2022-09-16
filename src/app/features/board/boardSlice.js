@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { activeBoardStorage, boardStorage } from '../../storage/localStorage';
+
 
 export const defaultBoardColumns = [
     {
@@ -18,44 +20,121 @@ export const defaultBoardColumns = [
     }
 ]
 
+export const defaultBoardState = [
+    { 
+        "id":1,
+        "title":"Platform Launch",
+        "columns": defaultBoardColumns
+    },
+    { 
+        "id":2,
+        "title":"Marketing Launch",
+        "columns": defaultBoardColumns
+    }
+];
+
 export const boardSlice = createSlice({
     name:'boards',
     initialState:{
-        boards:[
-            { 
-                "id":1,
-                "title":"Platform Launch",
-                "columns": defaultBoardColumns
-            },
-            { 
-                "id":1,
-                "title":"Marketing Launch",
-                "columns": defaultBoardColumns
-            }
-        ],
-        activeBoard:0
+        boards:[],
+        activeBoard:-1,
+        errors:{}
     },
     reducers:{
+        setActiveBoard:(state,action) => {
+            activeBoardStorage.set(action.payload.activeBoard)
+            state.activeBoard = action.payload.activeBoard
+        },
         createBoard: (state,action) => {
+
             let board = {};
+            let errorsFound = false
+
+            if(action.payload.title.length === 0){
+                state.errors.title = "Can't be empty"
+                errorsFound = true
+            }
+
             board.id = makeid(10);
             board.title = action.payload.title;
-            board.columns = defaultBoardColumns
-            state.boards.push(board)
+
+            let columnErrors = {}
+            action.payload.columns.forEach((column,i) => {
+                if(column.name.length == 0){
+                    errorsFound = true
+                    columnErrors[i] = "Can't be Empty"
+                }
+                action.payload.columns[i].id = makeid(20)
+            })
+
+            if(errorsFound){
+                state.errors.items = columnErrors
+                return
+            }
+
+            if(!errorsFound){
+                board.columns = action.payload.columns
+                boardStorage.create(board)
+                state.boards.push(board)
+            }
+
+            boardSlice.caseReducers.setActiveBoard(state, {payload:{activeBoard:board.id }});
+            
         },
-        editBoardName: (state,action) => {
+        editBoard:(state,action) => {
+
+            let boardToUpdate = {}
             state.boards.forEach((board,i) => {
-                if(board.id === action.payload.board_id){
-                    state.boards[i].name = action.payload.name
+                if(board.id === action.payload.id){
+
+                    let errorsFound = false
+                    if(action.payload.title.length === 0){
+                        state.errors.title = "Can't be empty"
+                        errorsFound = true
+                    }
+
+                    let columnErrors = {}
+                    let columns = []
+                    action.payload.columns.forEach((column,i) => {
+                        let col = {...column}
+                        if(col.name.length == 0){
+                            errorsFound = true
+                            columnErrors[i] = "Can't be Empty"
+                        }
+                        col.id = makeid(20)
+                        columns.push(col)
+                    })
+
+                    action.payload.columns= columns
+
+                    if(errorsFound){
+                        state.errors.items = columnErrors
+                    } else {
+                        boardToUpdate = {...state.boards[i]}
+                        
+                        state.boards[i] = action.payload
+                    }
+                    
+                    
                 }
             })
+
+            boardStorage.init([...state.boards]) 
         },
         deleteBoard: (state,action) => {
             state.boards.forEach((board,i) => {
-                if(board.id === action.payload.board_id){
-                    delete state.boards[i]
+                if(board.id === action.payload.id){
+                    boardStorage.delete(board.id)
+                    state.boards.splice(i,1)
                 }
             })
+
+            let activeBoard = -1;
+            if(typeof state.boards[0].id !== 'undefined'){
+                activeBoard = state.boards[0].id 
+            }
+            boardSlice.caseReducers.setActiveBoard(state, {payload:{activeBoard:activeBoard }});
+
         },
         addBoardColumn:(state,action) => {
             state.boards.forEach((board,i) => {
@@ -88,6 +167,23 @@ export const boardSlice = createSlice({
                 }
             })
         },
+        initialiseBoards:(state, _)=>{
+            // boardStorage.clear()
+            let boardsInStorage = boardStorage.getAll()
+            let boards = []
+
+            if(!boardsInStorage){
+                boardStorage.init(defaultBoardState);
+                boards = defaultBoardState
+                state.activeBoard = boards[0].id;
+            } else {
+                boards = boardsInStorage
+                state.activeBoard = boards[0].id;
+            }
+
+            
+            state.boards = boards
+        }
     }
 })
 
@@ -108,7 +204,10 @@ export const {
     deleteBoard,
     addBoardColumn,
     editBoardColumnName,
-    deleteBoardColumn
+    deleteBoardColumn,
+    editBoard,
+    initialiseBoards,
+    setActiveBoard
 } = boardSlice.actions
 
 export default boardSlice.reducer
