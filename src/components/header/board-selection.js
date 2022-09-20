@@ -7,15 +7,18 @@ const BoardSelection = (props) => {
           <div className="board-selection__panel">
             <h2 className="board-selection__title">All boards (3)</h2>
             <ul className="board-selection__panel-list ">
-              {typeof props.boards !== "undefined" && props.boards.length > 0 && props.boards.map((board) => {
+              {typeof props.boards !== "undefined" && props.boards.length > 0 && props.boards.map((board,i) => {
                 return (
-                  <li className={board.id == props.activeBoard ? "board-selection__panel-item board-selection__panel-item--active" : "board-selection__panel-item"} onClick={(e) => props.toggleActiveBoard(e, board.id)}>{board.title}</li>
+                  <li key={"board-select-"+i}className={board.id == props.activeBoard ? "board-selection__panel-item board-selection__panel-item--active" : "board-selection__panel-item"} onClick={(e) => props.toggleActiveBoard(e, board.id)}>{board.title}</li>
                 )
               })}
               
-              <li className="board-selection__panel-item  board-selection__panel-item--create" onClick={(e) => props.toggleAddBoardLightboxVisible(e)}>+ Create New Board</li>
+              <li className="board-selection__panel-item  board-selection__panel-item--create" onClick={(e) => props.showAddBoardLightbox(e)}>+ Create New Board</li>
             </ul>
             <ThemeToggleContainer />
+            <a className="board-selection__hide-sidebar" onClick={(e) => props.closeNavigationPanel(e)}>
+              <p className="board-selection__hide-text" >Hide Sidebar</p>
+            </a>
           </div>
         </div>
     )

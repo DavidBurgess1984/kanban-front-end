@@ -5,30 +5,30 @@ import { activeBoardStorage, boardStorage } from '../../storage/localStorage';
 export const defaultBoardColumns = [
     {
         "name": "todo",
-        "id" : 1,
+        "id" : "1",
         "tasks":[]
     },
     {
         "name" : "doing",
-        "id" : 2,
+        "id" : "2",
         "tasks":[]
     },
     {
         "name" : "done",
-        "id" :3,
+        "id" :"3",
         "tasks":[]
     }
 ]
 
 export const defaultBoardState = [
     { 
-        "id":1,
+        "id":"1",
         "title":"Platform Launch",
         "columns": defaultBoardColumns
     },
     { 
-        "id":2,
-        "title":"Marketing Launch",
+        "id":"2",
+        "title":"Marketing Plan",
         "columns": defaultBoardColumns
     }
 ];
@@ -60,7 +60,7 @@ export const boardSlice = createSlice({
 
             let columnErrors = {}
             action.payload.columns.forEach((column,i) => {
-                if(column.name.length == 0){
+                if(column.name.length === 0){
                     errorsFound = true
                     columnErrors[i] = "Can't be Empty"
                 }
@@ -83,7 +83,7 @@ export const boardSlice = createSlice({
         },
         editBoard:(state,action) => {
 
-            let boardToUpdate = {}
+           
             state.boards.forEach((board,i) => {
                 if(board.id === action.payload.id){
 
@@ -97,11 +97,15 @@ export const boardSlice = createSlice({
                     let columns = []
                     action.payload.columns.forEach((column,i) => {
                         let col = {...column}
-                        if(col.name.length == 0){
+                        if(col.name.length === 0){
                             errorsFound = true
                             columnErrors[i] = "Can't be Empty"
                         }
-                        col.id = makeid(20)
+
+                        if(typeof col.id === 'undefined'){
+                            col.id = makeid(20)
+                        }
+                        
                         columns.push(col)
                     })
 
@@ -109,9 +113,7 @@ export const boardSlice = createSlice({
 
                     if(errorsFound){
                         state.errors.items = columnErrors
-                    } else {
-                        boardToUpdate = {...state.boards[i]}
-                        
+                    } else {                        
                         state.boards[i] = action.payload
                     }
                     
@@ -183,7 +185,23 @@ export const boardSlice = createSlice({
 
             
             state.boards = boards
-        }
+        },
+        clearBoardError(state,action){
+            if(typeof action.payload.index !== 'undefined'  && action.payload.error_type === 'items'){
+                
+                if(typeof state.errors.items !== 'undefined'){
+                  
+                    delete state.errors.items[action.payload.index]
+                }
+                
+            } else {
+                delete state.errors[action.payload.error_type]
+            }
+            
+        },
+        clearAllBoardErrors(state){
+            state.errors = {}
+        },
     }
 })
 
@@ -207,7 +225,9 @@ export const {
     deleteBoardColumn,
     editBoard,
     initialiseBoards,
-    setActiveBoard
+    setActiveBoard,
+    clearBoardError,
+    clearAllBoardErrors
 } = boardSlice.actions
 
 export default boardSlice.reducer

@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setLightboxContent, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
+import { toggleNavigationVisible } from "../../app/features/navigation/navigationSlice";
 import Board from "../../components/board/board";
 
 const BoardContainer = () => {
 
     const board = useSelector((state) => state.board)
-    
+    const dispatch = useDispatch()
     let activeBoard
 
     board.boards.forEach((boardData) => {
-        if(boardData.id == board.activeBoard){
+        if(boardData.id === board.activeBoard){
             activeBoard = {...boardData}
         }
     })
 
+    const navigation = useSelector(state => state.navigation)
 
-
-    const [taskIdDisplaying, viewTask] = useState(-1);
-    const [taskMode, setTaskMode] = useState('view');
-    
 
     // let columns = [...activeBoard.columns]
     const columnData = useSelector(
@@ -31,35 +30,33 @@ const BoardContainer = () => {
         }, {})
     )
 
-    // if(!board){
-    //     return null
-    // }
+    for(let col in columnData){
+        columnData[col].sort((a,b) => a.sort_order - b.sort_order)
+    }
 
+    const showBoardEditModal = (e) => {
+        dispatch(setLightboxContent({content:'edit-board'}));
+        dispatch(toggleLightboxVisible({isVisible:true}));
+    }
 
-    const closeLightBox = (e) => {
-
-        
-
-        if(e.target === e.currentTarget) {
-            e.preventDefault();
-            setTaskMode('view')
-            viewTask(-1)
-        }
-        
-
-        
+    const toggleNavigationPanel = (e) => {
     
+        e.preventDefault();
+        e.stopPropagation();
+        // alert('here')
+        //lightbox grey bg click
+        if (e.target === e.currentTarget) {
+            dispatch(toggleNavigationVisible({isVisible:!navigation.isVisible}))
+        }
     }
 
     return (
         <Board 
+            navigation={navigation}
             board={activeBoard} 
             columnData={columnData} 
-            taskIdDisplaying={taskIdDisplaying}
-            viewTask={viewTask}
-            closeLightBox={closeLightBox}
-            taskMode={taskMode}
-            setTaskMode={setTaskMode}
+            showBoardEditModal={showBoardEditModal}
+            toggleNavigationPanel={toggleNavigationPanel}
         />
     )
 }

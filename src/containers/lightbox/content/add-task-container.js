@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
+import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
 import { clearAllTaskErrors, clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
 import AddTask from "../../../components/lightbox/content/add-task";
 
@@ -13,16 +14,26 @@ const AddTaskContainer = (props) => {
     const [taskTitle, setTaskTitle] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
     const [subTasks, setSubTasks] = useState([{name:"",complete:false},{name:"",complete:false}])
-    const [status,setStatus] = useState(1)
-    
-    const activeBoardIndex = useSelector((state) => state.board.activeBoard);
+    const [status,setStatus] = useState(-1)
+
 
     const board = useSelector((state) => state.board)
-    let activeBoard = {...board.boards[activeBoardIndex]};
+    const lightbox = useSelector((state) => state.lightbox)
+    let activeBoard
+
+    board.boards.forEach((boardData) => {
+        if(boardData.id == board.activeBoard){
+            activeBoard = {...boardData}
+        }
+    })
 
     const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
+        (state) => state.tasks.tasks.filter(task => task.id === lightbox.taskId)
     )[0]
+
+    const boardTasks = useSelector(
+        (state) => state.tasks.tasks.filter(task => task.id === activeBoard.id)
+    )
 
     const errors = useSelector((state) => state.tasks.errors)
 
@@ -52,9 +63,15 @@ const AddTaskContainer = (props) => {
     },[taskDescription])
 
     useEffect(() => {
+        if(status != -1){
+            dispatch(clearTaskError({error_type:'status'}))
+        }
+    },[status])
+
+    useEffect(() => {
         subTasks.forEach((subtask, i) => {
             if(subtask.name.length > 0){
-                dispatch(clearTaskError({error_type:'subtask',index: i}))
+                dispatch(clearTaskError({error_type:'items',index: i}))
             }
         })
     },[subTasks])
@@ -74,7 +91,7 @@ const AddTaskContainer = (props) => {
             return map;
         }, {})
     )
-
+ 
     const statusOptions = activeBoard.columns.map((column) => {
         return {
             name: column.name.charAt(0).toUpperCase() + column.name.slice(1),
@@ -89,9 +106,11 @@ const AddTaskContainer = (props) => {
     }
 
     const editSubtask = (index,titleText) => {
-        let newSubTasks = [...subTasks]
-        newSubTasks[index].name = titleText
-        setSubTasks(newSubTasks)
+        let newSubtasks = [...subTasks]
+        let newSubTask = {...newSubtasks[index]}
+        newSubTask.name = titleText
+        newSubtasks[index] = newSubTask
+        setSubTasks(newSubtasks)
     }
 
     const deleteSubtask = (index) => {
@@ -108,10 +127,18 @@ const AddTaskContainer = (props) => {
 
     const taskHandler = (e) => {
 
-        let sortOrder = 9999;
+        let sortOrder = 0;
+
+        let maxSortOrder = 0;
+
+        boardTasks.forEach((task) => {
+            if(task.sortOrder > maxSortOrder){
+                maxSortOrder = task.sort_order
+            }
+        })
 
         if(typeof columnData[status] !== 'undefined'){
-            sortOrder = columnData[status].length + 1
+            sortOrder = maxSortOrder + 1
         }
 
         let payload = {
@@ -123,12 +150,16 @@ const AddTaskContainer = (props) => {
             "subtasks" : subTasks
         }
 
+        // console.log(payload);
+        // return;
+
         if(taskId !== -1){
             payload.id = taskId
             dispatch(editTask(payload))
         } else {
             dispatch(createTask(payload))
          }
+        //  dispatch(toggleLightboxVisible({isVisible:false}))
         
     }
 

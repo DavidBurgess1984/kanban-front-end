@@ -17,7 +17,7 @@ const ColumnHeader = (props) => {
     }
 
     return (
-        <div class={"kanban-status__name "+statusNameClass}>
+        <div className={"kanban-status__name "+statusNameClass}>
             {props.title + " (" + props.taskCount + ")" }
         </div>
     )

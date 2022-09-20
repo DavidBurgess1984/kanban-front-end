@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
+import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
 import { createTask, deleteTask, editTask } from "../../../app/features/task/taskSlice";
 import DeleteTask from "../../../components/lightbox/content/delete-task";
 
@@ -33,12 +34,16 @@ const DeleteTaskContainer = (props) => {
         props.closeLightBox(e,directClick)
     }
 
+    const closeLightBox = () => {
+        dispatch(toggleLightboxVisible({isVisible:false}))
+    }
+
     return (
         <DeleteTask 
             deleteTask={deleteTask}
             title={taskTitle}
             deleteTaskHandler={deleteTaskHandler }
-            closeLightBox={props.closeLightBox}
+            closeLightBox={closeLightBox}
         />
     )
 }

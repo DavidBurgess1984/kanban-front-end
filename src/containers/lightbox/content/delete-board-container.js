@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteBoard } from "../../../app/features/board/boardSlice";
+import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
 import DeleteBoard from "../../../components/lightbox/content/delete-board";
 
 const DeleteBoardContainer = (props) => {
@@ -10,7 +11,11 @@ const DeleteBoardContainer = (props) => {
     const deleteBoardHandler = (e) => {
         e.preventDefault()
         dispatch(deleteBoard({id:props.activeBoard.id}))
-        props.closeLightBox()
+        dispatch(toggleLightboxVisible({isVisible:false}))
+    }
+
+    const closeLightBox = (e) => {
+        dispatch(toggleLightboxVisible({isVisible:false}))
     }
 
     return (
@@ -18,7 +23,7 @@ const DeleteBoardContainer = (props) => {
             deleteBoard={deleteBoard}
             title={props.activeBoard.title}
             deleteBoardHandler={deleteBoardHandler }
-            closeLightBox={props.closeLightBox}
+            closeLightBox={closeLightBox}
         />
     )
 }

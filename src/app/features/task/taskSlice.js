@@ -25,6 +25,11 @@ export const taskSlice = createSlice({
                 errorsFound = true
             }
 
+            if(data.column_id === -1){
+                state.errors.status = "Must be selected"
+                errorsFound = true
+            }
+
             data.id = makeid(10)
 
             let subtaskErrors = {}
@@ -42,8 +47,10 @@ export const taskSlice = createSlice({
             })
 
             if(errorsFound){
-                state.errors.subtasks = subtaskErrors
+                state.errors.items = subtaskErrors
             }
+
+
 
 
             if(!errorsFound){
@@ -54,9 +61,11 @@ export const taskSlice = createSlice({
             
         },
         clearTaskError(state,action){
-            if(typeof action.payload.index !== 'undefined'){
-                if(typeof state.errors.subtasks !== 'undefined'){
-                    delete state.errors.subtasks[action.payload.index]
+            if(typeof action.payload.index !== 'undefined'  && action.payload.error_type === 'items'){
+                
+                if(typeof state.errors.items !== 'undefined'){
+                  
+                    delete state.errors.items[action.payload.index]
                 }
                 
             } else {
@@ -85,7 +94,7 @@ export const taskSlice = createSlice({
 
             state.tasks.forEach((task,i) => {
                 if(task.id === action.payload.task_id){
-                    state.tasks[i].column_id = parseInt(action.payload.column_id)
+                    state.tasks[i].column_id = action.payload.column_id
                     taskToUpdate = {...state.tasks[i]}
                 }
             })

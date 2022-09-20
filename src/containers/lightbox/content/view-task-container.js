@@ -1,21 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setLightboxContent } from "../../../app/features/lightbox/lightboxSlice";
 import { editSubtask, editTaskColumn } from "../../../app/features/task/taskSlice";
 import ViewTask from "../../../components/lightbox/content/view-task";
 
 const ViewTaskContainer = (props) => {
-
-    const activeBoardIndex = useSelector((state) => state.board.activeBoard);
     
     const [taskDropdownOpen, setTaskDropdownOpen] = useState(false)
     const dispatch = useDispatch()
-    const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef);
     const board = useSelector((state) => state.board)
-    let activeBoard = {...board.boards[activeBoardIndex]};
+
+    let activeBoard
+
+    board.boards.forEach((boardData) => {
+        if(boardData.id == board.activeBoard){
+            activeBoard = {...boardData}
+        }
+    })
+
+    const lightbox = useSelector(state => state.lightbox)
+
 
     const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
+        (state) => state.tasks.tasks.filter(task => task.id === lightbox.taskId)
     )[0]
 
     const statusOptions = activeBoard.columns.map((column) => {
@@ -27,7 +34,6 @@ const ViewTaskContainer = (props) => {
 
     const toggleSubtaskStatus = (subtaskId) => {
         const newTask = {...task}
-
         let newSubtask = {}
         newTask.subtasks.forEach( (subtask,i) => {
             if(subtask.id == subtaskId){
@@ -38,9 +44,6 @@ const ViewTaskContainer = (props) => {
 
         })
 
-
-
-
         dispatch(editSubtask({
             task_id:task.id,
             subtask_id:subtaskId,
@@ -49,30 +52,22 @@ const ViewTaskContainer = (props) => {
     }
 
     const toggleTaskStatus = (columnId) => {
+       
         dispatch(editTaskColumn({
             task_id:task.id,
             column_id:columnId,
         }))
     }
 
-    function useOutsideAlerter(ref) {
-        useEffect(() => {
-          /**
-           * Alert if clicked on outside of element
-           */
-          function handleClickOutside(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
-                setTaskDropdownOpen(false)
-            }
-          }
-          // Bind the event listener
-          document.addEventListener("mousedown", handleClickOutside);
-          return () => {
-            // Unbind the event listener on clean up
-            document.removeEventListener("mousedown", handleClickOutside);
-          };
-        }, [ref]);
-      }
+    const setTaskEditMode = () => {
+        dispatch(setLightboxContent({content:'edit-task'}))
+    }
+
+    const setTaskDeleteMode = () => {
+        dispatch(setLightboxContent({content:'delete-task'}))
+    }
+
+    // return null
 
     return (
         <ViewTask 
@@ -80,9 +75,10 @@ const ViewTaskContainer = (props) => {
             statusOptions={statusOptions} 
             toggleSubtaskStatus={toggleSubtaskStatus} 
             toggleTaskStatus={toggleTaskStatus}
-            wrapperRef={wrapperRef}
             taskDropdownOpen={taskDropdownOpen}
             setTaskDropdownOpen={setTaskDropdownOpen}
+            setTaskEditMode={setTaskEditMode}
+            setTaskDeleteMode={setTaskDeleteMode}
             {...props}
         />
     )

@@ -29,6 +29,14 @@ a {
 
 .navigation__logo{
     cursor: pointer;
+    background: url('../assets/logo-mobile.svg');
+    background-repeat: no-repeat;
+    background-position: left center;
+    display: inline-block;
+    background-size: 25px 24px;
+    height: 100%;
+    width: 25px;
+    /* height: 100%; */
 }
 
 .header__item--left{
@@ -130,6 +138,12 @@ a {
     color: var(--white);
 }
 
+.header__button--danger:hover,.form__button--danger:hover,
+.header__button--danger:active,.form__button--danger:active,
+.header__button--danger:focus,.form__button--danger:focus {
+    background-color: var(--light-red);
+}
+
 .header__more-info-button{
     background: url('../assets/icon-vertical-ellipsis.svg');
     background-repeat: no-repeat;
@@ -146,6 +160,7 @@ a {
     align-items: center;
     margin:0 16px;
     justify-content: center;
+    overflow-x: auto;
 }
 
 .kanban-board__new-panel{
@@ -193,9 +208,33 @@ a {
     margin: 24px;
 }
 
+.kanban-board--center{
+    align-items: center;
+    justify-content: center;
+}
+
 .kanban__column{
     margin-right: 24px;
     width: 280px;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.kanban__column--create{
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--column-add-blue);
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.kanban__add{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--lighter-smoke-grey);
 }
 
 .kanban-status__name{
@@ -218,7 +257,7 @@ a {
     -moz-border-radius: 7.5px;
     -webkit-border-radius: 7.5px;
     border-radius: 7.5px;
-    background-color: var(--medium-smoke-grey);
+    background-color: var(--task-status-todo);
 }
 
 .kanban-status__name--todo::before{
@@ -233,6 +272,8 @@ a {
     background-color: var(--task-status-done);
 }
 
+
+
 .kanban__task{
     width: 280px;
     min-height: 88px;
@@ -246,6 +287,12 @@ a {
     padding:16px;
     box-sizing: border-box;
     cursor:pointer;
+}
+
+.kanban__task:hover .task__title,
+.kanban__task:focus .task__title,
+.kanban__task:active .task__title{
+    color: var(--deep-purple);
 }
 
 .task__title{
@@ -268,6 +315,7 @@ a {
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     z-index: 10;
 }
 
@@ -324,6 +372,7 @@ a {
 
 .list__status{
     margin-bottom: 24px;
+    position: relative;
 }
 
 .subtasks{
@@ -434,6 +483,10 @@ a {
     position: relative;
 }
 
+.status__select--error{
+    border:1px solid var(--red);
+}
+
 
 .status__option{
     padding: 16px;
@@ -455,6 +508,10 @@ a {
     position: absolute;
 }
 
+.status__wrapper--error:after{
+    background: url('../assets/icon-chevron-down-red.svg');
+    background-repeat: no-repeat;
+}
 
 .task__input{
     margin-bottom: 24px;
@@ -470,6 +527,13 @@ a {
     position: absolute;
     right:16px;
     bottom:12px;
+    z-index: 1;
+}
+
+.task__error-msg--right{
+
+    right:36px;
+
 }
 
 .task__error-msg--subtask{
@@ -583,6 +647,7 @@ a {
 
 .theme-toggle{
     margin-left: 24px;
+    margin-bottom: 22px;
     background-color: var(--light-grey);
     height: 48px;
     /* width: 100%; */
@@ -625,6 +690,10 @@ a {
     cursor: pointer;
 }
 
+.switch:hover, .switch:active, .switch:focus{
+    background-color: var(--main-purple-hover);
+}
+
 .switch__dial{
     width:14px;
     height: 14px;
@@ -663,10 +732,172 @@ a {
     color: var(--red);
 }
 
+.board-selection__hide-sidebar{
+    display:none;
+}
+
 @media (max-height:720px) {
     .lightbox{
         padding-top:10px;
         padding-bottom: 10px;
         box-sizing: border-box;
+    }
+}
+
+@media (min-width:500px){
+    .board-selection__container{
+        background-color: unset;
+        width: 300px;
+    }
+
+    .board-selection{
+        /* display: none; */
+        background: none;
+        cursor: auto;
+    }
+
+    .board-selection__panel{
+        margin: 0;
+        border-radius: 0px;
+        height: calc(100% - 32px);
+        border-radius: 1px solid var(--light-purple);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .kanban-board--navigation-active{
+        margin-left:320px
+    }
+
+    .board-selection__hide-sidebar{
+        padding-left:24px;
+        padding-top:14px;
+        padding-bottom:14px;
+        cursor:pointer;
+        display: block;
+        
+    }
+
+    .board-selection__hide-sidebar:active,.board-selection__hide-sidebar:focus,.board-selection__hide-sidebar:hover{
+        background-color: var(--main-purple-light);
+        
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .board-selection__hide-sidebar:active .board-selection__hide-text,.board-selection__hide-sidebar:focus .board-selection__hide-text,.board-selection__hide-sidebar:hover .board-selection__hide-text{
+        color: var(--deep-purple);
+    }
+
+    .board-selection__hide-sidebar:active .board-selection__hide-text:before ,.board-selection__hide-sidebar:focus .board-selection__hide-text:before, .board-selection__hide-sidebar:hover .board-selection__hide-text:before {
+        background:url('../assets/icon-hide-sidebar-purple.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .board-selection__hide-text{
+        font-weight: 700;
+        color: var(--lighter-smoke-grey);
+        font-size: 15px;
+        position: relative;
+        padding-left: 34px;
+        
+    }
+
+    .theme-toggle{
+        margin-top: auto;
+    }
+    
+
+    .board-selection__hide-text:before{
+        background:url('../assets/icon-hide-sidebar.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        content: "";
+        width: 18px;
+        height: 15px;
+        display: inline-block;
+        top:0px;
+        left:4px;
+        position: absolute;
+    }
+
+
+
+    .board__show-navigation-btn{
+        display: inline-block;
+        height: 48px;
+        width: 56px;
+        position: absolute;
+        left:0;
+        bottom:15px;
+        border-top-right-radius: 100px;
+        border-bottom-right-radius: 100px;
+        background: var(--deep-purple) url('../assets/icon-show-sidebar.svg');
+        background-repeat: no-repeat;
+        background-position: left 16px center;
+    }
+
+    .board__show-navigation-btn:hover, .board__show-navigation-btn:focus, .board__show-navigation-btn:active{
+        background: var(--main-purple) url('../assets/icon-show-sidebar.svg');
+        background-repeat: no-repeat;
+        background-position: left 16px center;
+    }
+
+    .navigation__logo{
+        cursor: pointer;
+        background: url('../assets/logo-dark.svg');
+        background-repeat: no-repeat;
+        background-position: left center;
+        display: inline-block;
+        background-size: 153px 26px;
+        height: 100%;
+        width: 280px;
+        border-right:1px solid var(--light-purple);
+    }
+
+    .header__button--create{
+        width: unset;
+        padding: 5px 25px;
+        display: flex;
+        align-items: center;
+        background: var(--deep-purple);
+        font-weight: 700;
+        color: var(--white);
+    }
+
+    .header__button--create:hover, header__button--create:focus,.header__button--create:active{
+        background-color: var(--main-purple);
+    }
+
+    .kanban__column--create:hover .kanban__add, .kanban__column--create:active .kanban__add,.kanban__column--create:focus .kanban__add{
+        color: var(--deep-purple);
+    }
+
+    .board-selection__panel-item:hover, .board-selection__panel-item:active, .board-selection__panel-item:focus{
+        background-color: var( --main-purple-light);
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+    }
+
+    .board-selection__panel-item:hover, .board-selection__panel-item:active, .board-selection__panel-item:focus{
+        background-color: var( --main-purple-light);
+        border-top-right-radius: 24px;
+        border-bottom-right-radius: 24px;
+    }
+    .board-selection__panel-item--active:hover, .board-selection__panel-item--active:focus,.board-selection__panel-item--active:active{
+        background-color: var(--deep-purple);
+    }
+
+    .lightbox__container{
+        width:480px
+    }
+
+    .lightbox__confirm-container{
+        display: flex;
+    }
+
+    .lightbox__button-container{
+        flex:1
     }
 }

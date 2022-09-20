@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { createBoard, editBoard } from "../../../app/features/board/boardSlice";
-import { clearAllTaskErrors, clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
+import { clearAllBoardErrors, clearBoardError, createBoard, editBoard } from "../../../app/features/board/boardSlice";
 import AddBoard from "../../../components/lightbox/content/add-board";
-import AddTask from "../../../components/lightbox/content/add-task";
 
 const AddBoardContainer = (props) => {
 
@@ -17,17 +15,6 @@ const AddBoardContainer = (props) => {
     // const [status,setStatus] = useState(1)
     
     const errors = useSelector((state) => state.board.errors);
-
-    // const board = useSelector((state) => state.board)
-    // let activeBoard = {...board.boards[activeBoardIndex]};
-
-    // const task = useSelector(
-    //     (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
-    // )[0]
-
-    // const errors = useSelector((state) => state.tasks.errors)
-
-    console.log(errors)
 
     useEffect(() => {
 
@@ -43,22 +30,21 @@ const AddBoardContainer = (props) => {
 
     useEffect(() => {
         if(boardTitle.length > 0){
-            dispatch(clearTaskError({error_type:'title'}))
+            dispatch(clearBoardError({error_type:'title'}))
         }
     },[boardTitle])
 
-
     useEffect(() => {
-        columns.forEach((subtask, i) => {
-            if(subtask.name.length > 0){
-                dispatch(clearTaskError({error_type:'subtask',index: i}))
+        columns.forEach((column, i) => {
+            if(column.name.length > 0){
+                dispatch(clearBoardError({error_type:'items',index: i}))
             }
         })
     },[columns])
 
     useEffect(() => {
         return () => {
-            dispatch(clearAllTaskErrors());
+            dispatch(clearAllBoardErrors());
         }
     },[])
 
@@ -72,7 +58,9 @@ const AddBoardContainer = (props) => {
 
     const editColumn = (index,titleText) => {
         let newColumns = [...columns]
-        newColumns[index].name = titleText
+        let newCol = {...newColumns[index]}
+        newCol.name = titleText
+        newColumns[index] = newCol
         setColumns(newColumns)
     }
 
@@ -101,10 +89,8 @@ const AddBoardContainer = (props) => {
             dispatch(editBoard(payload))
         } else {
             dispatch(createBoard(payload))
-            
          }
 
-         
         
     }
 

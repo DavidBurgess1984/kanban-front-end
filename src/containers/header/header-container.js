@@ -2,78 +2,81 @@
 
 
 
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import React, {  useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setLightboxContent, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
+import { toggleNavigationVisible } from "../../app/features/navigation/navigationSlice";
+import useWindowDimensions from "../../app/utilities/useWindowDimensions";
 import Header from "../../components/header/header";
 
 const HeaderContainer = () => {
 
-    const [navigationVisible, toggleNavigationVisible] = useState(false);
-    const [addTaskLightBoxVisible, toggleAddTaskLightBoxVisible] = useState(false);
-    const [lightboxContent,setLightBoxContent] = useState('add-task')
+    const { width } = useWindowDimensions();
     const [boardDropdownOpen, setBoardDropdownOpen] = useState(false)
+    const dispatch = useDispatch();
+    
+    const navigation = useSelector(state => state.navigation)
 
     let activeBoard
-
     const board = useSelector((state) => state.board);
 
     board.boards.forEach((boardData) => {
-        if(boardData.id == board.activeBoard){
+        if(boardData.id === board.activeBoard){
             activeBoard = {...boardData}
         }
     })
 
-    const tasks = useSelector((state) => state.tasks.tasks)
+    const lightbox = useSelector(state => state.lightbox)
 
+    
     const toggleNavigationPanel = (e) => {
         
         e.preventDefault();
         e.stopPropagation();
-
+        // alert('here')
+        const inMobileMode = width <= 500
         //lightbox grey bg click
-        if (e.target === e.currentTarget) {
-            toggleNavigationVisible(!navigationVisible)
+        if (e.target === e.currentTarget  && inMobileMode ) {
+            dispatch(toggleNavigationVisible({isVisible:!navigation.isVisible}))
         }
     }
 
-
-    const toggleAddTaskLightboxVisible = (e) => {
+    const showAddTaskLightbox = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         //lightbox grey bg click
         if (e.target === e.currentTarget) {
-            setLightBoxContent('add-task')
-            toggleAddTaskLightBoxVisible(!addTaskLightBoxVisible)
+            dispatch(setLightboxContent({content:'add-task'}));
+            dispatch(toggleLightboxVisible({isVisible:true}));
         }
     }
 
-    const toggleEditBoardLightboxVisible = (e) => {
-        toggleAddTaskLightBoxVisible(true)
-            setLightBoxContent('edit-board')
-            toggleNavigationVisible(false)
-            setBoardDropdownOpen(false)
+    const showEditBoardLightboxVisible = (e) => {
+        dispatch(setLightboxContent({content:'edit-board'}));
+        dispatch(toggleLightboxVisible({isVisible:true}));
+        toggleNavigationVisible({isVisible:true})
+        setBoardDropdownOpen(false)
         
     }
 
-    const toggleDeleteBoardLightboxVisible = (e) => {
-        toggleAddTaskLightBoxVisible(true)
-        setLightBoxContent('delete-board')
-        toggleNavigationVisible(false)
+    const showDeleteBoardLightbox = (e) => {
+        dispatch(setLightboxContent({content:'delete-board'}));
+        dispatch(toggleLightboxVisible({isVisible:true}));
+        toggleNavigationVisible({isVisible:true})
         setBoardDropdownOpen(false)
     }
 
-    const toggleAddBoardLightboxVisible = (e) => {
+    const showAddBoardLightbox = (e) => {
 
         e.preventDefault();
         e.stopPropagation();
 
-        toggleAddTaskLightBoxVisible(true)
-        setLightBoxContent('add-board')
-        toggleNavigationVisible(false)
-
+        dispatch(setLightboxContent({content:'add-board'}));
+        dispatch(toggleLightboxVisible({isVisible:true}));
+        toggleNavigationVisible({isVisible:true})
+        setBoardDropdownOpen(false)
     }
-
 
     function useOutsideAlerter(ref) {
         useEffect(() => {
@@ -82,7 +85,7 @@ const HeaderContainer = () => {
            */
           function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
-              setBoardDropdownOpen(false)
+                setBoardDropdownOpen(false)
             }
           }
           // Bind the event listener
@@ -94,37 +97,28 @@ const HeaderContainer = () => {
         }, [ref]);
       }
 
-    //on new task created
-    useEffect(() => {
-        toggleAddTaskLightBoxVisible(false)
-    },[tasks])
 
-    useEffect(() => {
-        toggleAddTaskLightBoxVisible(false)
-    },[board])
-
+      
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
-
 
     if(!activeBoard){
         return null
     }
-
     
     return (
         <Header 
-            navigationVisible={navigationVisible}
+            navigationVisible={navigation.isVisible}
             toggleNavigationPanel={toggleNavigationPanel}
-            addTaskLightBoxVisible={addTaskLightBoxVisible}
-            toggleAddTaskLightboxVisible={toggleAddTaskLightboxVisible}
+            showAddTaskLightbox={showAddTaskLightbox}
             boardDropdownOpen={boardDropdownOpen}
             setBoardDropdownOpen={setBoardDropdownOpen}
-            lightboxContent={lightboxContent}
+            lightboxContent={lightbox.content}
             activeBoard={activeBoard}
-            toggleAddBoardLightboxVisible={toggleAddBoardLightboxVisible}
-            toggleEditBoardLightboxVisible={toggleEditBoardLightboxVisible}
-            toggleDeleteBoardLightboxVisible={toggleDeleteBoardLightboxVisible}
+            showAddBoardLightbox={showAddBoardLightbox}
+            showEditBoardLightboxVisible={showEditBoardLightboxVisible}
+            showDeleteBoardLightbox={showDeleteBoardLightbox}
+            width={width}
             wrapperRef={wrapperRef}
         />
     )

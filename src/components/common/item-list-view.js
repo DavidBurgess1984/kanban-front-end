@@ -3,23 +3,23 @@ import { createSubTask } from "../../app/features/task/taskSlice";
 
 import ItemView from "./item-view";
 
-const ItemListView = ({subtasks,toggleSubtaskStatus}) => {
+const ItemListView = ({items,toggleItemStatus}) => {
 
-    let subtaskList = [];
-    let subtaskCompletedCount = 0;
+    let itemList = [];
+    let itemCompletedCount = 0;
 
-    subtasks.map((subtask,i) => {
-        if(subtask.complete){
-            subtaskCompletedCount++
+    items.map((item,i) => {
+        if(item.complete){
+            itemCompletedCount++
         }
-        subtaskList.push(<ItemView key={"subtask-item-"+i} checked={subtask.complete} name={subtask.name} index={i} toggleSubtaskStatus={toggleSubtaskStatus} id={subtask.id}/>)
+        itemList.push(<ItemView key={"item-view-"+i} checked={item.complete} name={item.name} index={i} toggleItemStatus={toggleItemStatus} id={item.id}/>)
     });
 
     return (
         <Fragment>
-            <h3 className="list__title">{"Subtasks ("+subtaskCompletedCount+" of "+subtasks.length+")"}</h3>
-            <ul className="subtasks">
-                {subtaskList}
+            <h3 className="list__title">{"Subtasks ("+itemCompletedCount+" of "+items.length+")"}</h3>
+            <ul className="items">
+                {itemList}
             </ul>
         </Fragment>
     )

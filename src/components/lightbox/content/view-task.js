@@ -11,8 +11,8 @@ const ViewTask = (props) => {
         taskViewDropdown = (
         <div className="task__toggle-dropdown" ref={props.wrapperRef}>
             <ul className='task__toggle-dropdown-list'>
-                <li className="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskMode('edit')}>Edit Task</li>
-                <li className="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskMode('delete')}>Delete Task</li>
+                <li className="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskEditMode()}>Edit Task</li>
+                <li className="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskDeleteMode()}>Delete Task</li>
             </ul>
         </div>
         )
@@ -28,7 +28,7 @@ const ViewTask = (props) => {
             </div>
             <div className="lightbox__content">
                 <Description text={props.task.description}/>
-                <ItemListView subtasks={props.task.subtasks} toggleSubtaskStatus={props.toggleSubtaskStatus}/>
+                {typeof props.task.subtasks !== "undefined" && props.task.subtasks.length > 0 && <ItemListView items={props.task.subtasks} toggleItemStatus={props.toggleSubtaskStatus}/>}
                 <Select title="Status" options={props.statusOptions} selected={props.task.column_id} handleChange={props.toggleTaskStatus} />
             </div>
       </Fragment>
