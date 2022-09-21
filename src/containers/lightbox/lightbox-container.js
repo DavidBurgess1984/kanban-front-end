@@ -7,7 +7,7 @@ const LightboxContainer = (props) => {
 
     const dispatch = useDispatch();
     const lightbox = useSelector(state => state.lightbox)
-
+    const theme = useSelector(state => state.theme)
     let activeBoard
 
     const board = useSelector((state) => state.board);
@@ -60,7 +60,7 @@ const LightboxContainer = (props) => {
     }
 
     return (
-        <Lightbox lightbox={lightbox.content} wrapperRef={wrapperRef} activeBoard={activeBoard} taskId={lightbox.taskId} />
+        <Lightbox lightbox={lightbox.content} wrapperRef={wrapperRef} activeBoard={activeBoard} taskId={lightbox.taskId} theme={theme.value} />
     )
 }
 

@@ -8,8 +8,6 @@ const ColumnContainer = (props) =>{
     const dispatch = useDispatch();
     const ref= useRef(null)
 
-    console.log(props.otherTasks)
-
     const [{canDrop, isOver}, drop] = useDrop({
         accept: 'TASK',
         drop: () => ({column: props.column}),
@@ -64,11 +62,6 @@ const ColumnContainer = (props) =>{
   
             if(monitor.isOver() === monitor.isOver({shallow:true})   && monitor.isOver()  && item.col !== props.column.id){
                 var b = {...item.task};
-                console.log(item.col)
-            console.log(props.column.id)
-            console.log(monitor.isOver({ shallow: true }),)
-            console.log(monitor.isOver())
-            // alert('fired')
               
                 b.column_id = props.column.id
 

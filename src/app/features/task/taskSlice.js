@@ -104,6 +104,8 @@ export const taskSlice = createSlice({
         deleteTask: (state, action) =>{
             let indexToDelete;
 
+            console.log(action.payload);
+
             state.tasks.forEach((task,i) => {
                 if(task.id === action.payload.id){
                     indexToDelete = i; 

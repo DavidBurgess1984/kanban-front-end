@@ -7,6 +7,7 @@ import Board from "../../components/board/board";
 const BoardContainer = () => {
 
     const board = useSelector((state) => state.board)
+    const theme = useSelector((state) => state.theme)
     const dispatch = useDispatch()
     let activeBoard
 
@@ -57,6 +58,7 @@ const BoardContainer = () => {
             columnData={columnData} 
             showBoardEditModal={showBoardEditModal}
             toggleNavigationPanel={toggleNavigationPanel}
+            theme={theme.value}
         />
     )
 }

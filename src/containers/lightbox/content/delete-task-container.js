@@ -10,9 +10,11 @@ const DeleteTaskContainer = (props) => {
 
     const [taskId,setTaskId] = useState(-1)
     const [taskTitle, setTaskTitle] = useState("")
+    const theme = useSelector(state => state.theme)
+    const lightbox = useSelector((state) => state.lightbox)
 
     const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === props.taskIdDisplaying)
+        (state) => state.tasks.tasks.filter(task => task.id === lightbox.taskId)
     )[0]
 
 
@@ -30,8 +32,7 @@ const DeleteTaskContainer = (props) => {
     const deleteTaskHandler = (e) => {
         e.preventDefault()
         dispatch(deleteTask({id:taskId}))
-        const directClick = true
-        props.closeLightBox(e,directClick)
+        // dispatch(toggleLightboxVisible({isVisible:false}))
     }
 
     const closeLightBox = () => {
@@ -44,6 +45,7 @@ const DeleteTaskContainer = (props) => {
             title={taskTitle}
             deleteTaskHandler={deleteTaskHandler }
             closeLightBox={closeLightBox}
+            theme={theme.value}
         />
     )
 }

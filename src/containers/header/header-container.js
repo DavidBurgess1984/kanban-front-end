@@ -16,7 +16,7 @@ const HeaderContainer = () => {
     const dispatch = useDispatch();
     
     const navigation = useSelector(state => state.navigation)
-
+    const theme = useSelector((state) => state.theme)
     let activeBoard
     const board = useSelector((state) => state.board);
 
@@ -33,8 +33,7 @@ const HeaderContainer = () => {
         
         e.preventDefault();
         e.stopPropagation();
-        // alert('here')
-        const inMobileMode = width <= 500
+        const inMobileMode = width <= 700
         //lightbox grey bg click
         if (e.target === e.currentTarget  && inMobileMode ) {
             dispatch(toggleNavigationVisible({isVisible:!navigation.isVisible}))
@@ -43,13 +42,9 @@ const HeaderContainer = () => {
 
     const showAddTaskLightbox = (e) => {
         e.preventDefault();
-        e.stopPropagation();
+        dispatch(setLightboxContent({content:'add-task'}));
+        dispatch(toggleLightboxVisible({isVisible:true}));
 
-        //lightbox grey bg click
-        if (e.target === e.currentTarget) {
-            dispatch(setLightboxContent({content:'add-task'}));
-            dispatch(toggleLightboxVisible({isVisible:true}));
-        }
     }
 
     const showEditBoardLightboxVisible = (e) => {
@@ -120,6 +115,7 @@ const HeaderContainer = () => {
             showDeleteBoardLightbox={showDeleteBoardLightbox}
             width={width}
             wrapperRef={wrapperRef}
+            theme={theme.value}
         />
     )
 

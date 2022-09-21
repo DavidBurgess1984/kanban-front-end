@@ -2,6 +2,7 @@ import React, { Fragment } from "react"
 
 const DeleteTask = (props) => {
     const directClick = true;
+
     return (
         <Fragment>
             <div className="lightbox__header">

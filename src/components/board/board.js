@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import ColumnContainer from "../../containers/board/column-container";
-import ColumnHeaderContainer from "../../containers/board/column-header-container";
-import TaskContainer from "../../containers/board/task-item-container";
 
 const Board = (props) => {
+
+  const kanbanCreateTheme = props.theme === 'dark' ? 'kanban__colmun--create-dark' : '';
 
   let boardContent = (
     <div className="kanban-board__new-panel">
@@ -23,7 +23,7 @@ const Board = (props) => {
             <ColumnContainer key={"col-"+column.id} column={column} taskCount={taskCount} columnData={props.columnData} otherTasks={props.columnData[column.id]}/>
           )
       }))
-      boardContent.push(<div className="kanban__column kanban__column--create" onClick={(e) => props.showBoardEditModal()}>
+      boardContent.push(<div className={"kanban__column kanban__column--create "+kanbanCreateTheme} onClick={(e) => props.showBoardEditModal()}>
           <a href='#' className="kanban__add" >+ New Column</a>
       </div>)
   }

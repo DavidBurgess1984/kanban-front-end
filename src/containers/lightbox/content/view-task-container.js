@@ -9,7 +9,7 @@ const ViewTaskContainer = (props) => {
     const [taskDropdownOpen, setTaskDropdownOpen] = useState(false)
     const dispatch = useDispatch()
     const board = useSelector((state) => state.board)
-
+    const theme = useSelector(state => state.theme)
     let activeBoard
 
     board.boards.forEach((boardData) => {
@@ -79,6 +79,7 @@ const ViewTaskContainer = (props) => {
             setTaskDropdownOpen={setTaskDropdownOpen}
             setTaskEditMode={setTaskEditMode}
             setTaskDeleteMode={setTaskDeleteMode}
+            theme={theme.value}
             {...props}
         />
     )

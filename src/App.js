@@ -4,7 +4,7 @@ import "../src/css/structure.css"
 import "../src/css/colors.css"
 import "../src/css/style.css"
 import BoardContainer from "./containers/board/board-container";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { initialiseTasks } from "./app/features/task/taskSlice";
 import { initialiseBoards } from "./app/features/board/boardSlice";
@@ -15,13 +15,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 function App() {
   const dispatch = useDispatch();
 
+  const theme = useSelector((state) => state.theme)
+  const containerClass = theme.value ==='dark' ? 'container--dark' : ''
   useEffect(() => {
     dispatch(initialiseBoards())
     dispatch(initialiseTasks())
   },[dispatch])
 
   return (
-    <div className="container">
+    <div className={"container "+ containerClass}>
       <LightboxContainer />
       <HeaderContainer />
       <DndProvider backend={HTML5Backend}>

@@ -12,7 +12,7 @@ const AddBoardContainer = (props) => {
     const [saveBoardButtonText,setSaveBoardButtonText] = useState("Create Board")
     const [boardTitle, setBoardTitle] = useState("")
     const [columns, setColumns] = useState([{name:""},{name:""}])
-    // const [status,setStatus] = useState(1)
+    const theme = useSelector(state => state.theme)
     
     const errors = useSelector((state) => state.board.errors);
 
@@ -107,6 +107,7 @@ const AddBoardContainer = (props) => {
             title={title}
             saveBoardButtonText={saveBoardButtonText}
             errors={errors}
+            theme={theme.value}
         />
     )
 }

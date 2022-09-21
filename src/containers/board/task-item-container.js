@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLightboxContent, setTaskId, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
 import { editTask } from "../../app/features/task/taskSlice";
 import Task from "../../components/board/task-item";
@@ -8,6 +8,8 @@ import Task from "../../components/board/task-item";
 const TaskContainer = (props) => {
 
     const dispatch = useDispatch()
+
+    const theme = useSelector((state) => state.theme)
 
     const viewTask = (taskId) => {
         dispatch(setTaskId({id:taskId}))
@@ -33,13 +35,6 @@ const TaskContainer = (props) => {
           const dragIndex = item.index;
           const hoverIndex = props.index;
 
-        //   console.log(item.col)
-        //     console.log(props.column.id)
-        //     console.log(monitor.isOver({ shallow: true }))
-        //     console.log(monitor.isOver())
-        //   console.log(otherTasksToChange)
-        //   console.log(dragIndex)
-        //   console.log(hoverIndex)
           // Don't replace items with themselves
         //   if (dragIndex === hoverIndex) {
         //     return;
@@ -129,7 +124,7 @@ const TaskContainer = (props) => {
     drag(drop(ref))
 
     return (
-        <Task  task={props.task}  viewTask={viewTask} opacity={opacity} drag={ref}/>
+        <Task  task={props.task}  viewTask={viewTask} opacity={opacity} drag={ref} theme={theme.value}/>
     )
 }
 

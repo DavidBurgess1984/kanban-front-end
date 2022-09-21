@@ -5,6 +5,8 @@ import ItemListView from "../../common/item-list-view";
 
 const ViewTask = (props) => {
 
+    const titleTheme = props.theme === 'dark' ? 'lightbox__title--dark' : '';
+
     let taskViewDropdown = null;
 
     if(props.taskDropdownOpen){
@@ -23,7 +25,7 @@ const ViewTask = (props) => {
         <Fragment>
             {taskViewDropdown}
             <div className="lightbox__header">
-                <h2 className="lightbox__title">{props.task.name}</h2>
+                <h2 className={"lightbox__title "+titleTheme}>{props.task.name}</h2>
                 <a className="lightbox__elipses" onClick={(e) => props.setTaskDropdownOpen(!props.taskDropdownOpen)}></a>
             </div>
             <div className="lightbox__content">

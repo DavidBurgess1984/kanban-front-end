@@ -8,6 +8,7 @@ const BoardSelectionContainer = (props) => {
 
     const boards = useSelector((state) => state.board);
     const navigation = useSelector(state => state.navigation)
+    const theme = useSelector((state) => state.theme)
 
     const dispatch = useDispatch()
 
@@ -30,6 +31,7 @@ const BoardSelectionContainer = (props) => {
         activeBoard={boards.activeBoard}
         toggleActiveBoard={toggleActiveBoard}
         closeNavigationPanel={closeNavigationPanel}
+        theme={theme.value}
     />
 }
 

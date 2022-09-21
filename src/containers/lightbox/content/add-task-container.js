@@ -16,7 +16,7 @@ const AddTaskContainer = (props) => {
     const [subTasks, setSubTasks] = useState([{name:"",complete:false},{name:"",complete:false}])
     const [status,setStatus] = useState(-1)
 
-
+    const theme = useSelector(state => state.theme)
     const board = useSelector((state) => state.board)
     const lightbox = useSelector((state) => state.lightbox)
     let activeBoard
@@ -181,6 +181,7 @@ const AddTaskContainer = (props) => {
             title={title}
             saveTaskButtonText={saveTaskButtonText}
             errors={errors}
+            theme={theme.value}
         />
     )
 }
