@@ -1,7 +1,7 @@
 {
   "name": "kandan-front-end",
   "version": "0.1.0",
-  "homepage": "https://DavidBurgess1984.github.io/kanban-front-end/",
+  "homepage": "https://DavidBurgess1984.github.io/kanban-front-end",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
