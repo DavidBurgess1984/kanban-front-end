@@ -121,6 +121,10 @@ a {
     color: var(--deep-purple);
 }
 
+.form__button--dark{
+    background-color: var(--white);
+}
+
 .header__button--primary,.form__button--primary{
     background-color: var(--deep-purple);
     background-repeat: no-repeat;
@@ -576,6 +580,7 @@ a {
 
 
 
+
 .task__error-msg{
     font-weight: 500 ;
     color: var(--red);
@@ -602,6 +607,10 @@ a {
     margin-bottom: 16px;
 }
 
+.task__label--dark{
+    color: var(--white);
+}
+
 
 .text__input{
     width: 100%;
@@ -612,6 +621,12 @@ a {
     font-weight: 500;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
+}
+
+.text__input--dark{
+    background-color: var(--dark-smoke-grey);
+    color:var(--white);
+
 }
 
 .text__input--error{
@@ -630,6 +645,11 @@ a {
     line-height: 23px;
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
     height:110px
+}
+
+.text__area--dark{
+    background-color: var(--dark-smoke-grey);
+    color: var(--white);
 }
 
 .text__area--error{

@@ -6,15 +6,15 @@ import ItemListView from "../../common/item-list-view";
 const ViewTask = (props) => {
 
     const titleTheme = props.theme === 'dark' ? 'lightbox__title--dark' : '';
-
+    const boardDropdownTheme = props.theme === 'dark' ? 'task__toggle-dropdown-list-item--dark' : ''
     let taskViewDropdown = null;
 
     if(props.taskDropdownOpen){
         taskViewDropdown = (
         <div className="task__toggle-dropdown" ref={props.wrapperRef}>
             <ul className='task__toggle-dropdown-list'>
-                <li className="task__toggle-dropdown-list-item" onClick={(e) => props.setTaskEditMode()}>Edit Task</li>
-                <li className="task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red" onClick={(e) => props.setTaskDeleteMode()}>Delete Task</li>
+                <li className={"task__toggle-dropdown-list-item "+boardDropdownTheme } onClick={(e) => props.setTaskEditMode()}>Edit Task</li>
+                <li className={"task__toggle-dropdown-list-item task__toggle-dropdown-list-item--red "+boardDropdownTheme } onClick={(e) => props.setTaskDeleteMode()}>Delete Task</li>
             </ul>
         </div>
         )
