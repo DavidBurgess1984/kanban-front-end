@@ -1,6 +1,40 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { defaultTaskData } from '../../data/tasks/data'
 import { taskStorage } from '../../storage/localStorage'
+import { setTaskId, toggleLightboxVisible } from '../lightbox/lightboxSlice'
+
+const validateTaskInput = (task) => {
+    let errors = {}
+    let errorsFound = false
+    if(task.name.length === 0){
+        errors.title = "Can't be empty"
+        errorsFound = true
+    }
+
+    if(task.column_id === -1){
+        errors.status = "Must be selected"
+        errorsFound = true
+    }
+
+    let subtaskErrors = []
+    task.subtasks.forEach( (_,i) => {
+                
+
+        if(task.subtasks[i].name.length === 0){
+            subtaskErrors[i] = {}
+            subtaskErrors[i] = "Can't be empty"
+            
+            errorsFound = true
+        }
+        
+    })
+
+    if(subtaskErrors.length > 0){
+        errors.items = subtaskErrors
+    }
+
+    return {errorsFound,errors}
+}
 
 export const taskSlice = createSlice({
     name:'tasks',
@@ -11,54 +45,16 @@ export const taskSlice = createSlice({
     reducers:{
         createTask: (state,action) => {
 
-            state.errors = {}
-
             let data = {...action.payload}
-            let errorsFound = false
-
-            if(data.name.length === 0){
-                state.errors.title = "Can't be empty"
-                errorsFound = true
-            }
-            if(data.description.length === 0){
-                state.errors.description = "Can't be empty"
-                errorsFound = true
-            }
-
-            if(data.column_id === -1){
-                state.errors.status = "Must be selected"
-                errorsFound = true
-            }
-
+           
             data.id = makeid(10)
 
-            let subtaskErrors = {}
             data.subtasks.forEach( (_,i) => {
-                
-
-                if(data.subtasks[i].name.length === 0){
-                    subtaskErrors[i] = {}
-                    subtaskErrors[i] = "Can't be empty"
-                    
-                    errorsFound = true
-                }
                 data.subtasks[i].id = makeid(20);
-                
             })
 
-            if(errorsFound){
-                state.errors.items = subtaskErrors
-            }
-
-
-
-
-            if(!errorsFound){
-                taskStorage.create(data)
-                state.tasks.push(data)
-            }
-            
-            
+            state.tasks.push(data)
+ 
         },
         clearTaskError(state,action){
             if(typeof action.payload.index !== 'undefined'  && action.payload.error_type === 'items'){
@@ -73,7 +69,10 @@ export const taskSlice = createSlice({
             }
             
         },
-        clearAllTaskErrors(state){
+        setErrors:(state,action)=>{
+            state.errors = action.payload.errors
+        },
+        clearAllTaskErrors: (state) =>{
             state.errors = {}
         },
         editTask:(state,action) => {
@@ -82,11 +81,11 @@ export const taskSlice = createSlice({
             state.tasks.forEach((task,i) => {
                 if(task.id === action.payload.id){
                     state.tasks[i] = action.payload
-                    taskToUpdate = {...state.tasks[i]}
+                    // taskToUpdate = {...state.tasks[i]}
                 }
             })
 
-            taskStorage.update(action.payload.id,taskToUpdate) 
+            
         },
         editTaskColumn:(state,action) => {
 
@@ -104,8 +103,6 @@ export const taskSlice = createSlice({
         deleteTask: (state, action) =>{
             let indexToDelete;
 
-            console.log(action.payload);
-
             state.tasks.forEach((task,i) => {
                 if(task.id === action.payload.id){
                     indexToDelete = i; 
@@ -116,7 +113,7 @@ export const taskSlice = createSlice({
                 state.tasks.splice(indexToDelete,1);
             }
 
-            taskStorage.delete(action.payload.id)
+            // taskStorage.delete(action.payload.id)
             
         },
         createSubTask: (state,action) => {
@@ -170,6 +167,41 @@ export const taskSlice = createSlice({
     }
 })
 
+export const createTaskAction = (task) => async (dispatch) => {
+    
+    const {errorsFound, errors} = validateTaskInput(task)
+    
+    if(!errorsFound){
+        taskStorage.create(task)
+        dispatch(createTask(task))
+        dispatch(toggleLightboxVisible({isVisible:false}))
+    } else {
+        dispatch(setErrors({errors}))
+    }
+}
+
+export const editTaskAction = (task) => async (dispatch) => {
+    
+    const {errorsFound, errors} = validateTaskInput(task)
+    
+    if(!errorsFound){
+        taskStorage.update(task.id,task) 
+        dispatch(editTask(task))
+        dispatch(setTaskId({id:-1}))
+        dispatch(toggleLightboxVisible({isVisible:false}))
+    } else {
+        dispatch(setErrors({errors}))
+    }
+}
+
+export const deleteTaskAction = (id) => async (dispatch) => {
+    
+    taskStorage.delete(id)
+    dispatch(deleteTask({id}));
+    dispatch(toggleLightboxVisible({isVisible:false}))
+
+}
+
 function makeid(length) {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -191,7 +223,8 @@ export const {
     initialiseTasks,
     editTaskColumn,
     clearTaskError,
-    clearAllTaskErrors
+    clearAllTaskErrors,
+    setErrors
 } = taskSlice.actions
 
 export default taskSlice.reducer

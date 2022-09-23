@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
-import { clearAllTaskErrors, clearTaskError, createTask, editTask } from "../../../app/features/task/taskSlice";
+import { clearAllTaskErrors, clearTaskError, createTask, createTaskAction, editTask, editTaskAction } from "../../../app/features/task/taskSlice";
 import AddTask from "../../../components/lightbox/content/add-task";
 
 const AddTaskContainer = (props) => {
@@ -150,16 +150,14 @@ const AddTaskContainer = (props) => {
             "subtasks" : subTasks
         }
 
-        // console.log(payload);
-        // return;
 
         if(taskId !== -1){
-            payload.id = taskId
-            dispatch(editTask(payload))
+            payload.id = taskId    
+            dispatch(editTaskAction(payload))
         } else {
-            dispatch(createTask(payload))
+            dispatch(createTaskAction(payload))
          }
-        //  dispatch(toggleLightboxVisible({isVisible:false}))
+
         
     }
 

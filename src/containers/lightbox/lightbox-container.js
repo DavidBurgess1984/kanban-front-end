@@ -18,8 +18,6 @@ const LightboxContainer = (props) => {
         }
     })
 
-    const tasks = useSelector((state) => state.tasks.tasks)
-
     function useOutsideAlerter(ref) {
         useEffect(() => {
           /**
@@ -42,12 +40,6 @@ const LightboxContainer = (props) => {
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
-
-    useEffect(() => {
-      if(lightbox.isVisible && lightbox.content !== 'view-task' ){
-        dispatch(toggleLightboxVisible({isVisible:false}))
-      }
-    },[tasks])
 
     useEffect(() => {
       if(lightbox.isVisible ){

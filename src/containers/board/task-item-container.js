@@ -62,12 +62,10 @@ const TaskContainer = (props) => {
           // Time to actually perform the action
 
         if(item.col === props.column.id){
-            // console.log('found match')
             let otherTasksToChange = [...props.otherTasks];
 
-            //   console.log(props.otherTasks)
             var b = otherTasksToChange [hoverIndex];
-            //   console.log(b)
+
             otherTasksToChange [hoverIndex] = otherTasksToChange [dragIndex];
             otherTasksToChange [dragIndex] = b;
 
@@ -112,11 +110,6 @@ const TaskContainer = (props) => {
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
-        // hover:(item,monitor) => {
-        //     const dropResult = monitor.getDropResult();
-        //     console.log(item)
-        //     console.log(dropResult)
-        // }
     });
 
     const opacity = isDragging ? 0.4 : 1;

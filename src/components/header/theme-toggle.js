@@ -6,8 +6,6 @@ const ThemeToggle = (props) => {
     const dialClass = props.theme === 'light' ? 'switch__dial--off' : 'switch__dial--on'
     const themeClass = props.theme === 'dark' ? 'theme-toggle--dark' : ''
 
-
-    console.log(props.theme)
     return (
         <div className={"theme-toggle "+themeClass}>
             <div className="theme-toggle__container">

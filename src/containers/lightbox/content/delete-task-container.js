@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
-import { createTask, deleteTask, editTask } from "../../../app/features/task/taskSlice";
+import { createTask, deleteTask, deleteTaskAction, editTask } from "../../../app/features/task/taskSlice";
 import DeleteTask from "../../../components/lightbox/content/delete-task";
 
 const DeleteTaskContainer = (props) => {
@@ -31,7 +31,7 @@ const DeleteTaskContainer = (props) => {
 
     const deleteTaskHandler = (e) => {
         e.preventDefault()
-        dispatch(deleteTask({id:taskId}))
+        dispatch(deleteTaskAction(taskId))
         // dispatch(toggleLightboxVisible({isVisible:false}))
     }
 

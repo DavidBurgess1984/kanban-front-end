@@ -23,14 +23,6 @@ const ColumnContainer = (props) =>{
             const dragIndex = item.index;
             const hoverIndex = props.index;
   
-            
-          //   console.log(otherTasksToChange)
-          //   console.log(dragIndex)
-          //   console.log(hoverIndex)
-            // Don't replace items with themselves
-          //   if (dragIndex === hoverIndex) {
-          //     return;
-          //   }
             // Determine rectangle on screen
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
             // Get vertical middle
@@ -83,11 +75,6 @@ const ColumnContainer = (props) =>{
     
                 item.col = props.column.id
             
-              // Note: we're mutating the monitor item here!
-              // Generally it's better to avoid mutations,
-              // but it's good here for the sake of performance
-              // to avoid expensive index searches.
-            //   item.index = 9999999;
             } 
              
             
@@ -96,8 +83,6 @@ const ColumnContainer = (props) =>{
     });
 
     drop(ref)
-
-    // console.log('options', {canDrop, isOver});
 
     return (
         <Column {...props} drop={ref} />
