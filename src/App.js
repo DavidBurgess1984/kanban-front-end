@@ -6,29 +6,30 @@ import "../src/css/style.css"
 import BoardContainer from "./containers/board/board-container";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { initialiseTasks } from "./app/features/task/taskSlice";
-import { initialiseBoards } from "./app/features/board/boardSlice";
 import LightboxContainer from "./containers/lightbox/lightbox-container";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useBoards } from "./app/providers/board-provider";
+import { useTasks } from "./app/providers/task-provider";
+import { useTheme } from "./app/providers/theme-provider";
 
 function App() {
-  const dispatch = useDispatch();
-
-  const theme = useSelector((state) => state.theme)
-  const containerClass = theme.value ==='dark' ? 'container--dark' : ''
+  const {initialiseBoards} = useBoards();
+  const {initialiseTasks} = useTasks();
+  const {theme} = useTheme()
+  const containerClass = theme ==='dark' ? 'container--dark' : ''
   useEffect(() => {
-    dispatch(initialiseBoards())
-    dispatch(initialiseTasks())
-  },[dispatch])
+    initialiseBoards()
+    initialiseTasks()
+  },[])
 
   return (
     <div className={"container "+ containerClass}>
-      <LightboxContainer />
-      <HeaderContainer />
-      <DndProvider backend={HTML5Backend}>
-        <BoardContainer />
-      </DndProvider>
+        <LightboxContainer />
+        <HeaderContainer />
+        <DndProvider backend={HTML5Backend}>
+          <BoardContainer />
+        </DndProvider>
     </div>
   );
 

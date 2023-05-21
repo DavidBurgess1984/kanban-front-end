@@ -1,92 +1,80 @@
-import React, { useRef } from "react"
+import React, { useRef } from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
-import { editTask } from "../../app/features/task/taskSlice";
-import Column from "../../components/board/column"
+import Column from "../../components/board/column";
+import { useTasks } from "../../app/providers/task-provider";
 
-const ColumnContainer = (props) =>{
-    const dispatch = useDispatch();
-    const ref= useRef(null)
+const ColumnContainer = (props) => {
+  const ref = useRef(null);
+  const { editTasks } = useTasks();
 
-    const [{canDrop, isOver}, drop] = useDrop({
-        accept: 'TASK',
-        drop: () => ({column: props.column}),
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            isOverCurrent: monitor.isOver({ shallow: true }),
-            canDrop: monitor.canDrop(),
-        }),
-        hover(item, monitor) {
-            if (!ref.current) {
-              return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = props.index;
-  
-            // Determine rectangle on screen
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            // Get vertical middle
-            const hoverMiddleY =
-              (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            // Determine mouse position
-            const clientOffset = monitor.getClientOffset();
-            // Get pixels to the top
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-            // Only perform the move when the mouse has crossed half of the items height
-            // When dragging downwards, only move when the cursor is below 50%
-            // When dragging upwards, only move when the cursor is above 50%
-            // Dragging downwards
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-              return;
-            }
-            // Dragging upwards
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-              return;
-            }
-            // Time to actually perform the action
-  
-            let otherTasksToChange = [];
-             
-            if(typeof props.otherTasks !== 'undefined'){
-                otherTasksToChange = [...props.otherTasks];
-            }
-            
-  
-            if(monitor.isOver() === monitor.isOver({shallow:true})   && monitor.isOver()  && item.col !== props.column.id){
-                var b = {...item.task};
-              
-                b.column_id = props.column.id
+  const [, drop] = useDrop({
+    accept: "TASK",
+    drop: () => ({ column: props.column }),
+    // canDrop: (item) => {
+    //   // Allow dropping if the column is empty or the task is from a different column
+    //   return !props.tasks.length || item.col !== props.column.id;
+    // },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      isOverCurrent: monitor.isOver({ shallow: true }),
+      canDrop: monitor.canDrop(),
+    }),
+    // Handle hover event for drag and drop functionality
+    hover(item, monitor) {
+      // Check if the reference element exists
+      if (!ref.current) {
+        return;
+      }
 
-                let maxSortOrder = 0
-                otherTasksToChange.forEach((task) => {
-                    if(task.sort_order > maxSortOrder){
-                        maxSortOrder = task.sort_order
-                    }
-                })
-                b.sort_order = maxSortOrder + 1;
-    
-                otherTasksToChange.push(b)
-    
-                for(let i = 0; i< otherTasksToChange.length; i++){
-                    let payload = {...otherTasksToChange[i]}
-                    payload.sort_order = i;
-                    dispatch(editTask(payload))
-                }
-    
-                item.col = props.column.id
-            
-            } 
-             
-            
-            
-          }
-    });
+      let hoverIndex = 0; // Insert at the beginning when hovering over an empty column
+      const dragColId = item.col;
+      const hoverColId = props.column.id;
 
-    drop(ref)
+      // Handle the case when dragging to a different column with no tasks
+      if (dragColId !== hoverColId && props.otherTasks.length === 0) {
+        const otherTasksToChange = [...props.otherTasks];
+        const draggedTask = item.task;
 
-    return (
-        <Column {...props} drop={ref} />
-    )
-}
+        // Update the column_id of the dragged task
+        const updatedTask = { ...draggedTask };
+        updatedTask.column_id = hoverColId;
 
-export default ColumnContainer 
+        // Remove the dragged task from its original column
+        const originalColumnTasks = [...item.originalColumnTasks];
+        const dragOriginalIndex = item.index;
+        originalColumnTasks.splice(dragOriginalIndex, 1);
+
+        // Insert the dragged task into the new column at the hover index
+        otherTasksToChange.splice(hoverIndex, 0, updatedTask);
+
+        let newTasks = [];
+        // Update the sort_order of tasks in the new column
+        for (let i = 0; i < otherTasksToChange.length; i++) {
+          let payload = { ...otherTasksToChange[i] };
+          payload.sort_order = i;
+
+          newTasks.push(payload);
+        }
+
+        // Update the sort_order of tasks in the original column
+        for (let i = 0; i < originalColumnTasks.length; i++) {
+          let payload = { ...originalColumnTasks[i] };
+          payload.sort_order = i;
+
+          newTasks.push(payload);
+        }
+        // Update the tasks in the database or state
+        editTasks(newTasks);
+        // Update the column ID and originalColumnTasks of the dragged item
+        item.col = hoverColId;
+        item.originalColumnTasks = originalColumnTasks;
+      }
+    },
+  });
+
+  drop(ref);
+
+  return <Column {...props} drop={ref} />;
+};
+
+export default ColumnContainer;

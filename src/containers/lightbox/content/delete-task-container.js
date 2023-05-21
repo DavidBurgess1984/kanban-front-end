@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
-import { createTask, deleteTask, deleteTaskAction, editTask } from "../../../app/features/task/taskSlice";
+
+
 import DeleteTask from "../../../components/lightbox/content/delete-task";
+import { useTasks } from "../../../app/providers/task-provider";
+import { useLightbox } from "../../../app/providers/lightbox-provider";
+import { useTheme } from "../../../app/providers/theme-provider";
 
 const DeleteTaskContainer = (props) => {
 
-    const dispatch = useDispatch()
 
-    const [taskId,setTaskId] = useState(-1)
+    // const [taskId,setTaskId] = useState(-1)
     const [taskTitle, setTaskTitle] = useState("")
-    const theme = useSelector(state => state.theme)
-    const lightbox = useSelector((state) => state.lightbox)
-
-    const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === lightbox.taskId)
-    )[0]
+    const {theme} = useTheme()
+    // const lightbox = useSelector((state) => state.lightbox)
+    const {toggleLightboxVisible,taskId,setTaskId} = useLightbox()
+    const {tasks,editTaskColumn,editSubtask,deleteTaskAction,deleteTask} = useTasks()
+    const task = tasks.filter(task => task.id === taskId)[0]
 
 
 
@@ -31,21 +31,22 @@ const DeleteTaskContainer = (props) => {
 
     const deleteTaskHandler = (e) => {
         e.preventDefault()
-        dispatch(deleteTaskAction(taskId))
+        deleteTaskAction(taskId)
+        toggleLightboxVisible(false)
         // dispatch(toggleLightboxVisible({isVisible:false}))
     }
 
     const closeLightBox = () => {
-        dispatch(toggleLightboxVisible({isVisible:false}))
+        toggleLightboxVisible(false)
     }
 
     return (
         <DeleteTask 
-            deleteTask={deleteTask}
+            // deleteTask={deleteTask}
             title={taskTitle}
             deleteTaskHandler={deleteTaskHandler }
             closeLightBox={closeLightBox}
-            theme={theme.value}
+            theme={theme}
         />
     )
 }

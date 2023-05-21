@@ -1,22 +1,20 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleTheme } from "../../app/features/theme/themeSlice";
 import ThemeToggle from "../../components/header/theme-toggle";
+import { useTheme } from "../../app/providers/theme-provider";
 
 const ThemeToggleContainer = () => {
 
-    const theme = useSelector((state) => state.theme)
-    const dispatch = useDispatch();
 
+    const {theme,toggleTheme} = useTheme()
     const handleThemeToggle = (e) => {
-        const newTheme = theme.value === 'light' ? 'dark' : 'light'
-        dispatch(toggleTheme({value:newTheme}))
+        const newTheme = theme=== 'light' ? 'dark' : 'light'
+        toggleTheme(newTheme)
     }
 
     
 
     return (
-        <ThemeToggle theme={theme.value} handleThemeToggle={handleThemeToggle}/>
+        <ThemeToggle theme={theme} handleThemeToggle={handleThemeToggle}/>
     )
 }
 

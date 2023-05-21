@@ -1,22 +1,31 @@
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setTaskId, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
-import Lightbox from "../../components/lightbox/lightbox";
+
+import { useBoards } from "../../app/providers/board-provider";
+import { useLightbox } from "../../app/providers/lightbox-provider";
+import Lightbox from '../../components/lightbox/lightbox.js'
+import { useTheme } from "../../app/providers/theme-provider";
 
 const LightboxContainer = (props) => {
 
-    const dispatch = useDispatch();
-    const lightbox = useSelector(state => state.lightbox)
-    const theme = useSelector(state => state.theme)
-    let activeBoard
+    const {boards,activeBoard} = useBoards();
+    const {content,taskId,isVisible,toggleLightboxVisible,setTaskId} = useLightbox()
+    // const lightbox = useSelector(state => state.lightbox)
+    const {theme} =  useTheme()
 
-    const board = useSelector((state) => state.board);
+    let activeBoardData
 
-    board.boards.forEach((boardData) => {
-        if(boardData.id === board.activeBoard){
-            activeBoard = {...boardData}
+    // const board = useSelector((state) => state.board)
+    // let activeBoard
+
+    boards.forEach((boardData) => {
+        if(boardData.id === activeBoard){
+            activeBoardData = {...boardData}
         }
     })
+
+    // const board = useSelector((state) => state.board);
+
+
 
     function useOutsideAlerter(ref) {
         useEffect(() => {
@@ -25,8 +34,8 @@ const LightboxContainer = (props) => {
            */
           function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
-              dispatch(setTaskId({id:-1}))
-              dispatch(toggleLightboxVisible({isVisible:false}))
+              setTaskId(-1)
+              toggleLightboxVisible(false)
             }
           }
           // Bind the event listener
@@ -42,17 +51,19 @@ const LightboxContainer = (props) => {
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      if(lightbox.isVisible ){
-        dispatch(toggleLightboxVisible({isVisible:false}))
+      if(isVisible ){
+        toggleLightboxVisible(false)
       }
-    },[board.boards])
+    },[boards.boards])
 
-    if(!lightbox.isVisible){
+    if(!isVisible){
         return null
     }
 
+    
+
     return (
-        <Lightbox lightbox={lightbox.content} wrapperRef={wrapperRef} activeBoard={activeBoard} taskId={lightbox.taskId} theme={theme.value} />
+        <Lightbox lightbox={content} wrapperRef={wrapperRef} activeBoard={activeBoardData } taskId={taskId} theme={theme} />
     )
 }
 

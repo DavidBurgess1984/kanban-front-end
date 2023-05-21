@@ -1,124 +1,167 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import { setLightboxContent, setTaskId, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
-import { editTask } from "../../app/features/task/taskSlice";
 import Task from "../../components/board/task-item";
+import { useLightbox } from "../../app/providers/lightbox-provider";
+import { useTasks } from "../../app/providers/task-provider";
+import { useTheme } from "../../app/providers/theme-provider";
 
 const TaskContainer = (props) => {
+  const { setLightboxContent, toggleLightboxVisible, setTaskId } =
+    useLightbox();
+  const { editTasks } = useTasks();
+  const {theme} = useTheme();
 
-    const dispatch = useDispatch()
+  const viewTask = (taskId) => {
+    setTaskId(taskId);
+    setLightboxContent("view-task");
+    toggleLightboxVisible(true);
+  };
 
-    const theme = useSelector((state) => state.theme)
+  const ref = useRef(null);
 
-    const viewTask = (taskId) => {
-        dispatch(setTaskId({id:taskId}))
-        dispatch(setLightboxContent({content:'view-task'}));
-        dispatch(toggleLightboxVisible({isVisible:true}))
-    }
+  const [, drop] = useDrop({
+    accept: "TASK",
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      isOverCurrent: monitor.isOver({ shallow: true }),
+      canDrop: monitor.canDrop(),
+    }),
+    // Handle hover event for drag and drop functionality
+    hover(item, monitor) {
+      // Check if the reference element exists
+      if (!ref.current) {
+        return;
+      }
 
-    
-    
-    const ref = useRef(null);
+      // Retrieve necessary information for the drag and hover items
+      const dragIndex = item.index;
+      const hoverIndex = props.index;
+      const dragColId = item.col;
+      const hoverColId = props.column.id;
 
-    const [, drop] = useDrop({
-        accept: "TASK",
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            isOverCurrent: monitor.isOver({ shallow: true }),
-            canDrop: monitor.canDrop(),
-        }),
-        hover(item, monitor) {
-          if (!ref.current) {
-            return;
-          }
-          const dragIndex = item.index;
-          const hoverIndex = props.index;
+      // Don't replace items with themselves within the same column
+      if (dragIndex === hoverIndex && dragColId === hoverColId) {
+        return;
+      }
 
-          // Don't replace items with themselves
-        //   if (dragIndex === hoverIndex) {
-        //     return;
-        //   }
-          // Determine rectangle on screen
-          const hoverBoundingRect = ref.current?.getBoundingClientRect();
-          // Get vertical middle
-          const hoverMiddleY =
-            (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-          // Determine mouse position
-          const clientOffset = monitor.getClientOffset();
-          // Get pixels to the top
-          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-          // Only perform the move when the mouse has crossed half of the items height
-          // When dragging downwards, only move when the cursor is below 50%
-          // When dragging upwards, only move when the cursor is above 50%
-          // Dragging downwards
-          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-            return;
-          }
-          // Dragging upwards
-          if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-            return;
-          }
-          // Time to actually perform the action
+      // Determine the rectangle on screen
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
+      // Get the vertical middle of the element
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // Determine the mouse position
+      const clientOffset = monitor.getClientOffset();
+      // Get the distance from the top of the element
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-        if(item.col === props.column.id){
-            let otherTasksToChange = [...props.otherTasks];
+      // Check if dragging downwards and above the middle of the element
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
 
-            var b = otherTasksToChange [hoverIndex];
+      // Check if dragging upwards and below the middle of the element
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
 
-            otherTasksToChange [hoverIndex] = otherTasksToChange [dragIndex];
-            otherTasksToChange [dragIndex] = b;
+      if (dragColId !== hoverColId) {
+        // Update tasks when dragging to a different column
+        const otherTasksToChange = [...props.otherTasks];
+        const originalColumnTasks = [...item.originalColumnTasks];
+        const updatedTask = originalColumnTasks[dragIndex];
 
-            for(let i = 0; i< otherTasksToChange.length; i++){
-                let payload = {...otherTasksToChange[i]}
-                payload.sort_order = i;
-                dispatch(editTask(payload))
-            }
+        // Update the column ID of the dragged task
+        updatedTask.column_id = hoverColId;
 
-            // item.index = hoverIndex;
-        } else {
-            let otherTasksToChange = [...props.otherTasks];
+        // Remove the dragged task from its original column
+        originalColumnTasks.splice(dragIndex, 1);
 
-            var b = {...item.task};
+        // Insert the dragged task into the new column at the hover index
+        otherTasksToChange.splice(hoverIndex, 0, updatedTask);
 
-            
-            b.column_id = props.column.id
+        let newTasks = [];
+        // Update the sort_order of tasks in the new column
+        for (let i = 0; i < otherTasksToChange.length; i++) {
+          let payload = { ...otherTasksToChange[i] };
+          payload.sort_order = i;
 
-            otherTasksToChange.splice(hoverIndex,0,b)
-
-            for(let i = 0; i< otherTasksToChange.length; i++){
-                let payload = {...otherTasksToChange[i]}
-                payload.sort_order = i;
-                dispatch(editTask(payload))
-            }
-
-            item.col = props.column.id
+          newTasks.push(payload);
         }
-          // Note: we're mutating the monitor item here!
-          // Generally it's better to avoid mutations,
-          // but it's good here for the sake of performance
-          // to avoid expensive index searches.
-          item.index = hoverIndex;
-          
-          
+
+        // Update the sort_order of tasks in the original column
+        for (let i = 0; i < originalColumnTasks.length; i++) {
+          let payload = { ...originalColumnTasks[i] };
+          payload.sort_order = i;
+
+          newTasks.push(payload);
         }
-      });
 
-    const [{ isDragging }, drag] = useDrag({
-        type: "TASK",
-        item: { task:props.task,index:props.index,col:props.column.id },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
+        // Update the tasks in the database or state
+        editTasks(newTasks);
 
-    const opacity = isDragging ? 0.4 : 1;
+        // Update the index and column ID of the dragged item
+        item.index = hoverIndex;
+        item.col = hoverColId;
 
-    drag(drop(ref))
+        console.log("Dragged item updated:", item);
+      } else {
+        // Update tasks within the same column
+        const otherTasksToChange = [...props.otherTasks];
+        const updatedTask = otherTasksToChange[dragIndex];
 
-    return (
-        <Task  task={props.task}  viewTask={viewTask} opacity={opacity} drag={ref} theme={theme.value}/>
-    )
-}
+        otherTasksToChange.splice(dragIndex, 1);
 
-export default TaskContainer
+        // Insert the dragged task into the same column at the hover index
+        otherTasksToChange.splice(hoverIndex, 0, updatedTask);
+
+        let newTasks = [];
+        // Update the sort_order of tasks in the same column
+        for (let i = 0; i < otherTasksToChange.length; i++) {
+          let payload = { ...otherTasksToChange[i] };
+          payload.sort_order = i;
+
+          newTasks.push(payload);
+        }
+
+        // Update the tasks in the database or state
+        editTasks(newTasks);
+
+        // Update the index and column ID of the dragged item
+        item.index = hoverIndex;
+        item.col = hoverColId;
+        item.otherTasks = otherTasksToChange;
+
+        console.log("Dragged item updated:", item);
+      }
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: "TASK",
+    item: {
+      task: props.task,
+      index: props.index,
+      col: props.column.id,
+      originalColumnTasks: props.otherTasks,
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const opacity = isDragging ? 0.4 : 1;
+
+  drag(drop(ref));
+
+  return (
+    <Task
+      task={props.task}
+      viewTask={viewTask}
+      opacity={opacity}
+      drag={ref}
+      theme={theme}
+    />
+  );
+};
+
+export default TaskContainer;

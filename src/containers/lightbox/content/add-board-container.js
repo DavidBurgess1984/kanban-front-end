@@ -1,50 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { clearAllBoardErrors, clearBoardError, createBoard, editBoard } from "../../../app/features/board/boardSlice";
+import { useBoards } from "../../../app/providers/board-provider"
 import AddBoard from "../../../components/lightbox/content/add-board";
+import { useTheme } from "../../../app/providers/theme-provider";
 
 const AddBoardContainer = (props) => {
 
-    const dispatch = useDispatch()
 
     const [boardId,setBoardId] = useState(-1)
     const [title,setTitle] = useState("Add New Board")
     const [saveBoardButtonText,setSaveBoardButtonText] = useState("Create Board")
     const [boardTitle, setBoardTitle] = useState("")
     const [columns, setColumns] = useState([{name:""},{name:""}])
-    const theme = useSelector(state => state.theme)
+    const [isLoaded,setIsLoaded] = useState(false);
+    const {theme} = useTheme()
+
+    const {clearAllBoardErrors, clearBoardError, createBoard, editBoard,errors} = useBoards();
     
-    const errors = useSelector((state) => state.board.errors);
+    // const errors = useSelector((state) => state.board.errors);
 
     useEffect(() => {
 
-        if(typeof props.activeBoard !== 'undefined'){
+        // alert('hret')
+        if(!isLoaded && typeof props.activeBoard !== 'undefined'){
             setBoardTitle(props.activeBoard.title)
             setColumns(props.activeBoard.columns)
             setTitle("Edit Board")
             setSaveBoardButtonText("Save Changes")
             setBoardId(props.activeBoard.id)
         }
+
+        setIsLoaded(true)
         
-    },[props.activeBoard])
+    },[props.activeBoard,isLoaded])
 
     useEffect(() => {
         if(boardTitle.length > 0){
-            dispatch(clearBoardError({error_type:'title'}))
+            clearBoardError({error_type:'title'})
         }
     },[boardTitle])
 
     useEffect(() => {
         columns.forEach((column, i) => {
             if(column.name.length > 0){
-                dispatch(clearBoardError({error_type:'items',index: i}))
+                clearBoardError({error_type:'items',index: i})
             }
         })
     },[columns])
 
     useEffect(() => {
         return () => {
-            dispatch(clearAllBoardErrors());
+            clearAllBoardErrors();
         }
     },[])
 
@@ -85,10 +90,10 @@ const AddBoardContainer = (props) => {
         }
 
         if(boardId !== -1){
-            payload.id = boardId
-            dispatch(editBoard(payload))
+            payload.boardId = boardId
+            editBoard(payload)
         } else {
-            dispatch(createBoard(payload))
+            createBoard(payload)
          }
 
         
@@ -107,7 +112,7 @@ const AddBoardContainer = (props) => {
             title={title}
             saveBoardButtonText={saveBoardButtonText}
             errors={errors}
-            theme={theme.value}
+            theme={theme}
         />
     )
 }

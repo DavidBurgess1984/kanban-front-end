@@ -14,13 +14,15 @@ const Header = (props) => {
     if(props.boardDropdownOpen){
       boardViewDropdown = (
         <div className="board__toggle-dropdown" ref={props.wrapperRef}>
-            <ul class='board__toggle-dropdown-list'>
+            <ul className='board__toggle-dropdown-list'>
                 <li className={"board__toggle-dropdown-list-item "+boardDropdownTheme } onClick={(e) => props.showEditBoardLightboxVisible(e)}>Edit Board</li>
                 <li className={"board__toggle-dropdown-list-item board__toggle-dropdown-list-item--red " + boardDropdownTheme } onClick={(e) => props.showDeleteBoardLightbox(e)}>Delete Board</li>
             </ul>
         </div>
         )
     }
+
+
 
    return (
     <Fragment>

@@ -1,6 +1,5 @@
 import React, { Fragment } from "react"
 import { useSelector } from "react-redux";
-import { createSubTask } from "../../app/features/task/taskSlice";
 
 import ItemView from "./item-view";
 

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const TextInput = ({placeholder,handleTextChange,value,title,errors}) => {
 
     const theme = useSelector(state => state.theme)
-    
+    console.log(errors)
     const titleTheme = theme.value === 'dark' ? 'task__label--dark': '';
     const inputTheme = theme.value === 'dark' ? 'text__input--dark': '';
     return (

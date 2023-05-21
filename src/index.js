@@ -4,16 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import store from './app/store'
-import { Provider } from 'react-redux'
-
+import { BoardsProvider } from './app/providers/board-provider';
+import { TaskProvider } from './app/providers/task-provider';
+import { LightboxProvider } from './app/providers/lightbox-provider';
+import { NavigationProvider } from './app/providers/navigation-provider';
+import { ThemeProvider } from './app/providers/theme-provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+      <NavigationProvider>
+        <ThemeProvider>
+        <LightboxProvider>
+          <TaskProvider>
+            <BoardsProvider>
+              <App />
+            </BoardsProvider>
+            </TaskProvider>
+        </LightboxProvider>
+        </ThemeProvider>
+      </NavigationProvider>
   </React.StrictMode>
 );
 

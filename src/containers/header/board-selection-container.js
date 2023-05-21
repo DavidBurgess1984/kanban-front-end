@@ -1,37 +1,36 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveBoard } from "../../app/features/board/boardSlice";
-import { toggleNavigationVisible } from "../../app/features/navigation/navigationSlice";
+import { useBoards } from "../../app/providers/board-provider";
 import BoardSelection from "../../components/header/board-selection";
+import { useNavigation } from "../../app/providers/navigation-provider";
+import { useTheme } from "../../app/providers/theme-provider";
 
 const BoardSelectionContainer = (props) => {
 
-    const boards = useSelector((state) => state.board);
-    const navigation = useSelector(state => state.navigation)
-    const theme = useSelector((state) => state.theme)
-
-    const dispatch = useDispatch()
+    const {toggleNavigationVisible,visible} =  useNavigation()
+    const {boards,setActiveBoard,activeBoard} = useBoards();
+    // const navigation = useSelector(state => state.navigation)
+    const {theme} = useTheme();
 
     const toggleActiveBoard = (e,activeBoardId) => {
         e.preventDefault();
-        dispatch(setActiveBoard({activeBoard:activeBoardId}))
+        setActiveBoard(activeBoardId)
         props.toggleNavigationPanel(e)
 
     }
 
     const closeNavigationPanel = (e) => {
-        dispatch(toggleNavigationVisible({isVisible:!navigation.isVisible}))
+        toggleNavigationVisible(!visible)
 
     }
     return <BoardSelection 
-        navigationVisible={props.navigationVisible}
+        navigationVisible={visible}
         toggleNavigationPanel={props.toggleNavigationPanel}
         showAddBoardLightbox={props.showAddBoardLightbox}
-        boards={boards.boards}
-        activeBoard={boards.activeBoard}
+        boards={boards}
+        activeBoard={activeBoard}
         toggleActiveBoard={toggleActiveBoard}
         closeNavigationPanel={closeNavigationPanel}
-        theme={theme.value}
+        theme={theme}
     />
 }
 

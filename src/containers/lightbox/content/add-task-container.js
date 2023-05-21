@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
-import { clearAllTaskErrors, clearTaskError, createTask, createTaskAction, editTask, editTaskAction } from "../../../app/features/task/taskSlice";
 import AddTask from "../../../components/lightbox/content/add-task";
+import { useBoards } from "../../../app/providers/board-provider";
+import { useTasks } from "../../../app/providers/task-provider";
+import { useLightbox } from "../../../app/providers/lightbox-provider";
+import { useTheme } from "../../../app/providers/theme-provider";
 
 const AddTaskContainer = (props) => {
 
-    const dispatch = useDispatch()
-
-    const [taskId,setTaskId] = useState(-1)
+    const {boards,activeBoard} = useBoards()
+    const {tasks,clearAllTaskErrors, clearTaskError, createTask, createTaskAction, editTask, editTaskAction,errors } = useTasks();
+    // const [taskId,setTaskId] = useState(-1)
+    const {taskId,setTaskId} = useLightbox()
     const [title,setTitle] = useState("Add New Task")
     const [saveTaskButtonText,setSaveTaskButtonText] = useState("Create Task")
     const [taskTitle, setTaskTitle] = useState("")
@@ -16,26 +18,24 @@ const AddTaskContainer = (props) => {
     const [subTasks, setSubTasks] = useState([{name:"",complete:false},{name:"",complete:false}])
     const [status,setStatus] = useState(-1)
 
-    const theme = useSelector(state => state.theme)
-    const board = useSelector((state) => state.board)
-    const lightbox = useSelector((state) => state.lightbox)
-    let activeBoard
 
-    board.boards.forEach((boardData) => {
-        if(boardData.id == board.activeBoard){
-            activeBoard = {...boardData}
+    let activeBoardData
+
+    const {theme} = useTheme();
+    // const board = useSelector((state) => state.board)
+    // let activeBoard
+
+    boards.forEach((boardData) => {
+        if(boardData.id == activeBoard){
+            activeBoardData = {...boardData}
         }
     })
 
-    const task = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === lightbox.taskId)
-    )[0]
+    const task = tasks.filter(task => task.id === taskId)[0]
 
-    const boardTasks = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.id === activeBoard.id)
-    )
-
-    const errors = useSelector((state) => state.tasks.errors)
+    const boardTasks = tasks.filter(task => task.id === activeBoardData.id)
+ 
+    // const errors = useSelector((state) => state.tasks.errors)
 
     useEffect(() => {
         if(typeof task !== 'undefined'){
@@ -46,53 +46,52 @@ const AddTaskContainer = (props) => {
             setTitle("Edit Task")
             setSaveTaskButtonText("Save Changes")
             setTaskId(task.id)
-        }
+        } 
         
     },[task])
 
     useEffect(() => {
         if(taskTitle.length > 0){
-            dispatch(clearTaskError({error_type:'title'}))
+           clearTaskError({error_type:'title'})
         }
     },[taskTitle])
 
     useEffect(() => {
         if(taskDescription.length > 0){
-            dispatch(clearTaskError({error_type:'description'}))
+            clearTaskError({error_type:'description'})
         }
     },[taskDescription])
 
     useEffect(() => {
         if(status != -1){
-            dispatch(clearTaskError({error_type:'status'}))
+            clearTaskError({error_type:'status'})
         }
     },[status])
 
     useEffect(() => {
         subTasks.forEach((subtask, i) => {
             if(subtask.name.length > 0){
-                dispatch(clearTaskError({error_type:'items',index: i}))
+                clearTaskError({error_type:'items',index: i})
             }
         })
     },[subTasks])
 
     useEffect(() => {
         return () => {
-            return dispatch(clearAllTaskErrors());
+            return clearAllTaskErrors();
         }
     },[])
 
-    const columnData = useSelector(
-        (state) => state.tasks.tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
+    const columnData = tasks.filter(task => task.board_id === activeBoard.id).reduce(function(map, obj) {
             if(typeof map[obj.column_id] === 'undefined' ){
                 map[obj.column_id] = []
             }
             map[obj.column_id].push(obj);
             return map;
         }, {})
-    )
+    
  
-    const statusOptions = activeBoard.columns.map((column) => {
+    const statusOptions = activeBoardData.columns.map((column) => {
         return {
             name: column.name.charAt(0).toUpperCase() + column.name.slice(1),
             value: column.id
@@ -142,7 +141,7 @@ const AddTaskContainer = (props) => {
         }
 
         let payload = {
-            "board_id":activeBoard.id,
+            "board_id":activeBoardData.id,
             "column_id":status,
             "description":taskDescription,
             "sort_order": sortOrder,
@@ -153,9 +152,9 @@ const AddTaskContainer = (props) => {
 
         if(taskId !== -1){
             payload.id = taskId    
-            dispatch(editTaskAction(payload))
+            editTaskAction(payload)
         } else {
-            dispatch(createTaskAction(payload))
+           createTaskAction(payload)
          }
 
         
@@ -179,7 +178,7 @@ const AddTaskContainer = (props) => {
             title={title}
             saveTaskButtonText={saveTaskButtonText}
             errors={errors}
-            theme={theme.value}
+            theme={theme}
         />
     )
 }

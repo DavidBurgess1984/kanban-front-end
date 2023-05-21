@@ -1,21 +1,22 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteBoard } from "../../../app/features/board/boardSlice";
-import { toggleLightboxVisible } from "../../../app/features/lightbox/lightboxSlice";
+import { useBoards } from "../../../app/providers/board-provider";
 import DeleteBoard from "../../../components/lightbox/content/delete-board";
+import { useLightbox } from "../../../app/providers/lightbox-provider";
+import { useTheme } from "../../../app/providers/theme-provider";
 
 const DeleteBoardContainer = (props) => {
 
-    const dispatch = useDispatch()
-    const theme = useSelector(state => state.theme)
+    const {deleteBoard} = useBoards()
+    const  { toggleLightboxVisible } = useLightbox()
+    const {theme} = useTheme()
     const deleteBoardHandler = (e) => {
         e.preventDefault()
-        dispatch(deleteBoard({id:props.activeBoard.id}))
-        dispatch(toggleLightboxVisible({isVisible:false}))
+        deleteBoard(props.activeBoard.id)
+        toggleLightboxVisible(false)
     }
 
     const closeLightBox = (e) => {
-        dispatch(toggleLightboxVisible({isVisible:false}))
+        toggleLightboxVisible(false)
     }
 
     return (
@@ -24,7 +25,7 @@ const DeleteBoardContainer = (props) => {
             title={props.activeBoard.title}
             deleteBoardHandler={deleteBoardHandler }
             closeLightBox={closeLightBox}
-            theme={theme.value}
+            theme={theme}
         />
     )
 }

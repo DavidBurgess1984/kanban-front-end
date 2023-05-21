@@ -3,30 +3,31 @@
 
 
 import React, {  useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setLightboxContent, toggleLightboxVisible } from "../../app/features/lightbox/lightboxSlice";
-import { toggleNavigationVisible } from "../../app/features/navigation/navigationSlice";
+import { useBoards } from "../../app/providers/board-provider";
 import useWindowDimensions from "../../app/utilities/useWindowDimensions";
 import Header from "../../components/header/header";
+import { useLightbox } from "../../app/providers/lightbox-provider";
+import { useNavigation } from "../../app/providers/navigation-provider";
+import { useTheme } from "../../app/providers/theme-provider";
 
 const HeaderContainer = () => {
 
+    // alert('here')
+    const { setLightboxContent, toggleLightboxVisible,content } = useLightbox()
     const { width } = useWindowDimensions();
     const [boardDropdownOpen, setBoardDropdownOpen] = useState(false)
-    const dispatch = useDispatch();
-    
-    const navigation = useSelector(state => state.navigation)
-    const theme = useSelector((state) => state.theme)
-    let activeBoard
-    const board = useSelector((state) => state.board);
+    const {theme} = useTheme()
+    const {visible,toggleNavigationVisible} =  useNavigation()
 
-    board.boards.forEach((boardData) => {
-        if(boardData.id === board.activeBoard){
-            activeBoard = {...boardData}
-        }
-    })
 
-    const lightbox = useSelector(state => state.lightbox)
+
+    const {activeBoard} = useBoards()
+
+    // boards.forEach((boardData) => {
+    //     if(boardData.id === activeBoard){
+    //         activeBoard = {...boardData}
+    //     }
+    // })
 
     
     const toggleNavigationPanel = (e) => {
@@ -36,29 +37,29 @@ const HeaderContainer = () => {
         const inMobileMode = width <= 700
         //lightbox grey bg click
         if (e.target === e.currentTarget  && inMobileMode ) {
-            dispatch(toggleNavigationVisible({isVisible:!navigation.isVisible}))
+            toggleNavigationVisible(!visible)
         }
     }
 
     const showAddTaskLightbox = (e) => {
         e.preventDefault();
-        dispatch(setLightboxContent({content:'add-task'}));
-        dispatch(toggleLightboxVisible({isVisible:true}));
+       setLightboxContent('add-task');
+        toggleLightboxVisible(true);
 
     }
 
     const showEditBoardLightboxVisible = (e) => {
-        dispatch(setLightboxContent({content:'edit-board'}));
-        dispatch(toggleLightboxVisible({isVisible:true}));
-        toggleNavigationVisible({isVisible:true})
+        setLightboxContent('edit-board');
+        toggleLightboxVisible(true);
+        toggleNavigationVisible(true)
         setBoardDropdownOpen(false)
         
     }
 
     const showDeleteBoardLightbox = (e) => {
-        dispatch(setLightboxContent({content:'delete-board'}));
-        dispatch(toggleLightboxVisible({isVisible:true}));
-        toggleNavigationVisible({isVisible:true})
+        setLightboxContent('delete-board');
+        toggleLightboxVisible(true);
+        toggleNavigationVisible(true)
         setBoardDropdownOpen(false)
     }
 
@@ -67,9 +68,9 @@ const HeaderContainer = () => {
         e.preventDefault();
         e.stopPropagation();
 
-        dispatch(setLightboxContent({content:'add-board'}));
-        dispatch(toggleLightboxVisible({isVisible:true}));
-        toggleNavigationVisible({isVisible:true})
+        setLightboxContent('add-board');
+        toggleLightboxVisible(true);
+        toggleNavigationVisible(true)
         setBoardDropdownOpen(false)
     }
 
@@ -103,19 +104,19 @@ const HeaderContainer = () => {
     
     return (
         <Header 
-            navigationVisible={navigation.isVisible}
+            navigationVisible={visible}
             toggleNavigationPanel={toggleNavigationPanel}
             showAddTaskLightbox={showAddTaskLightbox}
             boardDropdownOpen={boardDropdownOpen}
             setBoardDropdownOpen={setBoardDropdownOpen}
-            lightboxContent={lightbox.content}
+            lightboxContent={content}
             activeBoard={activeBoard}
             showAddBoardLightbox={showAddBoardLightbox}
             showEditBoardLightboxVisible={showEditBoardLightboxVisible}
             showDeleteBoardLightbox={showDeleteBoardLightbox}
             width={width}
             wrapperRef={wrapperRef}
-            theme={theme.value}
+            theme={theme}
         />
     )
 
