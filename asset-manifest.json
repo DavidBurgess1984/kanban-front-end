@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/kanban-front-end/static/css/main.3e1f1f20.css",
+    "main.css": "/kanban-front-end/static/css/main.dba6ecf2.css",
     "main.js": "/kanban-front-end/static/js/main.700213be.js",
     "static/js/787.42816829.chunk.js": "/kanban-front-end/static/js/787.42816829.chunk.js",
     "static/media/logo-dark.svg": "/kanban-front-end/static/media/logo-dark.ac4c8e487da046e58b1d.svg",
     "static/media/logo-light.svg": "/kanban-front-end/static/media/logo-light.1e20d87d61c965503a53.svg",
     "static/media/icon-light-theme.svg": "/kanban-front-end/static/media/icon-light-theme.b98efecd506358014a7a.svg",
-    "index.html": "/kanban-front-end/index.html",
     "static/media/icon-hide-sidebar-purple.svg": "/kanban-front-end/static/media/icon-hide-sidebar-purple.6ef19bfd0dd8499d33d2.svg",
     "static/media/icon-hide-sidebar.svg": "/kanban-front-end/static/media/icon-hide-sidebar.0e2c68ccd652fb10d8ba.svg",
+    "index.html": "/kanban-front-end/index.html",
     "static/media/icon-dark-theme.svg": "/kanban-front-end/static/media/icon-dark-theme.9812582fa58ec8051801.svg",
     "static/media/icon-board-purple.svg": "/kanban-front-end/static/media/icon-board-purple.7d2aa674f7a152797520.svg",
     "static/media/icon-board-white.svg": "/kanban-front-end/static/media/icon-board-white.2120866dd6aa97fc375c.svg",
@@ -22,12 +22,12 @@
     "static/media/icon-check.svg": "/kanban-front-end/static/media/icon-check.4e068cb6e6e3395eda40.svg",
     "static/media/icon-chevron-down-red.svg": "/kanban-front-end/static/media/icon-chevron-down-red.9ad6e895456879ae5b5d.svg",
     "static/media/icon-chevron-down.svg": "/kanban-front-end/static/media/icon-chevron-down.77595c15c9072ba0ef8a.svg",
-    "main.3e1f1f20.css.map": "/kanban-front-end/static/css/main.3e1f1f20.css.map",
+    "main.dba6ecf2.css.map": "/kanban-front-end/static/css/main.dba6ecf2.css.map",
     "main.700213be.js.map": "/kanban-front-end/static/js/main.700213be.js.map",
     "787.42816829.chunk.js.map": "/kanban-front-end/static/js/787.42816829.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3e1f1f20.css",
+    "static/css/main.dba6ecf2.css",
     "static/js/main.700213be.js"
   ]
 }
