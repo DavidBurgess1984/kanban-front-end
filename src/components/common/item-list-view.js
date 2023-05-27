@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 import ItemView from "./item-view";
 
@@ -8,7 +8,7 @@ const ItemListView = ({items,toggleItemStatus}) => {
     let itemList = [];
     let itemCompletedCount = 0;
 
-    const theme = useSelector(state => state.theme)
+    // const theme = useSelector(state => state.theme)
 
     items.map((item,i) => {
         if(item.complete){
@@ -17,7 +17,7 @@ const ItemListView = ({items,toggleItemStatus}) => {
         itemList.push(<ItemView key={"item-view-"+i} checked={item.complete} name={item.name} index={i} toggleItemStatus={toggleItemStatus} id={item.id}/>)
     });
 
-    const listTitleTheme = theme.value === 'dark' ? "list__title--dark" : ""
+    const listTitleTheme = /*theme.value === 'dark' ? "list__title--dark" :*/ ""
 
     return (
         <Fragment>

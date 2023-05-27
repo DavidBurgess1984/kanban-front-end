@@ -5,7 +5,6 @@ import Board from "../../components/board/board";
 import { useTasks } from "../../app/providers/task-provider";
 import { useLightbox } from "../../app/providers/lightbox-provider";
 import { useNavigation } from "../../app/providers/navigation-provider";
-import { useTheme } from "../../app/providers/theme-provider";
 
 const BoardContainer = () => {
 
@@ -13,7 +12,6 @@ const BoardContainer = () => {
     const {tasks} = useTasks()
     const { toggleNavigationVisible,visible } = useNavigation();
     const { setLightboxContent, toggleLightboxVisible }  = useLightbox()
-    const {theme} = useTheme();
 
     let activeBoardData
 
@@ -62,7 +60,6 @@ const BoardContainer = () => {
             columnData={columnData} 
             showBoardEditModal={showBoardEditModal}
             toggleNavigationPanel={toggleNavigationPanel}
-            theme={theme}
         />
     )
 }

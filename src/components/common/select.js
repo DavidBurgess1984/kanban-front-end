@@ -1,12 +1,12 @@
 import React from "react"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 
 const Select = ({title,options,handleChange,selected,errors}) => {
 
-    const theme = useSelector(state => state.theme)
-    const titleTheme = theme.value === 'dark' ? 'task__label--dark': '';
-    const statusSelectTheme = theme.value === 'dark' ? 'status__select--dark' : ''
-    const statusOptionTheme = theme.value === 'dark' ? 'status__option--dark' : ''
+    // const theme = useSelector(state => state.theme)
+    const titleTheme = /*theme.value === 'dark' ? 'task__label--dark':*/ '';
+    const statusSelectTheme = /*theme.value === 'dark' ? 'status__select--dark' :*/ ''
+    const statusOptionTheme = /*theme.value === 'dark' ? 'status__option--dark' :*/ ''
    return (
     <div className="list__status ">
         <p className={"status__title "+titleTheme}>{title}</p>

@@ -1,5 +1,5 @@
 import React from "react"
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import ItemEdit from "./item-edit"
 
 const ItemList = ({items,addItem,editItemHandler,deleteItemHandler,errors,title,addItemBtnTxt,type}) => {
@@ -28,9 +28,9 @@ const ItemList = ({items,addItem,editItemHandler,deleteItemHandler,errors,title,
         itemList.push(<ItemEdit key={"item-"+i} placeholder={placeholderText} value={item.name} index={i} editItemHandler={editItemHandler} deleteItemHandler={deleteItemHandler} errors={errors}/>)
     });
 
-    const theme = useSelector(state => state.theme)
-    const titleTheme = theme.value === 'dark' ? 'task__label--dark': '';
-    const btnTheme = theme.value === 'dark' ? 'form__button--dark': '';
+    // const theme = useSelector(state => state.theme)
+    const titleTheme = /*theme.value === 'dark' ? 'task__label--dark':*/ '';
+    const btnTheme = /*theme.value === 'dark' ? 'form__button--dark':*/ '';
     return (
         <div className="task__input">
             <h3 className={"list__title "+titleTheme}>{title}</h3>

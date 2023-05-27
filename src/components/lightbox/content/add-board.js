@@ -6,11 +6,10 @@ import TextInput from "../../common/text-input"
 
 const AddBoard = (props) => {
 
-    const titleTheme = props.theme === 'dark' ? 'lightbox__title--dark' : '';
     return (
         <Fragment>
             <div className="lightbox__header">
-                <h2 className={"lightbox__title "+titleTheme}>{props.title}</h2>
+                <h2 className="lightbox__title">{props.title}</h2>
             </div>
             <div className="lightbox__content">
                 <TextInput title="Board Name" value={props.boardTitle} handleTextChange={(e) => props.setBoardTitle(e.target.value)} placeholder="eg Web Design" errors={props.errors}/>

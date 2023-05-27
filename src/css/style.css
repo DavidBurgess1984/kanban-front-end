@@ -13,14 +13,10 @@ a {
 
 .header{
     height: 64px;
-    background-color: var(--white);
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     padding:0 20px;
-}
-
-.header--dark{
-    background-color: var(--dark-smoke-grey);
 }
 
 .header__item{
@@ -239,16 +235,13 @@ a {
     align-self: stretch;
     display: flex;
     flex-direction: column;
-    background-color: var(--column-add-blue);
+    background:linear-gradient(0deg, var(--column-add-top), var(--column-add-bottom));
     border-radius: 6px;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
 
-.kanban__colmun--create-dark{
-    background:linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(43,44,55,1) 59%);
-}
 
 .kanban__add{
     font-size: 24px;
@@ -296,7 +289,7 @@ a {
 .kanban__task{
     width: 280px;
     min-height: 88px;
-    background-color: var(--white);
+    background-color: var(--primary-color);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -308,9 +301,6 @@ a {
     cursor:pointer;
 }
 
-.kanban__task--dark{
-    background-color: var(--dark-smoke-grey);
-}
 
 .kanban__task:hover .task__title,
 .kanban__task:focus .task__title,
@@ -319,16 +309,13 @@ a {
 }
 
 .task__title{
-    color:var(--black);
+    color:var(--text-color);
     font-weight: 700;
     margin-bottom: 8px;
     font-size: 15px;
 
 }
 
-.task__title--dark{
-    color: var(--white);
-}
 
 .list__info{
     font-weight: 700;
@@ -348,7 +335,7 @@ a {
 
 .lightbox__container{
     margin: 16px;
-    background-color: var(--white);
+    background-color: var(--primary-color);
     width: 100%;
     padding: 24px;
     border-radius: 6px;
@@ -356,10 +343,6 @@ a {
     margin-top: auto;
     margin-bottom: auto;
     position: relative;
-}
-
-.lightbox__container--dark{
-    background-color: var(--dark-smoke-grey);
 }
 
 .lightbox__header{
@@ -373,11 +356,12 @@ a {
     font-size: 18px;
     font-weight: 700;
     line-height: 24px;
+    color:var(--text-color)
 }
 
-.lightbox__title--dark{
+/* .lightbox__title--dark{
     color:var(--white)
-}
+} */
 
 .lightbox__title--red{
     color: var(--red);
@@ -394,7 +378,7 @@ a {
 }
 
 .lightbox__description{
-    color: var(--lighter-smoke-grey);
+    color: var(--text-secondary-color);
     font-size: 13px;
     font-weight: 500;
     line-height: 23px;
@@ -416,7 +400,7 @@ a {
 
 .list__title{
     font-weight: 700;
-    color:var(--lighter-smoke-grey);
+    color:var(--text-secondary-color);
     margin-bottom: 16px;
 }
 
@@ -427,7 +411,7 @@ a {
 .list__item{
     border-radius: 4px;
     margin-bottom: 8px;
-    background-color: var(--light-grey);
+    background-color: var(--container-bg-color);
     display: flex;
     padding:15px 12px;
     align-items: center;
@@ -477,7 +461,7 @@ a {
 .list__label{
     padding-left: 32px;
     position: relative;
-    color: var(--black);
+    color: var(--text-color);
     font-weight: 700;
 }
 
@@ -525,7 +509,8 @@ a {
     width: 100%;
     border:1px solid var(--checkbox-border);
     padding:8px 16px;
-    color: black;
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
     font-weight: 700;
     font-size: 13px;
     border-radius: 4px;
@@ -554,6 +539,7 @@ a {
 
 .status__wrapper{
     position: relative;
+    background-color: var(--container-bg-color);
 }
 
 .status__wrapper:after{
@@ -613,21 +599,18 @@ a {
 
 
 .text__input{
+    
     width: 100%;
     padding:8px 16px;
     border-radius: 4px;
     border:1px solid var(--checkbox-border);
-    color:var(--black);
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
     font-weight: 500;
     box-sizing: border-box;
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
 }
 
-.text__input--dark{
-    background-color: var(--dark-smoke-grey);
-    color:var(--white);
-
-}
 
 .text__input--error{
     border-color: var(--red);
@@ -640,7 +623,8 @@ a {
     padding:8px 16px;
     border-radius: 4px;
     border:1px solid var(--checkbox-border);
-    color:var(--black);
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
     font-weight: 500;
     line-height: 23px;
     font-family: 'Plus Jakarta Sans', Arial, sans-serif;;
@@ -678,7 +662,7 @@ a {
 
 .board-selection__panel{
     margin: 16px 58px;
-    background-color: var(--white);
+    background-color: var(--primary-color);
     border-radius: 8px;
     padding:16px 24px 16px 0;
 }
@@ -802,28 +786,19 @@ a {
 .task__toggle-dropdown-list-item,.board__toggle-dropdown-list-item{
     font-size:13px;
     font-weight: 500;
-    color: var(--lighter-smoke-grey);
+    color: var(--text-color);
     padding:16px;
+    position: relative;
+    z-index: 1;
     cursor: pointer;
-    background-color: var(--white);
-}
-
-.task__toggle-dropdown-list-item--dark,.board__toggle-dropdown-list-item--dark{
-    background-color: var(--dark-grey);
+    background-color: var(--primary-color);
 }
 
 .task__toggle-dropdown-list-item:hover,.board__toggle-dropdown-list-item:hover,
 .task__toggle-dropdown-list-item:focus,.board__toggle-dropdown-list-item:focus,
 .task__toggle-dropdown-list-item:active,.board__toggle-dropdown-list-item:active
 {
-    background-color: var(--light-grey);
-}
-
-.task__toggle-dropdown-list-item--dark:hover,.board__toggle-dropdown-list-item--dark:hover,
-.task__toggle-dropdown-list-item--dark:focus,.board__toggle-dropdown-list-item--dark:focus,
-.task__toggle-dropdown-list-item--dark:active,.board__toggle-dropdown-list-item--dark:active
-{
-    background-color: var(--dark-smoke-grey);
+    background-color: var(--container-bg-color);
 }
 
 .task__toggle-dropdown-list-item--red,.board__toggle-dropdown-list-item--red{
@@ -852,9 +827,6 @@ a {
         width: 300px;
     }
 
-    .board-selection__panel--dark{
-        background-color: var(--dark-smoke-grey);
-    }
 
     .board-selection{
         /* display: none; */

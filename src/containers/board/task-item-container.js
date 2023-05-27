@@ -3,13 +3,11 @@ import { useDrag, useDrop } from "react-dnd";
 import Task from "../../components/board/task-item";
 import { useLightbox } from "../../app/providers/lightbox-provider";
 import { useTasks } from "../../app/providers/task-provider";
-import { useTheme } from "../../app/providers/theme-provider";
 
 const TaskContainer = (props) => {
   const { setLightboxContent, toggleLightboxVisible, setTaskId } =
     useLightbox();
-  const { editTasks } = useTasks();
-  const {theme} = useTheme();
+  const { editTasks,storeLocalTaskStateToStorage,editTaskColumn } = useTasks();
 
   const viewTask = (taskId) => {
     setTaskId(taskId);
@@ -44,25 +42,25 @@ const TaskContainer = (props) => {
         return;
       }
 
-      // Determine the rectangle on screen
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      // Get the vertical middle of the element
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      // Determine the mouse position
-      const clientOffset = monitor.getClientOffset();
-      // Get the distance from the top of the element
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      // // Determine the rectangle on screen
+      // const hoverBoundingRect = ref.current.getBoundingClientRect();
+      // // Get the vertical middle of the element
+      // const hoverMiddleY =
+      //   (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // // Determine the mouse position
+      // const clientOffset = monitor.getClientOffset();
+      // // Get the distance from the top of the element
+      // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      // Check if dragging downwards and above the middle of the element
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
+      // // Check if dragging downwards and above the middle of the element
+      // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      //   return;
+      // }
 
       // Check if dragging upwards and below the middle of the element
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
+      // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      //   return;
+      // }
 
       if (dragColId !== hoverColId) {
         // Update tasks when dragging to a different column
@@ -102,7 +100,8 @@ const TaskContainer = (props) => {
         // Update the index and column ID of the dragged item
         item.index = hoverIndex;
         item.col = hoverColId;
-
+        
+        item.originalColumnTasks = otherTasksToChange;
         console.log("Dragged item updated:", item);
       } else {
         // Update tasks within the same column
@@ -129,7 +128,7 @@ const TaskContainer = (props) => {
         // Update the index and column ID of the dragged item
         item.index = hoverIndex;
         item.col = hoverColId;
-        item.otherTasks = otherTasksToChange;
+        item.originalColumnTasks = otherTasksToChange;
 
         console.log("Dragged item updated:", item);
       }
@@ -147,6 +146,16 @@ const TaskContainer = (props) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      const didDrop = monitor.didDrop()
+      console.log(item)
+      if (didDrop) {
+        editTaskColumn({
+          task_id:item.task.id,
+          column_id:item.col
+        })
+      }
+    },
   });
 
   const opacity = isDragging ? 0.4 : 1;
@@ -159,7 +168,6 @@ const TaskContainer = (props) => {
       viewTask={viewTask}
       opacity={opacity}
       drag={ref}
-      theme={theme}
     />
   );
 };

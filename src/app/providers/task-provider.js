@@ -3,7 +3,6 @@ import { taskStorage } from "../storage/localStorage";
 import { defaultTaskData } from "../data/tasks/data";
 import { useLightbox } from "./lightbox-provider";
 
-// import { toggleLightboxVisible } from "../features/lightbox/lightboxSlice";
 
 const TaskContext = React.createContext(null);
 
@@ -49,7 +48,7 @@ const TaskProvider = ({ children }) => {
     const createTask = (payload) => {
         let data = {...payload}
             
-        data.id = makeid(10)
+        data.id = makeid(20)
 
         data.subtasks.forEach( (_,i) => {
             data.subtasks[i].id = makeid(20);
@@ -64,6 +63,8 @@ const TaskProvider = ({ children }) => {
         newTasks.push(data)
         // console.log(newTasks)
         setTasks(newTasks)
+
+        return data;
     }
 
     const clearTaskError = (payload) =>{
@@ -160,7 +161,7 @@ const TaskProvider = ({ children }) => {
         
     }
     const createSubTask = (state,action) => {
-        let id = makeid(10);
+        let id = makeid(20);
         let payload = action.payload.subtask
         payload.id = id;
         state.tasks[action.payload.task_id].subtasks.push(payload);
@@ -223,8 +224,9 @@ const TaskProvider = ({ children }) => {
         const {errorsFound, errors} = validateTaskInput(task)
         
         if(!errorsFound){
-            taskStorage.create(task)
-            createTask(task)
+            const taskToStore = createTask(task)
+            taskStorage.create(taskToStore)
+            
             toggleLightboxVisible(false)
         } else {
             setErrors(errors)
@@ -244,6 +246,11 @@ const TaskProvider = ({ children }) => {
         }
     }
 
+    const storeLocalTaskStateToStorage = () => {
+        console.log(tasks)
+        taskStorage.updateAllTasks(tasks)
+    }
+
     const deleteTaskAction = (id) => {
         
         taskStorage.delete(id)
@@ -260,7 +267,7 @@ const TaskProvider = ({ children }) => {
             result += characters.charAt(Math.floor(Math.random() * 
             charactersLength));
         }
-        return result;
+        return result + Date.now();
     }
 
   // Render the children within the TaskContext's provider. The value contains
@@ -284,6 +291,7 @@ const TaskProvider = ({ children }) => {
         createTaskAction,
         setTasks,
         editTasks,
+        storeLocalTaskStateToStorage,
         tasks,
         errors
 

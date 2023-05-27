@@ -1,10 +1,10 @@
 import React from "react"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 
 const ItemEdit = ({placeholder,index,value,editItemHandler,deleteItemHandler,errors}) => {
 
-    const theme = useSelector(state => state.theme)
-    const inputTheme = theme.value === 'dark' ? 'text__input--dark': '';
+    // const theme = useSelector(state => state.theme)
+    const inputTheme = /*theme.value === 'dark' ? 'text__input--dark':*/ '';
 
    return (
         <li className="list__item--edit">

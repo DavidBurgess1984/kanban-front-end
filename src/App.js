@@ -11,20 +11,18 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useBoards } from "./app/providers/board-provider";
 import { useTasks } from "./app/providers/task-provider";
-import { useTheme } from "./app/providers/theme-provider";
 
 function App() {
   const {initialiseBoards} = useBoards();
   const {initialiseTasks} = useTasks();
-  const {theme} = useTheme()
-  const containerClass = theme ==='dark' ? 'container--dark' : ''
+
   useEffect(() => {
     initialiseBoards()
     initialiseTasks()
   },[])
 
   return (
-    <div className={"container "+ containerClass}>
+    <div className="container">
         <LightboxContainer />
         <HeaderContainer />
         <DndProvider backend={HTML5Backend}>

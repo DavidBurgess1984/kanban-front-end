@@ -3,19 +3,13 @@ import React, { useEffect, useRef } from "react";
 import { useBoards } from "../../app/providers/board-provider";
 import { useLightbox } from "../../app/providers/lightbox-provider";
 import Lightbox from '../../components/lightbox/lightbox.js'
-import { useTheme } from "../../app/providers/theme-provider";
 
 const LightboxContainer = (props) => {
 
     const {boards,activeBoard} = useBoards();
     const {content,taskId,isVisible,toggleLightboxVisible,setTaskId} = useLightbox()
-    // const lightbox = useSelector(state => state.lightbox)
-    const {theme} =  useTheme()
-
     let activeBoardData
 
-    // const board = useSelector((state) => state.board)
-    // let activeBoard
 
     boards.forEach((boardData) => {
         if(boardData.id === activeBoard){
@@ -54,7 +48,7 @@ const LightboxContainer = (props) => {
       if(isVisible ){
         toggleLightboxVisible(false)
       }
-    },[boards.boards])
+    },[boards])
 
     if(!isVisible){
         return null
@@ -63,7 +57,7 @@ const LightboxContainer = (props) => {
     
 
     return (
-        <Lightbox lightbox={content} wrapperRef={wrapperRef} activeBoard={activeBoardData } taskId={taskId} theme={theme} />
+        <Lightbox lightbox={content} wrapperRef={wrapperRef} activeBoard={activeBoardData } taskId={taskId} />
     )
 }
 

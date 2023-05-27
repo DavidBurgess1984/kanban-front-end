@@ -34,11 +34,9 @@ const Lightbox = (props) => {
     }
 
 
-    const lightBoxTheme = props.theme === 'dark' ? 'lightbox__container--dark' : ''
-
     return (
         <div className="lightbox" >
-            <div className={"lightbox__container "+lightBoxTheme} ref={props.wrapperRef}>
+            <div className="lightbox__container" ref={props.wrapperRef}>
                 {lightboxContent}
             </div>
         </div>

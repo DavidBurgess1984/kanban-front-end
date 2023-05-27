@@ -9,7 +9,7 @@ const ColumnContainer = (props) => {
 
   const [, drop] = useDrop({
     accept: "TASK",
-    drop: () => ({ column: props.column }),
+    // drop: () => ({ accept:  "TASK" }),
     // canDrop: (item) => {
     //   // Allow dropping if the column is empty or the task is from a different column
     //   return !props.tasks.length || item.col !== props.column.id;
@@ -67,7 +67,9 @@ const ColumnContainer = (props) => {
         editTasks(newTasks);
         // Update the column ID and originalColumnTasks of the dragged item
         item.col = hoverColId;
-        item.originalColumnTasks = originalColumnTasks;
+        item.index = hoverIndex;
+        item.originalColumnTasks = otherTasksToChange;
+
       }
     },
   });

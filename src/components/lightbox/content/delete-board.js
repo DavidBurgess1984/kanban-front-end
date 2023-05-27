@@ -1,7 +1,7 @@
 import React, { Fragment } from "react"
 
 const DeleteBoard = (props) => {
-    const directClick = true;
+
     return (
         <Fragment>
             <div className="lightbox__header">

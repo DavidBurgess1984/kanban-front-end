@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 
 const ThemeContext = React.createContext(null);
 
@@ -6,6 +6,15 @@ const ThemeProvider = ({ children }) => {
 
   const [theme, toggleTheme] = useState("light")
 
+  useLayoutEffect(() => {
+
+    // console.log(theme)
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark-mode");
+    } else {
+      document.documentElement.classList.remove("dark-mode");
+    }
+  }, [theme]);
 
   // Render the children within the TaskContext's provider. The value contains
   // everything that should be made available to descendants that use the

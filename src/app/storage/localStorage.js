@@ -3,6 +3,9 @@ export const taskStorage = {
     getAll:() => {
         return JSON.parse(window.localStorage.getItem('tasks'));
     },
+    updateAllTasks:(tasks) => {
+        window.localStorage.setItem('tasks', JSON.stringify(tasks));
+    },
     create:(value) => {
         let tasks = taskStorage.getAll();
         tasks.push(value)
@@ -45,10 +48,10 @@ export const boardStorage = {
         boards.push(value)
         window.localStorage.setItem('boards', JSON.stringify(boards));
     },
-    update:(taskId,value) => {
+    update:(boardId,value) => {
         let boards = boardStorage.getAll();
-        boards.forEach((task,i) => {
-            if(task.id === taskId){
+        boards.forEach((board,i) => {
+            if(board.id === boardId){
                 boards[i] = value
             }
         });

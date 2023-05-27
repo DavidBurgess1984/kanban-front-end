@@ -3,9 +3,9 @@ import { useSelector } from "react-redux"
 
 const ItemView = ({name,index,checked,toggleItemStatus,id}) => {
 
-    const theme = useSelector(state => state.theme)
-    const listItemTheme = theme.value === 'dark' ? 'list__item--dark' : '';
-    const listLabelTheme = theme.value === 'dark' ? 'list__label--dark' : '';
+    // const theme = useSelector(state => state.theme)
+    const listItemTheme = /*theme.value === 'dark' ? 'list__item--dark' :*/ '';
+    const listLabelTheme = /*theme.value === 'dark' ? 'list__label--dark' :*/ '';
 
    return (
     <li className={"list__item "+listItemTheme}>

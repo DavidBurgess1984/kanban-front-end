@@ -6,13 +6,10 @@ import TextInput from "../../common/text-input"
 
 const AddTask = (props) => {
 
-    console.log(props.errors)
-
-    const titleTheme = props.theme === 'dark' ? 'lightbox__title--dark' : '';
     return (
         <Fragment>
             <div className="lightbox__header">
-                <h2 className={"lightbox__title "+titleTheme}>{props.title}</h2>
+                <h2 className="lightbox__title">{props.title}</h2>
             </div>
             <div className="lightbox__content">
                 <TextInput title="Title" value={props.taskTitle} handleTextChange={(e) => props.setTaskTitle(e.target.value)} placeholder="eg Take coffee break" errors={props.errors}/>

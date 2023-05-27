@@ -18,23 +18,14 @@ const HeaderContainer = () => {
     const [boardDropdownOpen, setBoardDropdownOpen] = useState(false)
     const {theme} = useTheme()
     const {visible,toggleNavigationVisible} =  useNavigation()
-
-
-
     const {activeBoard} = useBoards()
 
-    // boards.forEach((boardData) => {
-    //     if(boardData.id === activeBoard){
-    //         activeBoard = {...boardData}
-    //     }
-    // })
-
+    const inMobileMode = width <= 700
     
     const toggleNavigationPanel = (e) => {
         
         e.preventDefault();
         e.stopPropagation();
-        const inMobileMode = width <= 700
         //lightbox grey bg click
         if (e.target === e.currentTarget  && inMobileMode ) {
             toggleNavigationVisible(!visible)
@@ -51,7 +42,13 @@ const HeaderContainer = () => {
     const showEditBoardLightboxVisible = (e) => {
         setLightboxContent('edit-board');
         toggleLightboxVisible(true);
-        toggleNavigationVisible(true)
+        
+        if(inMobileMode){
+            toggleNavigationVisible(false)
+        } else {
+            toggleNavigationVisible(true)
+        }
+        
         setBoardDropdownOpen(false)
         
     }

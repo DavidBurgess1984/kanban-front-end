@@ -1,11 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const TextArea = ({placeholder,handleTextChange,value,title,errors}) => {
 
-    const theme = useSelector(state => state.theme)
-    const titleTheme = theme.value === 'dark' ? 'task__label--dark': '';
-    const inputTheme = theme.value === 'dark' ? 'text__area--dark': '';
+    // const theme = useSelector(state => state.theme)
+    const titleTheme = /*theme.value === 'dark' ? 'task__label--dark':*/ '';
+    const inputTheme = /*theme.value === 'dark' ? 'text__area--dark':*/ '';
     return (
         <div className="task__input">
             <p className={"task__label " +titleTheme}>{title}</p>

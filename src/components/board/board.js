@@ -3,8 +3,6 @@ import ColumnContainer from "../../containers/board/column-container";
 
 const Board = (props) => {
 
-  const kanbanCreateTheme = props.theme === 'dark' ? 'kanban__colmun--create-dark' : '';
-
   let boardContent = (
     <div className="kanban-board__new-panel">
       <p className="kanban-board__text">This board is empty. Create a new column to get started.</p>
@@ -30,7 +28,7 @@ const Board = (props) => {
             <ColumnContainer key={"col-"+i+'-'+column.id} column={column} taskCount={taskCount} columnData={props.columnData} otherTasks={otherTasks}/>
           )
       }))
-      boardContent.push(<div key="board-create" className={"kanban__column kanban__column--create "+kanbanCreateTheme} onClick={(e) => props.showBoardEditModal()}>
+      boardContent.push(<div key="board-create" className="kanban__column kanban__column--create " onClick={(e) => props.showBoardEditModal()}>
           <a href='#' className="kanban__add" >+ New Column</a>
       </div>)
   }

@@ -126,6 +126,8 @@ const BoardsProvider = ({ children }) => {
                 newBoard.title = title;
                 newBoard.columns = newColumns;
                 newBoards[i] = newBoard
+
+                boardStorage.update(boardId ,newBoard)
             }
             
             
@@ -276,7 +278,7 @@ const BoardsProvider = ({ children }) => {
             result += characters.charAt(Math.floor(Math.random() * 
             charactersLength));
         }
-        return result;
+        return result + Date.now();
     }
 
   
