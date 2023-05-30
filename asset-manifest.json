@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kanban-front-end/static/css/main.dba6ecf2.css",
-    "main.js": "/kanban-front-end/static/js/main.700213be.js",
+    "main.css": "/kanban-front-end/static/css/main.df495239.css",
+    "main.js": "/kanban-front-end/static/js/main.1b2047ce.js",
     "static/js/787.42816829.chunk.js": "/kanban-front-end/static/js/787.42816829.chunk.js",
     "static/media/logo-dark.svg": "/kanban-front-end/static/media/logo-dark.ac4c8e487da046e58b1d.svg",
     "static/media/logo-light.svg": "/kanban-front-end/static/media/logo-light.1e20d87d61c965503a53.svg",
@@ -22,12 +22,12 @@
     "static/media/icon-check.svg": "/kanban-front-end/static/media/icon-check.4e068cb6e6e3395eda40.svg",
     "static/media/icon-chevron-down-red.svg": "/kanban-front-end/static/media/icon-chevron-down-red.9ad6e895456879ae5b5d.svg",
     "static/media/icon-chevron-down.svg": "/kanban-front-end/static/media/icon-chevron-down.77595c15c9072ba0ef8a.svg",
-    "main.dba6ecf2.css.map": "/kanban-front-end/static/css/main.dba6ecf2.css.map",
-    "main.700213be.js.map": "/kanban-front-end/static/js/main.700213be.js.map",
+    "main.df495239.css.map": "/kanban-front-end/static/css/main.df495239.css.map",
+    "main.1b2047ce.js.map": "/kanban-front-end/static/js/main.1b2047ce.js.map",
     "787.42816829.chunk.js.map": "/kanban-front-end/static/js/787.42816829.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dba6ecf2.css",
-    "static/js/main.700213be.js"
+    "static/css/main.df495239.css",
+    "static/js/main.1b2047ce.js"
   ]
 }
