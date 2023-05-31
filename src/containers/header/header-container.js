@@ -7,7 +7,7 @@ import { useBoards } from "../../app/providers/board-provider";
 import useWindowDimensions from "../../app/utilities/useWindowDimensions";
 import Header from "../../components/header/header";
 import { useLightbox } from "../../app/providers/lightbox-provider";
-import { useNavigation } from "../../app/providers/navigation-provider";
+import { useMenu } from "../../app/providers/menu-provider";
 import { useTheme } from "../../app/providers/theme-provider";
 
 const HeaderContainer = () => {
@@ -17,7 +17,7 @@ const HeaderContainer = () => {
     const { width } = useWindowDimensions();
     const [boardDropdownOpen, setBoardDropdownOpen] = useState(false)
     const {theme} = useTheme()
-    const {visible,toggleNavigationVisible} =  useNavigation()
+    const {visible,toggleMenuVisible} =  useMenu()
     const {activeBoard} = useBoards()
 
     const inMobileMode = width <= 700
@@ -28,7 +28,7 @@ const HeaderContainer = () => {
         e.stopPropagation();
         //lightbox grey bg click
         if (e.target === e.currentTarget  && inMobileMode ) {
-            toggleNavigationVisible(!visible)
+            toggleMenuVisible(!visible)
         }
     }
 
@@ -44,9 +44,9 @@ const HeaderContainer = () => {
         toggleLightboxVisible(true);
         
         if(inMobileMode){
-            toggleNavigationVisible(false)
+            toggleMenuVisible(false)
         } else {
-            toggleNavigationVisible(true)
+            toggleMenuVisible(true)
         }
         
         setBoardDropdownOpen(false)
@@ -56,7 +56,7 @@ const HeaderContainer = () => {
     const showDeleteBoardLightbox = (e) => {
         setLightboxContent('delete-board');
         toggleLightboxVisible(true);
-        toggleNavigationVisible(true)
+        toggleMenuVisible(true)
         setBoardDropdownOpen(false)
     }
 
@@ -67,7 +67,7 @@ const HeaderContainer = () => {
 
         setLightboxContent('add-board');
         toggleLightboxVisible(true);
-        toggleNavigationVisible(true)
+        toggleMenuVisible(true)
         setBoardDropdownOpen(false)
     }
 

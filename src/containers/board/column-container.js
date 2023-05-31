@@ -47,22 +47,27 @@ const ColumnContainer = (props) => {
         // Insert the dragged task into the new column at the hover index
         otherTasksToChange.splice(hoverIndex, 0, updatedTask);
 
-        let newTasks = [];
-        // Update the sort_order of tasks in the new column
-        for (let i = 0; i < otherTasksToChange.length; i++) {
-          let payload = { ...otherTasksToChange[i] };
-          payload.sort_order = i;
+        // let newTasks = [];
+        // // Update the sort_order of tasks in the new column
+        // for (let i = 0; i < otherTasksToChange.length; i++) {
+        //   let payload = otherTasksToChange[i] ;
+        //   payload.sort_order = i;
 
-          newTasks.push(payload);
-        }
+        //   newTasks.push(payload);
+        // }
 
-        // Update the sort_order of tasks in the original column
-        for (let i = 0; i < originalColumnTasks.length; i++) {
-          let payload = { ...originalColumnTasks[i] };
-          payload.sort_order = i;
+        // // Update the sort_order of tasks in the original column
+        // for (let i = 0; i < originalColumnTasks.length; i++) {
+        //   let payload = originalColumnTasks[i] ;
+        //   payload.sort_order = i;
 
-          newTasks.push(payload);
-        }
+        //   newTasks.push(payload);
+        // }
+
+        const newTasks = otherTasksToChange.map((task,index) => ({
+          ...task,
+          sort_order:index
+        }))
         // Update the tasks in the database or state
         editTasks(newTasks);
         // Update the column ID and originalColumnTasks of the dragged item

@@ -22,12 +22,12 @@ export const defaultBoardColumns = [
 
 export const defaultBoardState = [
     { 
-        "id":"1",
+        "id":"1cfjh4sdsdXX",
         "title":"Platform Launch",
         "columns": defaultBoardColumns
     },
     { 
-        "id":"2",
+        "id":"2h546sd47kvddr",
         "title":"Marketing Plan",
         "columns": defaultBoardColumns
     }
@@ -39,6 +39,7 @@ const BoardsProvider = ({ children }) => {
   const [boards,setBoards] = useState([]);
   const [activeBoard,setActiveBoard] = useState(-1);
   const [errors,setErrors] = useState({});
+  const [boardsLoading,setBoardsLoading] = useState(true)
 
    const {toggleLightboxVisible} = useLightbox();
 
@@ -68,7 +69,7 @@ const BoardsProvider = ({ children }) => {
     if(errorsFound){
         newErrors.items = columnErrors
         setErrors(newErrors)
-        return
+        return false
     }
 
     if(!errorsFound){
@@ -78,8 +79,15 @@ const BoardsProvider = ({ children }) => {
         setBoards(newBoards)
     }
 
-    setActiveBoard(board.id);
-    toggleLightboxVisible(false)        
+    // setActiveBoard(board.id);
+    toggleLightboxVisible(false)   
+    return board.id
+         
+  }
+
+  const boardExists = (boardId) => {
+    console.log(boards)
+    return boards.some(board => board.id === boardId)
   }
 
 
@@ -239,13 +247,14 @@ const BoardsProvider = ({ children }) => {
         if(!boardsInStorage){
             boardStorage.init(defaultBoardState);
             boards = defaultBoardState
-            setActiveBoard(boards[0].id);
+            // setActiveBoard(boards[0].id);
         } else {
             boards = boardsInStorage
-            setActiveBoard(boards[0].id);
+            // setActiveBoard(boards[0].id);
         }
 
         setBoards(boards)
+        setBoardsLoading(false)
     }
 
     const clearBoardError = (payload) => {
@@ -299,6 +308,8 @@ const BoardsProvider = ({ children }) => {
         activeBoard,
         initialiseBoards,
         setActiveBoard,
+        boardExists,
+        boardsLoading,
         clearBoardError,
         clearAllBoardErrors,
         errors

@@ -1,6 +1,6 @@
 export const defaultTaskData = [
     {   "id":"8du0x4vkije292ritvif",
-        "board_id":"1",
+        "board_id":"1cfjh4sdsdXX",
         "column_id":"1",
         "sort_order": 1,
         "name": "Build UI for onboarding flow",
@@ -25,7 +25,7 @@ export const defaultTaskData = [
       },
       {
         "id":"5lqzo8xt2acr3dbuy72h",
-        "board_id":"1",
+        "board_id":"1cfjh4sdsdXX",
         "column_id":"1",
         "sort_order": 2,
         "name": "Build UI for search",
@@ -40,7 +40,7 @@ export const defaultTaskData = [
       },
       {
         "id":"ayeu23a5cnf12foxfvmh",
-        "board_id":"1",
+        "board_id":"1cfjh4sdsdXX",
         "column_id":"1",
         "sort_order": 3,
         "name": "Build settings UI",
@@ -60,7 +60,7 @@ export const defaultTaskData = [
       },
       {
         "id":"d39zb1vgr4dnhl8e9erd",
-        "board_id":"1",
+        "board_id":"1cfjh4sdsdXX",
         "column_id":"1",
         "sort_order": 4,
         "name": "QA and test all major user journeys",
@@ -82,7 +82,7 @@ export const defaultTaskData = [
       },
       {
         "id":"njdi7p5g7erv6tvw4g5a",
-        "board_id":"2",
+        "board_id":"2h546sd47kvddr",
         "column_id":"1",
         "sort_order": 1,
         "name": "Plan Product Hunt launch",
@@ -116,7 +116,7 @@ export const defaultTaskData = [
       },
       {
         "id":"ee5dxm8rscl8eux3u627",
-        "board_id":"2",
+        "board_id":"2h546sd47kvddr",
         "column_id":"1",
         "sort_order": 2,
         "name": "Share on Show HN",
@@ -141,7 +141,7 @@ export const defaultTaskData = [
       },
       {
         "id":"70zug3my1l3eb3ybb7gz",
-        "board_id":"2",
+        "board_id":"2h546sd47kvddr",
         "column_id":"1",
         "sort_order": 3,
         "name": "Write launch article to publish on multiple channels",

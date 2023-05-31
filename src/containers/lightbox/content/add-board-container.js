@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useBoards } from "../../../app/providers/board-provider"
 import AddBoard from "../../../components/lightbox/content/add-board";
 import { useTheme } from "../../../app/providers/theme-provider";
+import { useNavigate } from "react-router";
 
 const AddBoardContainer = (props) => {
 
@@ -13,7 +14,7 @@ const AddBoardContainer = (props) => {
     const [columns, setColumns] = useState([{name:""},{name:""}])
     const [isLoaded,setIsLoaded] = useState(false);
     const {theme} = useTheme()
-
+    const navigate = useNavigate()
     const {clearAllBoardErrors, clearBoardError, createBoard, editBoard,errors} = useBoards();
     
     // const errors = useSelector((state) => state.board.errors);
@@ -93,11 +94,13 @@ const AddBoardContainer = (props) => {
             payload.boardId = boardId
             editBoard(payload)
         } else {
-            createBoard(payload)
+            const boardId = createBoard(payload)
+            navigate('/'+boardId)
          }
 
         
     }
+
 
     return (
         <AddBoard

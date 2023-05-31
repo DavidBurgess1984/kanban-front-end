@@ -813,6 +813,24 @@ a {
     background-color: var(--dark-grey);
 }
 
+.error_box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 20em 0
+}
+
+.error_box--title{
+    color:var(--text-color);
+    font-size:3rem;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+.error_box--message{
+    color:var(--lighter-smoke-grey);
+    font-weight:700;
+}
 @media (max-height:720px) {
     .lightbox{
         padding-top:10px;
