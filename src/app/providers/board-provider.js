@@ -86,7 +86,6 @@ const BoardsProvider = ({ children }) => {
   }
 
   const boardExists = (boardId) => {
-    console.log(boards)
     return boards.some(board => board.id === boardId)
   }
 
@@ -166,11 +165,7 @@ const BoardsProvider = ({ children }) => {
             }
         })
 
-        let activeBoard = -1;
-        if(typeof boards[0].id !== 'undefined'){
-            activeBoard = boards[0].id 
-        }
-        setActiveBoard(activeBoard );
+        // setActiveBoard(activeBoard );
         setBoards(newBoards)
         toggleLightboxVisible(false)
     }
