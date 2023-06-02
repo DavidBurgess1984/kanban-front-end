@@ -8,7 +8,7 @@ const BoardSelection = (props) => {
     return (
         <div className={"board-selection__container "+ (props.navigationVisible ? "board-selection__container--active" : "")} onClick={(e) => {props.toggleNavigationPanel(e)} }>
           <div className="board-selection__panel ">
-            <h2 className="board-selection__title">All boards (3)</h2>
+            <h2 className="board-selection__title">All boards ({props.boards.length})</h2>
             <ul className="board-selection__panel-list ">
               {typeof props.boards !== "undefined" && props.boards.length > 0 && props.boards.map((board,i) => {
                 return (
