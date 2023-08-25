@@ -95,7 +95,7 @@ const AddBoardContainer = (props) => {
             editBoard(payload)
         } else {
             const boardId = createBoard(payload)
-            navigate('/kanban-front-end/'+boardId)
+            navigate('/'+boardId)
          }
 
         

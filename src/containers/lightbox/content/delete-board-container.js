@@ -14,7 +14,7 @@ const DeleteBoardContainer = (props) => {
     const deleteBoardHandler = (e) => {
         e.preventDefault()
         deleteBoard(props.activeBoard.id)
-        navigate('/kanban-front-end')
+        navigate('/')
         toggleLightboxVisible(false)
     }
 

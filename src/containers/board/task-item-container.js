@@ -110,7 +110,6 @@ const TaskContainer = React.memo((props) => {
     }),
     end: (item, monitor) => {
       const didDrop = monitor.didDrop()
-      console.log(item)
       if (didDrop) {
         editTaskColumn({
           task_id:item.task.id,

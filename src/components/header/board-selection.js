@@ -12,7 +12,7 @@ const BoardSelection = (props) => {
             <ul className="board-selection__panel-list ">
               {typeof props.boards !== "undefined" && props.boards.length > 0 && props.boards.map((board,i) => {
                 return (
-                  <li key={"board-select-"+i} ><Link to={"/kanban-front-end/"+board.id }  className={board.id === props.activeBoard ? "board-selection__panel-item board-selection__panel-item--active" : "board-selection__panel-item"}>{board.title}</Link></li>
+                  <li key={"board-select-"+i} ><Link to={"/"+board.id }  className={board.id === props.activeBoard ? "board-selection__panel-item board-selection__panel-item--active" : "board-selection__panel-item"}>{board.title}</Link></li>
                 )
               })}
               

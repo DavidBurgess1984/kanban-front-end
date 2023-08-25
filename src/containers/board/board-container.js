@@ -25,7 +25,7 @@ const BoardContainer = () => {
             } else if(typeof params.boardId === 'undefined'){
                 if(typeof boards[0] !== 'undefined'){
                     //navigate to first board if not set in url
-                    navigate('/kanban-front-end/'+boards[0].id)
+                    navigate("/"+boards[0].id)
                 }
             }  else {
                 navigate('/error')

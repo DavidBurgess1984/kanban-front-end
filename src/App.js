@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter,RouterProvider } from "react-router-dom";
 import { useBoards } from "./app/providers/board-provider";
 import { useTasks } from "./app/providers/task-provider";
 
@@ -29,18 +29,18 @@ function App() {
     </React.Fragment>
 
   )
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
-      path: "/kanban-front-end/:boardId",
+      path: "/:boardId",
       element: boardPageElements
       
     },
     {
-      path: "/kanban-front-end",
+      path: "/",
       element: boardPageElements,
     },
     {
-      path:'/error',
+      path:'*',
       element: <React.Fragment>
       <HeaderContainer />
       <Error/>
