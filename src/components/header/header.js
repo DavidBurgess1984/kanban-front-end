@@ -2,6 +2,7 @@
 
 import React, { Fragment } from "react";
 import BoardSelectionContainer from "../../containers/header/board-selection-container";
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
 
@@ -27,7 +28,7 @@ const Header = (props) => {
     <Fragment>
       {boardViewDropdown}
       <header className="header">
-          <a href='/' className={"header__item header__item--left navigation__logo "+logoTheme}  alt='logo-icon'/>
+          <Link to='/' className={"header__item header__item--left navigation__logo "+logoTheme}  alt='logo-icon'/>
           <div className="header__item header__item--left header__item--flex-grow">
             <a className={ "board-selection  board-selection--active "+boardTitleTheme } href='' onClick={(e) => props.toggleNavigationPanel(e)}>{props.activeBoard.title}</a>
             <BoardSelectionContainer 
